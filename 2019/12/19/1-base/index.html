@@ -79,12 +79,17 @@
 
 
 
-<meta property="og:type" content="website">
-<meta property="og:title" content="Flex">
-<meta property="og:url" content="http:&#x2F;&#x2F;yoursite.com&#x2F;index.html">
+<meta name="description" content="Unix环境高级编程读书笔记好记性不如烂笔头 unix基础知识 unix 体系结构  kernel(内核):一种软件，控制计算机的硬件资源，提供系统的运行环境  system call(系统调用):内核的接口  公用函数库和shell在系统调用之上  应用程序构建在最外层，既可以使用系统调用，也就可以使用公用函数库和shell       输入和输出文件描述符(file descriptor) 通">
+<meta property="og:type" content="article">
+<meta property="og:title" content="1_base">
+<meta property="og:url" content="http:&#x2F;&#x2F;yoursite.com&#x2F;2019&#x2F;12&#x2F;19&#x2F;1-base&#x2F;index.html">
 <meta property="og:site_name" content="Flex">
+<meta property="og:description" content="Unix环境高级编程读书笔记好记性不如烂笔头 unix基础知识 unix 体系结构  kernel(内核):一种软件，控制计算机的硬件资源，提供系统的运行环境  system call(系统调用):内核的接口  公用函数库和shell在系统调用之上  应用程序构建在最外层，既可以使用系统调用，也就可以使用公用函数库和shell       输入和输出文件描述符(file descriptor) 通">
 <meta property="og:locale" content="zh-Hans">
+<meta property="og:image" content="http:&#x2F;&#x2F;yoursite.com&#x2F;.com&#x2F;&#x2F;unix体系结构.png">
+<meta property="og:updated_time" content="2019-12-19T11:56:05.558Z">
 <meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="http:&#x2F;&#x2F;yoursite.com&#x2F;.com&#x2F;&#x2F;unix体系结构.png">
 
 
 
@@ -114,13 +119,13 @@
 
 
 
-  <link rel="canonical" href="http://yoursite.com/"/>
+  <link rel="canonical" href="http://yoursite.com/2019/12/19/1-base/"/>
 
 
 
 
 
-  <title>Flex</title>
+  <title>1_base | Flex</title>
   
 
 
@@ -139,8 +144,7 @@
     
   
 
-  <div class="container sidebar-position-left 
-  page-home">
+  <div class="container sidebar-position-left page-post-detail">
     <div class="headband"></div>
 
     <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
@@ -223,9 +227,9 @@
         <div class="content-wrap">
           <div id="content" class="content">
             
-  <section id="posts" class="posts-expand">
+
+  <div id="posts" class="posts-expand">
     
-      
 
   
 
@@ -255,9 +259,7 @@
 
         
         
-          <h1 class="post-title" itemprop="name headline">
-                
-                <a class="post-title-link" href="/2019/12/19/1-base/" itemprop="url">1_base</a></h1>
+          <h1 class="post-title" itemprop="name headline">1_base</h1>
         
 
         <div class="post-meta">
@@ -329,9 +331,7 @@
       
 
       
-        
-          
-            <p><strong>Unix环境高级编程读书笔记</strong><br><strong>好记性不如烂笔头</strong></p>
+        <p><strong>Unix环境高级编程读书笔记</strong><br><strong>好记性不如烂笔头</strong></p>
 <h1 id="unix基础知识"><a href="#unix基础知识" class="headerlink" title="unix基础知识"></a>unix基础知识</h1><ul>
 <li><p>unix 体系结构</p>
 <ol>
@@ -412,8 +412,6 @@
 <figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">"apue.h"</span></span></span></pre></td></tr><tr><td class="gutter"><pre><span class="line">2</span></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;dirent.h&gt;</span></span></span></pre></td></tr><tr><td class="gutter"><pre><span class="line">3</span></pre></td><td class="code"><pre><span class="line"></span></pre></td></tr><tr><td class="gutter"><pre><span class="line">4</span></pre></td><td class="code"><pre><span class="line"><span class="keyword">int</span> </span></pre></td></tr><tr><td class="gutter"><pre><span class="line">5</span></pre></td><td class="code"><pre><span class="line">main(<span class="keyword">int</span> argc, <span class="keyword">char</span> *argv[])</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">6</span></pre></td><td class="code"><pre><span class="line">&#123;</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">7</span></pre></td><td class="code"><pre><span class="line">    DIR *dp;</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">8</span></pre></td><td class="code"><pre><span class="line">    <span class="class"><span class="keyword">struct</span> <span class="title">dirent</span> *<span class="title">dirp</span>;</span></span></pre></td></tr><tr><td class="gutter"><pre><span class="line">9</span></pre></td><td class="code"><pre><span class="line"></span></pre></td></tr><tr><td class="gutter"><pre><span class="line">10</span></pre></td><td class="code"><pre><span class="line">    <span class="keyword">if</span> (argc != <span class="number">2</span>)</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">11</span></pre></td><td class="code"><pre><span class="line">        err_quit(<span class="string">"usage: ls directiry_name"</span>);</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">12</span></pre></td><td class="code"><pre><span class="line"></span></pre></td></tr><tr><td class="gutter"><pre><span class="line">13</span></pre></td><td class="code"><pre><span class="line">    <span class="comment">//返回一个目录流</span></span></pre></td></tr><tr><td class="gutter"><pre><span class="line">14</span></pre></td><td class="code"><pre><span class="line">    <span class="keyword">if</span> ((dp = opendir(argv[<span class="number">1</span>])) == <span class="literal">NULL</span>)</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">15</span></pre></td><td class="code"><pre><span class="line">        err_sys(<span class="string">"can't open %s"</span>, argv[<span class="number">1</span>]);</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">16</span></pre></td><td class="code"><pre><span class="line">    <span class="keyword">while</span> ((dirp = readdir(dp)) != <span class="literal">NULL</span>)</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">17</span></pre></td><td class="code"><pre><span class="line">        <span class="built_in">printf</span>(<span class="string">"%s\n"</span>, dirp-&gt;d_name);</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">18</span></pre></td><td class="code"><pre><span class="line"></span></pre></td></tr><tr><td class="gutter"><pre><span class="line">19</span></pre></td><td class="code"><pre><span class="line">    closedir(dp);</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">20</span></pre></td><td class="code"><pre><span class="line">    <span class="built_in">exit</span>(<span class="number">0</span>);</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">21</span></pre></td><td class="code"><pre><span class="line">&#125;</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">22</span></pre></td><td class="code"><pre><span class="line">out:</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">23</span></pre></td><td class="code"><pre><span class="line">➜  apue ./a.out .</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">24</span></pre></td><td class="code"><pre><span class="line">.</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">25</span></pre></td><td class="code"><pre><span class="line">..</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">26</span></pre></td><td class="code"><pre><span class="line">source</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">27</span></pre></td><td class="code"><pre><span class="line">lesson_9</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">28</span></pre></td><td class="code"><pre><span class="line">lesson_7</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">29</span></pre></td><td class="code"><pre><span class="line">lesson_6</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">30</span></pre></td><td class="code"><pre><span class="line">lesson_1</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">31</span></pre></td><td class="code"><pre><span class="line">lesson_8</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">32</span></pre></td><td class="code"><pre><span class="line">a.out</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">33</span></pre></td><td class="code"><pre><span class="line">lesson_11</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">34</span></pre></td><td class="code"><pre><span class="line">lesson_10</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">35</span></pre></td><td class="code"><pre><span class="line">lesson_4</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">36</span></pre></td><td class="code"><pre><span class="line">start.sh</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">37</span></pre></td><td class="code"><pre><span class="line">lesson_5</span></pre></td></tr></table></figure>
 
 
-          
-        
       
     </div>
     
@@ -430,12 +428,12 @@
       
 
       
+      
+      
 
       
 
       
-      
-        <div class="post-eof"></div>
       
     </footer>
   </div>
@@ -445,10 +443,11 @@
   </article>
 
 
-    
-  </section>
 
-  
+    <div class="post-spread">
+      
+    </div>
+  </div>
 
 
           </div>
@@ -456,6 +455,10 @@
 
 
           
+
+  
+
+
 
         </div>
         
@@ -476,8 +479,17 @@
       
 
       
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            站点概览
+          </li>
+        </ul>
+      
 
-      <section class="site-overview-wrap sidebar-panel sidebar-panel-active">
+      <section class="site-overview-wrap sidebar-panel">
         <div class="site-overview">
           <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
             
@@ -532,6 +544,22 @@
         </div>
       </section>
 
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#unix基础知识"><span class="nav-number">1.</span> <span class="nav-text">unix基础知识</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#输入和输出"><span class="nav-number">1.1.</span> <span class="nav-text">输入和输出</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#文件描述符-file-descriptor"><span class="nav-number">1.1.1.</span> <span class="nav-text">文件描述符(file descriptor)</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#标准输入-标准输出-标准错误"><span class="nav-number">1.1.2.</span> <span class="nav-text">标准输入,标准输出,标准错误</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#不带缓冲的IO-直接使用文件描述符"><span class="nav-number">1.1.3.</span> <span class="nav-text">不带缓冲的IO(直接使用文件描述符)</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#标准IO-带缓冲的IO"><span class="nav-number">1.1.4.</span> <span class="nav-text">标准IO(带缓冲的IO)</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#程序和进程"><span class="nav-number">1.2.</span> <span class="nav-text">程序和进程</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#进程控制"><span class="nav-number">1.2.1.</span> <span class="nav-text">进程控制</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#线程thread"><span class="nav-number">1.2.2.</span> <span class="nav-text">线程thread</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#用户标识"><span class="nav-number">1.3.</span> <span class="nav-text">用户标识</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#信号-signal"><span class="nav-number">1.4.</span> <span class="nav-text">信号(signal)</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#时间值"><span class="nav-number">1.5.</span> <span class="nav-text">时间值</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#系统调用和库函数"><span class="nav-number">1.6.</span> <span class="nav-text">系统调用和库函数</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#other"><span class="nav-number">1.7.</span> <span class="nav-text">other</span></a></li></ol></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
       
 
       
@@ -674,6 +702,10 @@
 
 
   
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.4"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.4"></script>
+
+
 
   
 
