@@ -81,15 +81,20 @@
 
 
 
-<meta name="description" content="系统数据文件和信息引言 unix系统中大多数的数据文件都ascii文件,使用标准IO库读取文件。但我们希望能够以非ascii文本格式读取文件。同时需要向使用其他文件格式的应用程序提供接口。  口令文件 UNIX的口令文件,也称为用户数据库。 通常有一个用户名为root的登陆项,用户ID是0(超级用户) 加密口令包含了有个占位符,后期的类Unix系统中,加密字段放在了另一个文件中 shell字段包含">
+<meta name="description" content="rabbitmq base应用场景架构  rabbitmq server: 维护了一条从 produce 到 consumer 的路线，保证数据的传输 client A B: (produce) 数据的发送方，包含了(payload:发送的数据内容)(label:要发送的交换器tag，决定了消息发送给哪一个consumer) client 1 2 3 :(consumer):数据的接收方，接收发送">
 <meta property="og:type" content="article">
-<meta property="og:title" content="6-系统数据文件和信息">
-<meta property="og:url" content="http:&#x2F;&#x2F;yoursite.com&#x2F;2019&#x2F;03&#x2F;01&#x2F;apue&#x2F;6_%E7%B3%BB%E7%BB%9F%E6%95%B0%E6%8D%AE%E6%96%87%E4%BB%B6%E5%92%8C%E4%BF%A1%E6%81%AF&#x2F;index.html">
+<meta property="og:title" content="1-rabbitmq基础">
+<meta property="og:url" content="http:&#x2F;&#x2F;yoursite.com&#x2F;2019&#x2F;12&#x2F;21&#x2F;rabbitmq&#x2F;1.base&#x2F;index.html">
 <meta property="og:site_name" content="Flex">
-<meta property="og:description" content="系统数据文件和信息引言 unix系统中大多数的数据文件都ascii文件,使用标准IO库读取文件。但我们希望能够以非ascii文本格式读取文件。同时需要向使用其他文件格式的应用程序提供接口。  口令文件 UNIX的口令文件,也称为用户数据库。 通常有一个用户名为root的登陆项,用户ID是0(超级用户) 加密口令包含了有个占位符,后期的类Unix系统中,加密字段放在了另一个文件中 shell字段包含">
+<meta property="og:description" content="rabbitmq base应用场景架构  rabbitmq server: 维护了一条从 produce 到 consumer 的路线，保证数据的传输 client A B: (produce) 数据的发送方，包含了(payload:发送的数据内容)(label:要发送的交换器tag，决定了消息发送给哪一个consumer) client 1 2 3 :(consumer):数据的接收方，接收发送">
 <meta property="og:locale" content="zh-Hans">
-<meta property="og:updated_time" content="2019-12-21T07:57:11.493Z">
+<meta property="og:image" content="https:&#x2F;&#x2F;i.loli.net&#x2F;2019&#x2F;12&#x2F;21&#x2F;KWOb84QInJPL12u.jpg">
+<meta property="og:image" content="https:&#x2F;&#x2F;i.loli.net&#x2F;2019&#x2F;12&#x2F;21&#x2F;qsbAkB7hV64vDj9.png">
+<meta property="og:image" content="https:&#x2F;&#x2F;i.loli.net&#x2F;2019&#x2F;12&#x2F;21&#x2F;tSCsg42InoKNJVy.png">
+<meta property="og:image" content="https:&#x2F;&#x2F;i.loli.net&#x2F;2019&#x2F;12&#x2F;21&#x2F;lCIZF2LJWSmnHO6.png">
+<meta property="og:updated_time" content="2019-12-21T09:11:50.730Z">
 <meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https:&#x2F;&#x2F;i.loli.net&#x2F;2019&#x2F;12&#x2F;21&#x2F;KWOb84QInJPL12u.jpg">
 
 
 
@@ -119,13 +124,13 @@
 
 
 
-  <link rel="canonical" href="http://yoursite.com/2019/03/01/apue/6_系统数据文件和信息/"/>
+  <link rel="canonical" href="http://yoursite.com/2019/12/21/rabbitmq/1.base/"/>
 
 
 
 
 
-  <title>6-系统数据文件和信息 | Flex</title>
+  <title>1-rabbitmq基础 | Flex</title>
   
 
 
@@ -242,7 +247,7 @@
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2019/03/01/apue/6_%E7%B3%BB%E7%BB%9F%E6%95%B0%E6%8D%AE%E6%96%87%E4%BB%B6%E5%92%8C%E4%BF%A1%E6%81%AF/">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2019/12/21/rabbitmq/1.base/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="Flex">
@@ -259,7 +264,7 @@
 
         
         
-          <h1 class="post-title" itemprop="name headline">6-系统数据文件和信息</h1>
+          <h1 class="post-title" itemprop="name headline">1-rabbitmq基础</h1>
         
 
         <div class="post-meta">
@@ -271,8 +276,8 @@
               
                 <span class="post-meta-item-text">发表于</span>
               
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2019-03-01T19:35:35+08:00">
-                2019-03-01
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2019-12-21T16:35:35+08:00">
+                2019-12-21
               </time>
             
 
@@ -294,8 +299,8 @@
               
               
                 <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/apue-Unix/" itemprop="url" rel="index">
-                    <span itemprop="name">apue/Unix</span>
+                  <a href="/categories/Rabbitmq/" itemprop="url" rel="index">
+                    <span itemprop="name">Rabbitmq</span>
                   </a>
                 </span>
 
@@ -331,46 +336,88 @@
       
 
       
-        <h1 id="系统数据文件和信息"><a href="#系统数据文件和信息" class="headerlink" title="系统数据文件和信息"></a>系统数据文件和信息</h1><h2 id="引言"><a href="#引言" class="headerlink" title="引言"></a>引言</h2><ul>
-<li>unix系统中大多数的数据文件都<strong>ascii</strong>文件,使用标准IO库读取文件。但我们希望能够以非ascii文本格式读取文件。同时需要向使用其他文件格式的应用程序提供接口。</li>
+        <h1 id="rabbitmq-base"><a href="#rabbitmq-base" class="headerlink" title="rabbitmq base"></a>rabbitmq base</h1><h2 id="应用场景架构"><a href="#应用场景架构" class="headerlink" title="应用场景架构"></a>应用场景架构</h2><p><a href="https://sm.ms/image/KWOb84QInJPL12u" target="_blank"><img src="https://i.loli.net/2019/12/21/KWOb84QInJPL12u.jpg" alt="系统架构图.jpg"></a></p>
+<ul>
+<li><strong>rabbitmq server</strong>: 维护了一条从 <strong>produce</strong> 到 <strong>consumer</strong> 的路线，保证数据的传输</li>
+<li><strong>client A B</strong>: (<strong>produce</strong>) 数据的发送方，包含了(<strong>payload</strong>:发送的数据内容)(<strong>label</strong>:要发送的交换器tag，决定了消息发送给哪一个consumer)</li>
+<li><strong>client 1 2 3</strong> :(<strong>consumer</strong>):数据的接收方，接收发送过来的消息</li>
+<li><strong>exchange</strong>:(<strong>produce</strong>) 发送消息到交换器中，交换器通过 <strong>routing_keys</strong> 发送到指定队列</li>
 </ul>
-<h2 id="口令文件"><a href="#口令文件" class="headerlink" title="口令文件"></a>口令文件</h2><ul>
-<li>UNIX的<strong>口令文件</strong>,也称为<strong>用户数据库</strong>。<ul>
-<li>通常有一个用户名为root的<strong>登陆项</strong>,用户ID是0(超级用户)</li>
-<li>加密口令包含了有个占位符,后期的类Unix系统中,加密字段放在了另一个文件中</li>
-<li>shell字段包含了有个可执行程序名,用做登陆shell。</li>
-<li>为了阻止一个特定的用户登陆系统,可以使用<strong>/dev/null</strong>,用作登陆shell,某些系统提供<strong>nologin</strong>。在禁止登陆的同时,打印错误信息</li>
-<li>使用<strong>nobody</strong>用户名，使任何人都可以登陆该系统,但<strong>用户组和用户id</strong>决定了只能访问人人<strong>皆可读 皆可写</strong>的文件</li>
+<ol>
+<li><strong>direct</strong> :通过 <strong>routing_key</strong> 匹配队列</li>
+<li><strong>fanout</strong>: 广播</li>
+<li><strong>Topic</strong>: 模式匹配</li>
+</ol>
+<ul>
+<li><strong>Connecion</strong> :TCP连接，程序的起始部分就是建立tcp连接</li>
+<li><strong>Channels</strong>: 建立在tcp之上，建立完Connection就是建立通道，数据的流通基于通道</li>
+</ul>
+<h2 id="传统的通信方式"><a href="#传统的通信方式" class="headerlink" title="传统的通信方式"></a>传统的通信方式</h2><p><a href="https://sm.ms/image/qsbAkB7hV64vDj9" target="_blank"><img src="https://i.loli.net/2019/12/21/qsbAkB7hV64vDj9.png" alt="传统的通信方式.png"></a></p>
+<ul>
+<li>p为<strong>发送消息者</strong>，c为<strong>接受者</strong>，在这种高度耦合的情况下:<ul>
+<li>1.假设p每秒可发送10次消息，c每秒接收5次消息。在这种情况下，需要c处理完两次数据，p才能发送一次</li>
+<li>2.如果两者中一个发生故障，则两者都无法进行工作</li>
 </ul>
 </li>
 </ul>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span></pre></td><td class="code"><pre><span class="line"><span class="comment">#各字段使用:号隔开</span></span></pre></td></tr><tr><td class="gutter"><pre><span class="line">2</span></pre></td><td class="code"><pre><span class="line">root:x:0:0:root:/root:/bin/bash</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">3</span></pre></td><td class="code"><pre><span class="line">bin:x:1:1:bin:/bin:/sbin/nologin</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">4</span></pre></td><td class="code"><pre><span class="line">nobody:x:99:99:Nobody:/:/sbin/nologin</span></pre></td></tr></table></figure>
+<h2 id="生产消费者模型"><a href="#生产消费者模型" class="headerlink" title="生产消费者模型"></a>生产消费者模型</h2><p><a href="https://sm.ms/image/tSCsg42InoKNJVy" target="_blank"><img src="https://i.loli.net/2019/12/21/tSCsg42InoKNJVy.png" alt="生产消费者模型.png"></a></p>
 <ul>
-<li>使用 finger可以打印用户的相关信息</li>
+<li><p>在引入了队列的情况下，进行解耦，发布者只需要将消息发送到queue中，使用者只需要从队列中取消息。</p>
+</li>
+<li><p>python 消息队列</p>
+<ul>
+<li><strong>线程queue</strong> (同一进程下线程之间进行交互)</li>
+<li><strong>进程queue</strong> (父子进程交互，同一进程下多个子进程交互)</li>
 </ul>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span></pre></td><td class="code"><pre><span class="line">apue finger -p gongyulei</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">2</span></pre></td><td class="code"><pre><span class="line">Login: gongyulei                        Name: 龚裕磊</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">3</span></pre></td><td class="code"><pre><span class="line">Directory: /Users/gongyulei             Shell: /bin/zsh</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">4</span></pre></td><td class="code"><pre><span class="line">On since 一  3 12 17:05 (CST) on console, idle 14 days 5:53 (messages off)</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">5</span></pre></td><td class="code"><pre><span class="line">On since 一  3 12 17:10 (CST) on ttys000, idle 1:31</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">6</span></pre></td><td class="code"><pre><span class="line">On since 一  3 12 17:10 (CST) on ttys001, idle 4 days 7:41</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">7</span></pre></td><td class="code"><pre><span class="line">On since 三  3 14 21:16 (CST) on ttys006</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">8</span></pre></td><td class="code"><pre><span class="line">On since 四  3 22 15:18 (CST) on ttys013, idle 4 days 7:22</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">9</span></pre></td><td class="code"><pre><span class="line">No Mail.</span></pre></td></tr></table></figure>
-
-<h2 id="阴影口令"><a href="#阴影口令" class="headerlink" title="阴影口令"></a>阴影口令</h2><ul>
-<li>加密口令是经<strong>单向加密算法</strong>处理过的用户口令副本,因此算法是单向的,不能从加密口令猜测到原来的口令</li>
-<li>对于一个加密口令,找不到一种算法可以将其反变换到明文口令,但可以对口令进行猜测,将猜测的口令进过单向算法变换成加密形式,与用户的加密口令进行比较。</li>
-<li>某些系统将加密口令存放在一个称为<strong>阴影口令</strong>的文件中,避免被其他人拿到加密口令</li>
+</li>
+<li><p>不同的系统之间，就需要使用<strong>AMQP</strong> ,无法使用python queue</p>
+</li>
 </ul>
-<h2 id="组文件"><a href="#组文件" class="headerlink" title="组文件"></a>组文件</h2><ul>
-<li>UNIX 组文件(<strong>组数据库</strong>),包含了用户组相关信息</li>
+<h2 id="基本概念"><a href="#基本概念" class="headerlink" title="基本概念"></a>基本概念</h2><p><a href="https://sm.ms/image/lCIZF2LJWSmnHO6" target="_blank"><img src="https://i.loli.net/2019/12/21/lCIZF2LJWSmnHO6.png" alt="AMQP基本概念图.png"></a></p>
+<ul>
+<li>publisher 为<strong>生产者</strong>,consumer为<strong>接收者</strong>。</li>
+<li><strong>broker</strong> 接收和发送消息</li>
+<li><strong>exchange</strong> 根据规则发送消息到对应queue中</li>
+<li><strong>queue</strong> 存放消息</li>
 </ul>
-<h2 id="附属组ID"><a href="#附属组ID" class="headerlink" title="附属组ID"></a>附属组ID</h2><ul>
-<li>在老的UNIX系统中,每个用户任何时候都只属于一个组,用户登陆系统时，根据口令文件中的组ID,赋值给进程的实际组ID,之后的UNIX系统,引入了<strong>附属组ID</strong>,文件权限位检查相应的被修改为:不仅将进程的有效组ID与文件的组ID相比较,而且也将所有附属组ID与文件组ID进行比较。</li>
-<li>使用附属组ID之后,不必显示的经常更改组,一个用户经常会参与多个项目</li>
+<h2 id="详解"><a href="#详解" class="headerlink" title="详解"></a>详解</h2><ul>
+<li>Message:由<strong>消息头和消息体</strong>组成<ul>
+<li>消息头：由一系列的可选属性组成，这些属性包括<strong>routing-key（路由键</strong>、<strong>priority（相对于其他消息的优先权）</strong>、<strong>delivery-mode（指出该消息可能需要持久性存储</strong>。</li>
 </ul>
-<h2 id="其他数据文件"><a href="#其他数据文件" class="headerlink" title="其他数据文件"></a>其他数据文件</h2><ul>
-<li>其他的数据文件<ul>
-<li>/etc/passwd 口令</li>
-<li>/etc/group 组</li>
-<li>/etc/shadow 阴影</li>
-<li>/etc/hosts 组</li>
-<li>/etc/networks 网络</li>
-<li>/etc/protocols 协议</li>
-<li>/etc/services 服务</li>
+</li>
+<li>Broker：表示消息队列服务器实体，接收和分发消息应用</li>
+<li>Exchange: 匹配查询表中的routing_key 分发消息到queue中<ul>
+<li><strong>direct</strong> :通过 <strong>routing_key</strong> 匹配队列</li>
+<li><strong>fanout</strong>: 广播</li>
+<li><strong>Topic</strong>: 模式匹配</li>
+</ul>
+</li>
+<li>binding: exchange和queue中的虚拟连接</li>
+<li>queue :消息最终被送到这里等待consumer取走。</li>
+<li>Connection: publisher consumer和broker之间的TCP连接。<ul>
+<li>断开连接的操作只会在<strong>client</strong>端进行，<strong>Broker</strong>不会断开连接，除非出现网络故障或broker服务出现问题。</li>
+</ul>
+</li>
+<li>Channel：建立在真实的TCP连接（ Connection ）内部的虚拟连接.<ul>
+<li>每一次访问RabbitMQ都建立一个Connection，在消息量大的时候建立TCP Connection的开销将是巨大的，效率也较低。(对于操作系统来说建立和销毁 TCP 都是非常昂贵的开销，所以引入了信道的概念，以复用一条 TCP 连接。)</li>
+</ul>
+</li>
+</ul>
+<h2 id="Exchange-分发规则详解"><a href="#Exchange-分发规则详解" class="headerlink" title="Exchange 分发规则详解"></a>Exchange 分发规则详解</h2><ul>
+<li>direct<ul>
+<li>首先执行binding将<strong>交换器exchange</strong>与<strong>队列queue</strong>进行绑定，并指明binding_key（此key代表此队列只接受routing_key与之相同的消息）.</li>
+<li>producer产生消息并指定routing_key,当消息进入broker,首先接触到exchange，然后查询分发规则为direct后，根据routing_key匹配查询表中的binding_key，然后发送到对应的队列当中。否则丢弃。</li>
+</ul>
+</li>
+<li>fanout<ul>
+<li>首先执行binding将<strong>交换器exchange</strong>与<strong>队列queue</strong>进行绑定（无需指明binding_key）</li>
+<li>producer产生消息,当消息进入broker,首先接触到exchange，然后查询分发规则为fanout后，将此消息发送到与exchange绑定的所有队列中。</li>
+</ul>
+</li>
+<li>topic<ul>
+<li>首先执行binding将<strong>交换器exchange</strong>与<strong>队列queue</strong>进行绑定，指明binding_key（格式如usa.#,代表此队列只接受routing_key为usa开头的消息)</li>
+<li>producer产生消息,并指明routing_key(格式如usa.news)当消息进入broker,首先接触到exchange，然后查询分发规则为topic后，匹配查询表将此消息发送到binding_key为usa.#/#.news/#的队列上。</li>
+<li><strong>Routing_key</strong> 中可以包含两种通配符，类似于正则表达式：<br>“#”通配任何零个或多个word<br>“*”通配任何单个word</li>
 </ul>
 </li>
 </ul>
@@ -398,8 +445,8 @@
         <div class="post-nav">
           <div class="post-nav-next post-nav-item">
             
-              <a href="/2019/02/01/apue/5_%E6%A0%87%E5%87%86IO%E5%BA%93/" rel="next" title="5-标准IO库">
-                <i class="fa fa-chevron-left"></i> 5-标准IO库
+              <a href="/2019/12/21/py_module/celery_base/" rel="next" title="1-celery基础">
+                <i class="fa fa-chevron-left"></i> 1-celery基础
               </a>
             
           </div>
@@ -408,8 +455,8 @@
 
           <div class="post-nav-prev post-nav-item">
             
-              <a href="/2019/04/01/apue/7_%E8%BF%9B%E7%A8%8B%E7%8E%AF%E5%A2%83/" rel="prev" title="7-进程环境">
-                7-进程环境 <i class="fa fa-chevron-right"></i>
+              <a href="/2019/12/21/py_module/celery_dev/" rel="prev" title="2-celery生成环境使用">
+                2-celery生成环境使用 <i class="fa fa-chevron-right"></i>
               </a>
             
           </div>
@@ -537,7 +584,7 @@
             
 
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#系统数据文件和信息"><span class="nav-number">1.</span> <span class="nav-text">系统数据文件和信息</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#引言"><span class="nav-number">1.1.</span> <span class="nav-text">引言</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#口令文件"><span class="nav-number">1.2.</span> <span class="nav-text">口令文件</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#阴影口令"><span class="nav-number">1.3.</span> <span class="nav-text">阴影口令</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#组文件"><span class="nav-number">1.4.</span> <span class="nav-text">组文件</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#附属组ID"><span class="nav-number">1.5.</span> <span class="nav-text">附属组ID</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#其他数据文件"><span class="nav-number">1.6.</span> <span class="nav-text">其他数据文件</span></a></li></ol></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#rabbitmq-base"><span class="nav-number">1.</span> <span class="nav-text">rabbitmq base</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#应用场景架构"><span class="nav-number">1.1.</span> <span class="nav-text">应用场景架构</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#传统的通信方式"><span class="nav-number">1.2.</span> <span class="nav-text">传统的通信方式</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#生产消费者模型"><span class="nav-number">1.3.</span> <span class="nav-text">生产消费者模型</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#基本概念"><span class="nav-number">1.4.</span> <span class="nav-text">基本概念</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#详解"><span class="nav-number">1.5.</span> <span class="nav-text">详解</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Exchange-分发规则详解"><span class="nav-number">1.6.</span> <span class="nav-text">Exchange 分发规则详解</span></a></li></ol></li></ol></div>
             
 
           </div>
