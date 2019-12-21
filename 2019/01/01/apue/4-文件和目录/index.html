@@ -1,0 +1,837 @@
+<!DOCTYPE html>
+
+
+
+  
+
+
+<html class="theme-next pisces use-motion" lang="zh-Hans">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+
+
+
+  
+
+<link href="//cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.1.4" rel="stylesheet" type="text/css" />
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png?v=5.1.4">
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=5.1.4" color="#222">
+
+
+
+
+
+  <meta name="keywords" content="Hexo, NexT" />
+
+
+
+
+
+
+
+
+
+
+<meta name="description" content="文件和目录文件类型 普通文件(regular file)  目录文件(directory file),包含了其他文件的名字和指向这些文件有关信息的指针,具有读权限的任一进程都可以获取该目录的信息，但只有内核才能直接写目录文件  块特殊文件(block special file),提供对设备(磁盘)提供带缓冲的访问,以固定长度访问  字符特殊文件(character special file),对文">
+<meta property="og:type" content="article">
+<meta property="og:title" content="4-文件和目录">
+<meta property="og:url" content="http:&#x2F;&#x2F;yoursite.com&#x2F;2019&#x2F;01&#x2F;01&#x2F;apue&#x2F;4-%E6%96%87%E4%BB%B6%E5%92%8C%E7%9B%AE%E5%BD%95&#x2F;index.html">
+<meta property="og:site_name" content="Flex">
+<meta property="og:description" content="文件和目录文件类型 普通文件(regular file)  目录文件(directory file),包含了其他文件的名字和指向这些文件有关信息的指针,具有读权限的任一进程都可以获取该目录的信息，但只有内核才能直接写目录文件  块特殊文件(block special file),提供对设备(磁盘)提供带缓冲的访问,以固定长度访问  字符特殊文件(character special file),对文">
+<meta property="og:locale" content="zh-Hans">
+<meta property="og:updated_time" content="2019-12-21T07:57:11.492Z">
+<meta name="twitter:card" content="summary">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Pisces',
+    version: '5.1.4',
+    sidebar: {"position":"left","display":"post","offset":12,"b2t":false,"scrollpercent":true,"onmobile":false},
+    fancybox: true,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    duoshuo: {
+      userId: '0',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="http://yoursite.com/2019/01/01/apue/4-文件和目录/"/>
+
+
+
+
+
+  <title>4-文件和目录 | Flex</title>
+  
+
+
+
+
+
+
+
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/"  class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">Flex</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle"></p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br />
+            
+            分类
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-about">
+          <a href="/about" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-user"></i> <br />
+            
+            关于
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2019/01/01/apue/4-%E6%96%87%E4%BB%B6%E5%92%8C%E7%9B%AE%E5%BD%95/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Flex">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/logo.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Flex">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">4-文件和目录</h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2019-01-01T19:35:35+08:00">
+                2019-01-01
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/apue-Unix/" itemprop="url" rel="index">
+                    <span itemprop="name">apue/Unix</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <h1 id="文件和目录"><a href="#文件和目录" class="headerlink" title="文件和目录"></a>文件和目录</h1><h2 id="文件类型"><a href="#文件类型" class="headerlink" title="文件类型"></a>文件类型</h2><ul>
+<li><p><strong>普通文件</strong>(regular file)</p>
+</li>
+<li><p><strong>目录文件</strong>(directory file),包含了其他文件的<strong>名字</strong>和指向这些文件有关信息的<strong>指针</strong>,具有<strong>读权限</strong>的任一进程都可以获取该目录的信息，但只有内核才能直接写目录文件</p>
+</li>
+<li><p><strong>块特殊文件</strong>(block special file),提供对设备(磁盘)提供带缓冲的访问,以固定长度访问</p>
+</li>
+<li><p><strong>字符特殊文件</strong>(character special file),对文件提供不带缓冲的访问,每次访问长度可变</p>
+</li>
+<li><p><strong>FIFO</strong>(命名管道)用于进程间通信</p>
+</li>
+<li><p><strong>socket</strong>(套接字)用于进程间的网络通信</p>
+</li>
+<li><p><strong>符号链接</strong>(symbolic line),这种类型的文件指向另一个文件</p>
+</li>
+<li><p>文件类型信息包含在<strong>stat</strong> 结构体提的st_mode 中,可以通过该参数,结合文件类型宏确定文件类型</p>
+</li>
+</ul>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">"apue.h"</span></span></span></pre></td></tr><tr><td class="gutter"><pre><span class="line">2</span></pre></td><td class="code"><pre><span class="line"><span class="keyword">int</span></span></pre></td></tr><tr><td class="gutter"><pre><span class="line">3</span></pre></td><td class="code"><pre><span class="line">main(<span class="keyword">int</span> argc, <span class="keyword">char</span> *argv[])&#123;</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">4</span></pre></td><td class="code"><pre><span class="line">    <span class="keyword">int</span> i;</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">5</span></pre></td><td class="code"><pre><span class="line">    <span class="class"><span class="keyword">struct</span> <span class="title">stat</span> <span class="title">buf</span>;</span></span></pre></td></tr><tr><td class="gutter"><pre><span class="line">6</span></pre></td><td class="code"><pre><span class="line">    <span class="keyword">char</span> *ptr;</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">7</span></pre></td><td class="code"><pre><span class="line">    <span class="keyword">for</span> (i = <span class="number">1</span>; i &lt; argc; i++)&#123;</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">8</span></pre></td><td class="code"><pre><span class="line">        <span class="built_in">printf</span> (<span class="string">"%s: "</span>, argv[i]);</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">9</span></pre></td><td class="code"><pre><span class="line">        <span class="keyword">if</span> (lstat(argv[i], &amp;buf) &lt; <span class="number">0</span>)&#123;</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">10</span></pre></td><td class="code"><pre><span class="line">            err_ret(<span class="string">"lstat error"</span>);</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">11</span></pre></td><td class="code"><pre><span class="line">            <span class="keyword">continue</span>;</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">12</span></pre></td><td class="code"><pre><span class="line">        &#125;</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">13</span></pre></td><td class="code"><pre><span class="line">        <span class="keyword">if</span> (S_ISREG(buf.st_mode))&#123;</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">14</span></pre></td><td class="code"><pre><span class="line">            ptr = <span class="string">"regular"</span>;</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">15</span></pre></td><td class="code"><pre><span class="line">        &#125;</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">16</span></pre></td><td class="code"><pre><span class="line">        <span class="keyword">else</span> <span class="keyword">if</span> (S_ISDIR(buf.st_mode))&#123;</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">17</span></pre></td><td class="code"><pre><span class="line">            ptr = <span class="string">"directory"</span>;</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">18</span></pre></td><td class="code"><pre><span class="line">        &#125;</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">19</span></pre></td><td class="code"><pre><span class="line">        <span class="keyword">else</span> <span class="keyword">if</span> (S_ISCHR(buf.st_mode))&#123;</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">20</span></pre></td><td class="code"><pre><span class="line">            ptr = <span class="string">"character special"</span>;</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">21</span></pre></td><td class="code"><pre><span class="line">        &#125;</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">22</span></pre></td><td class="code"><pre><span class="line">        <span class="keyword">else</span> <span class="keyword">if</span> (S_ISBLK(buf.st_mode))&#123;</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">23</span></pre></td><td class="code"><pre><span class="line">            ptr = <span class="string">"block special"</span>;</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">24</span></pre></td><td class="code"><pre><span class="line">        &#125;</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">25</span></pre></td><td class="code"><pre><span class="line">        <span class="keyword">else</span> <span class="keyword">if</span> (S_ISFIFO(buf.st_mode))&#123;</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">26</span></pre></td><td class="code"><pre><span class="line">            ptr = <span class="string">"fifo"</span>;</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">27</span></pre></td><td class="code"><pre><span class="line">        &#125;</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">28</span></pre></td><td class="code"><pre><span class="line">        <span class="keyword">else</span> <span class="keyword">if</span> (S_ISLNK(buf.st_mode))&#123;</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">29</span></pre></td><td class="code"><pre><span class="line">            ptr = <span class="string">"symbolic link"</span>;</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">30</span></pre></td><td class="code"><pre><span class="line">        &#125;</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">31</span></pre></td><td class="code"><pre><span class="line">        <span class="keyword">else</span> <span class="keyword">if</span> (S_ISSOCK(buf.st_mode))&#123;</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">32</span></pre></td><td class="code"><pre><span class="line">            ptr = <span class="string">"socket"</span>;</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">33</span></pre></td><td class="code"><pre><span class="line">        &#125;</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">34</span></pre></td><td class="code"><pre><span class="line">        <span class="keyword">else</span></span></pre></td></tr><tr><td class="gutter"><pre><span class="line">35</span></pre></td><td class="code"><pre><span class="line">            ptr = <span class="string">"** unknown mode"</span>;</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">36</span></pre></td><td class="code"><pre><span class="line">        <span class="built_in">printf</span> (<span class="string">"%s\n"</span>, ptr);</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">37</span></pre></td><td class="code"><pre><span class="line"></span></pre></td></tr><tr><td class="gutter"><pre><span class="line">38</span></pre></td><td class="code"><pre><span class="line">    &#125;</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">39</span></pre></td><td class="code"><pre><span class="line">&#125;</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">40</span></pre></td><td class="code"><pre><span class="line">out:</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">41</span></pre></td><td class="code"><pre><span class="line">./a.out /etc/passwd /etc /dev/tty</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">42</span></pre></td><td class="code"><pre><span class="line">/etc/passwd: regular</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">43</span></pre></td><td class="code"><pre><span class="line">/etc: symbolic link</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">44</span></pre></td><td class="code"><pre><span class="line">/dev/tty: character special</span></pre></td></tr></table></figure>
+<h2 id="设置用户ID和设置组ID"><a href="#设置用户ID和设置组ID" class="headerlink" title="设置用户ID和设置组ID"></a>设置用户ID和设置组ID</h2><h3 id="进程相关的ID"><a href="#进程相关的ID" class="headerlink" title="进程相关的ID"></a>进程相关的ID</h3><ul>
+<li><strong>实际用户ID</strong> 和 <strong>实际组ID</strong> 标识是当前的用户和实际组(我们实际上是谁,通常在登陆时就由口令文件设置)</li>
+<li><strong>有效用户ID</strong> 和 <strong>有效组ID</strong> 用以文件的访问权限检查(通常等于实际用户ID 和 实际组ID)</li>
+<li><strong>保存的设置用户ID</strong> 和 <strong>保存的设置组ID</strong></li>
+</ul>
+<h3 id="其他"><a href="#其他" class="headerlink" title="其他"></a>其他</h3><ul>
+<li>每个文件都有一个<strong>所有者</strong>和<strong>组所有者</strong>,由stat结构体的st_uid和st_gid指定</li>
+<li>在进程执行过程中，实际用户/实际组 = 有效用户/有效组,但可以在st_mode 中设置一个特殊标志，在进程执行文件时，将有效用户ID/有效组ID设置为st_uid/st_gid(文件所有者和所有组),在文件模式中,这两位被设置为设置用户ID/设置组ID</li>
+<li>passwd命令,就是一个设置用户ID功能，允许运行该程序的进程会有超级权限，设置/etc/passwd</li>
+</ul>
+<h2 id="文件访问权限"><a href="#文件访问权限" class="headerlink" title="文件访问权限"></a>文件访问权限</h2><ul>
+<li>文件指<strong>文件</strong>和<strong>目录</strong></li>
+<li>stat结构体的 的<strong>st_mode</strong>值包含了文件的访问权限位,每个文件有9个文件访问权限位:<ul>
+<li>用户读/写/执行(S_IRUSE/S_IWUSR/S_IXUSR) <strong>用户</strong> 指文件所有者 u</li>
+<li>组读写执行(S_IRGRP/S_IWGRP/S_IXGRP)  g</li>
+<li>其他读写执行(S_IROTH/S_IWOTH/S_IXOTH) o</li>
+</ul>
+</li>
+</ul>
+<h3 id="访问权限的使用规则"><a href="#访问权限的使用规则" class="headerlink" title="访问权限的使用规则"></a>访问权限的使用规则</h3><ul>
+<li>用名字打开任一类型的文件,需要对该文件包含的所有目录(<strong>包含隐藏目录</strong>)有<strong>执行权限</strong>,也称为<strong>搜索位</strong><ul>
+<li>为了打开/usr/include/stdio.h,需要对/ /usr /usr/include有执行权限,对stdio.h有相应的读写权限</li>
+<li>如果当前目录就是/usr/include,需要对隐含目录有执行权限(/usr/include)</li>
+</ul>
+</li>
+<li>对一个文件的<strong>读</strong>权限决定了我们是否能够打开现有文件进行<strong>读</strong>操作</li>
+<li>对一个文件的<strong>写</strong>权限决定了我们是否能够打开现有文件进行<strong>写</strong>操作</li>
+<li>目录中<strong>创建</strong>一个文件,需要同时具有<strong>写和执行</strong>权限</li>
+<li>删除一个文件,需要对该文件的目录具有<strong>写权限和执行权限</strong></li>
+<li>如果用7个exec函数执行某一个文件,需要对该文件具有执行权限,同时该文件还必须是一个普通文件</li>
+</ul>
+<h3 id="进程打开文件测试"><a href="#进程打开文件测试" class="headerlink" title="进程打开文件测试"></a>进程打开文件测试</h3><ul>
+<li>进程每次打开，创建，删除一个文件时，内核就会对文件进行访问测试，涉及<strong>文件层面</strong>的所有者id(st_uid,st_gid), 进程层面 的有效组/用户 id 和 附属组/用户 id</li>
+<li>如果进程的有效用户ID 为0(超级用户):则允许任何形式的访问</li>
+<li>如果有效用户ID=文件所有者ID(st_uid)该进程拥有此文件,如果适当的访问权限位被设置(如读写执行)，则允许访问</li>
+<li>若进程的有效组ID或附属组ID之一等于文件的组ID(st_gid),如果适当的访问权限位被设置(如读写执行)，则允许访问</li>
+<li>文件的其他用户访问权限位被设置,则允许访问</li>
+</ul>
+<h2 id="文件模式创建屏蔽字"><a href="#文件模式创建屏蔽字" class="headerlink" title="文件模式创建屏蔽字"></a>文件模式创建屏蔽字</h2><ul>
+<li>每个<strong>进程</strong> 都有 <strong>文件模式创建屏蔽字</strong> ,在创建或打开文件时,如果指定了新文件的访问权限位,就一定会先使用<strong>文件模式创建屏蔽字</strong>,屏蔽部分权限位</li>
+<li>在程序中显示的指定屏蔽字,并不会影响系统默认屏蔽字</li>
+<li>在建立新文件时,文件的权限将会是create函数指定的权限<strong>&amp;~umask</strong>的值</li>
+</ul>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">"apue.h"</span></span></span></pre></td></tr><tr><td class="gutter"><pre><span class="line">2</span></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;fcntl.h&gt;</span></span></span></pre></td></tr><tr><td class="gutter"><pre><span class="line">3</span></pre></td><td class="code"><pre><span class="line"></span></pre></td></tr><tr><td class="gutter"><pre><span class="line">4</span></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="meta-keyword">define</span> RWRWRW (S_IRUSR | S_IWUSR | S_IRGRP | S_IWGRP | S_IROTH | S_IWOTH)</span></span></pre></td></tr><tr><td class="gutter"><pre><span class="line">5</span></pre></td><td class="code"><pre><span class="line"></span></pre></td></tr><tr><td class="gutter"><pre><span class="line">6</span></pre></td><td class="code"><pre><span class="line"><span class="keyword">int</span> </span></pre></td></tr><tr><td class="gutter"><pre><span class="line">7</span></pre></td><td class="code"><pre><span class="line">main(<span class="keyword">void</span>)</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">8</span></pre></td><td class="code"><pre><span class="line">&#123;</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">9</span></pre></td><td class="code"><pre><span class="line">    umask(<span class="number">0</span>);</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">10</span></pre></td><td class="code"><pre><span class="line">    <span class="keyword">if</span> (creat(<span class="string">"foo"</span>, RWRWRW) &lt; <span class="number">0</span>)</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">11</span></pre></td><td class="code"><pre><span class="line">        err_sys(<span class="string">"creat error for foo"</span>);</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">12</span></pre></td><td class="code"><pre><span class="line">    umask(S_IRGRP | S_IWGRP | S_IROTH | S_IWOTH);</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">13</span></pre></td><td class="code"><pre><span class="line">    <span class="keyword">if</span> (creat(<span class="string">"bar"</span>, RWRWRW) &lt; <span class="number">0</span>)</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">14</span></pre></td><td class="code"><pre><span class="line">        err_sys(<span class="string">"create error for foo"</span>);</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">15</span></pre></td><td class="code"><pre><span class="line">    <span class="built_in">exit</span>(<span class="number">0</span>);</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">16</span></pre></td><td class="code"><pre><span class="line"></span></pre></td></tr><tr><td class="gutter"><pre><span class="line">17</span></pre></td><td class="code"><pre><span class="line">&#125;</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">18</span></pre></td><td class="code"><pre><span class="line">out:</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">19</span></pre></td><td class="code"><pre><span class="line">➜  lesson_2 umask</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">20</span></pre></td><td class="code"><pre><span class="line"><span class="number">022</span></span></pre></td></tr><tr><td class="gutter"><pre><span class="line">21</span></pre></td><td class="code"><pre><span class="line">➜  lesson_2 umask -S</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">22</span></pre></td><td class="code"><pre><span class="line">u=rwx,g=rx,o=rx</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">23</span></pre></td><td class="code"><pre><span class="line">➜  lesson_2 ./a.out</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">24</span></pre></td><td class="code"><pre><span class="line">➜  lesson_2 ll foo bar</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">25</span></pre></td><td class="code"><pre><span class="line">-rw-------  <span class="number">1</span> gongyulei  staff     <span class="number">0B</span>  <span class="number">2</span> <span class="number">25</span> <span class="number">16</span>:<span class="number">42</span> bar</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">26</span></pre></td><td class="code"><pre><span class="line">-rw-rw-rw-  <span class="number">1</span> gongyulei  staff     <span class="number">0B</span>  <span class="number">2</span> <span class="number">25</span> <span class="number">16</span>:<span class="number">42</span> foo</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">27</span></pre></td><td class="code"><pre><span class="line">➜  lesson_2 umask -S</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">28</span></pre></td><td class="code"><pre><span class="line">u=rwx,g=rx,o=rx</span></pre></td></tr></table></figure>
+<h2 id="文件权限的改变"><a href="#文件权限的改变" class="headerlink" title="文件权限的改变"></a>文件权限的改变</h2><ul>
+<li>使用<strong>chmod</strong> 改变文件的权限位,前提条件:<ul>
+<li>进程的有效组ID等于文件的所有者ID</li>
+<li>或者该进程必须有超级用户权限</li>
+</ul>
+</li>
+</ul>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">"apue.h"</span></span></span></pre></td></tr><tr><td class="gutter"><pre><span class="line">2</span></pre></td><td class="code"><pre><span class="line"><span class="keyword">int</span></span></pre></td></tr><tr><td class="gutter"><pre><span class="line">3</span></pre></td><td class="code"><pre><span class="line">main(<span class="keyword">void</span>)&#123;</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">4</span></pre></td><td class="code"><pre><span class="line">    <span class="class"><span class="keyword">struct</span> <span class="title">stat</span> <span class="title">statbuf</span>;</span></span></pre></td></tr><tr><td class="gutter"><pre><span class="line">5</span></pre></td><td class="code"><pre><span class="line">    <span class="keyword">if</span> (stat(<span class="string">"foo"</span>, &amp;statbuf) &lt; <span class="number">0</span>)</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">6</span></pre></td><td class="code"><pre><span class="line">        err_sys(<span class="string">"stat error for foo"</span>);</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">7</span></pre></td><td class="code"><pre><span class="line">    <span class="keyword">if</span> (chmod(<span class="string">"foo"</span>, (statbuf.st_mode &amp; ~S_IXGRP) | S_ISGID) &lt; <span class="number">0</span>)</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">8</span></pre></td><td class="code"><pre><span class="line">        err_sys(<span class="string">"chmod error for foo"</span>);</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">9</span></pre></td><td class="code"><pre><span class="line">    <span class="keyword">if</span> (chmod(<span class="string">"bar"</span>, S_IRUSR|S_IWUSR|S_IRGRP|S_IROTH) &lt; <span class="number">0</span>)</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">10</span></pre></td><td class="code"><pre><span class="line">        err_sys(<span class="string">"chmod error for bar"</span>);</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">11</span></pre></td><td class="code"><pre><span class="line">    <span class="built_in">exit</span>(<span class="number">0</span>);</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">12</span></pre></td><td class="code"><pre><span class="line"></span></pre></td></tr><tr><td class="gutter"><pre><span class="line">13</span></pre></td><td class="code"><pre><span class="line">&#125;</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">14</span></pre></td><td class="code"><pre><span class="line">out:</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">15</span></pre></td><td class="code"><pre><span class="line">➜  lesson_2 ll bar foo</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">16</span></pre></td><td class="code"><pre><span class="line">-rw-------  <span class="number">1</span> gongyulei  staff     <span class="number">0B</span>  <span class="number">2</span> <span class="number">25</span> <span class="number">16</span>:<span class="number">42</span> bar</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">17</span></pre></td><td class="code"><pre><span class="line">-rw-rw-rw-  <span class="number">1</span> gongyulei  staff     <span class="number">0B</span>  <span class="number">2</span> <span class="number">25</span> <span class="number">16</span>:<span class="number">42</span> foo</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">18</span></pre></td><td class="code"><pre><span class="line">➜  lesson_2 ./a.out</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">19</span></pre></td><td class="code"><pre><span class="line">➜  lesson_2 ll bar foo</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">20</span></pre></td><td class="code"><pre><span class="line">-rw-r--r--  <span class="number">1</span> gongyulei  staff     <span class="number">0B</span>  <span class="number">2</span> <span class="number">25</span> <span class="number">16</span>:<span class="number">42</span> bar</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">21</span></pre></td><td class="code"><pre><span class="line">-rw-rwSrw-  <span class="number">1</span> gongyulei  staff     <span class="number">0B</span>  <span class="number">2</span> <span class="number">25</span> <span class="number">16</span>:<span class="number">42</span> foo</span></pre></td></tr></table></figure>
+<h2 id="粘着位"><a href="#粘着位" class="headerlink" title="粘着位"></a>粘着位</h2><ul>
+<li><strong>S_ISVTX</strong> 如果一个可执行文件的这一位被设置,程序执行完成后,程序正文部分的副本仍然被存放在<strong>交换区</strong>,下次访问就能更快载入内存</li>
+<li>典型的<code>/tmp /var/tmp</code> 文件夹都被设置了<strong>粘着位</strong>,任何用户对该目录的权限都是<strong>读写执行</strong>,但只有<strong>超级用户或此目录或此文件的用户</strong> 才能删除或重命名</li>
+</ul>
+<h2 id="文件长度"><a href="#文件长度" class="headerlink" title="文件长度"></a>文件长度</h2><ul>
+<li>stat结构体的st_size 表示以字节<strong>byte</strong>为单位的长度。</li>
+<li>对于普通文件,文件长度可以是0,读文件时,会得到文件结束指示<strong>EOF</strong></li>
+<li>对于符号链接,文件长度是文件名中的实际字节数</li>
+<li>对于目录,文件长度通常是一个数的整数倍</li>
+</ul>
+<h2 id="文件链接-硬链接"><a href="#文件链接-硬链接" class="headerlink" title="文件链接(硬链接)"></a>文件链接(硬链接)</h2><ul>
+<li><strong>i节点</strong> :i节点包含了文件有关的所有信息:文件类型,文件访问权限位,文件长度,和指向文件数据块的指针等。<strong>stat</strong>中的大部分数据都取自i节点。 </li>
+<li>任何一个文件可以由多个目录项指向其<strong>i节点</strong>,用于创建一个指向现有文件的链接。这里指<strong>硬链接</strong></li>
+<li>使用<strong>unlink</strong> 移除一个文件,open打开一个文件,因为文件还没有关闭(还在被进程使用),会在在内核关闭文件后,才会删除。</li>
+</ul>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">"apue.h"</span></span></span></pre></td></tr><tr><td class="gutter"><pre><span class="line">2</span></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;fcntl.h&gt;</span></span></span></pre></td></tr><tr><td class="gutter"><pre><span class="line">3</span></pre></td><td class="code"><pre><span class="line"><span class="keyword">int</span></span></pre></td></tr><tr><td class="gutter"><pre><span class="line">4</span></pre></td><td class="code"><pre><span class="line">main(<span class="keyword">void</span>)</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">5</span></pre></td><td class="code"><pre><span class="line">&#123;</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">6</span></pre></td><td class="code"><pre><span class="line">    <span class="keyword">if</span> (<span class="built_in">open</span>(<span class="string">"tempfile"</span>, O_RDWR) &lt; <span class="number">0</span>)</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">7</span></pre></td><td class="code"><pre><span class="line">        err_sys(<span class="string">"open error"</span>);</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">8</span></pre></td><td class="code"><pre><span class="line">    <span class="keyword">if</span> (unlink(<span class="string">"tempfile"</span>) &lt; <span class="number">0</span>)</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">9</span></pre></td><td class="code"><pre><span class="line">        err_sys(<span class="string">"unlink error"</span>);</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">10</span></pre></td><td class="code"><pre><span class="line">    <span class="built_in">printf</span>(<span class="string">"file unlinked\n"</span>);</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">11</span></pre></td><td class="code"><pre><span class="line">    sleep(<span class="number">15</span>);</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">12</span></pre></td><td class="code"><pre><span class="line">    <span class="built_in">printf</span>(<span class="string">"done\n"</span>);</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">13</span></pre></td><td class="code"><pre><span class="line">    <span class="built_in">exit</span>(<span class="number">0</span>);</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">14</span></pre></td><td class="code"><pre><span class="line">&#125;</span></pre></td></tr></table></figure>
+
+<h2 id="符号链接-软链接"><a href="#符号链接-软链接" class="headerlink" title="符号链接(软链接)"></a>符号链接(软链接)</h2><ul>
+<li><strong>符号链接</strong>是对一个文件的间接指针,<strong>硬链接(文件链接)</strong>指向一个文件的<strong>i节点</strong>。<ul>
+<li><strong>硬链接</strong> 要求链接和文件位于同一<strong>文件系统</strong></li>
+<li>只有超级用户才能创建指向目录的硬链接</li>
+</ul>
+</li>
+<li>在符号链接中引入<strong>循环</strong>,这会导致大对数统计文件结构的函数出错,如果建立的是<strong>硬链接</strong>,就很难消除,所以os不允许构造指向目录的<strong>硬链接</strong>。</li>
+</ul>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span></pre></td><td class="code"><pre><span class="line">#软连接循环</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">2</span></pre></td><td class="code"><pre><span class="line"><span class="built_in">mkdir</span> foo</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">3</span></pre></td><td class="code"><pre><span class="line">touch foo/a</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">4</span></pre></td><td class="code"><pre><span class="line">cd foo</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">5</span></pre></td><td class="code"><pre><span class="line">ln -s ../foo testdir</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">6</span></pre></td><td class="code"><pre><span class="line">out:</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">7</span></pre></td><td class="code"><pre><span class="line">#符号链接指向的文件不存在,所以无法cat</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">8</span></pre></td><td class="code"><pre><span class="line">➜  foo cat testdir</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">9</span></pre></td><td class="code"><pre><span class="line">cat: testdir: Is a directory</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">10</span></pre></td><td class="code"><pre><span class="line">➜  foo ll</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">11</span></pre></td><td class="code"><pre><span class="line">total <span class="number">0</span></span></pre></td></tr><tr><td class="gutter"><pre><span class="line">12</span></pre></td><td class="code"><pre><span class="line">-rw-r--r--  <span class="number">1</span> gongyulei  staff     <span class="number">0B</span>  <span class="number">2</span> <span class="number">26</span> <span class="number">22</span>:<span class="number">56</span> a</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">13</span></pre></td><td class="code"><pre><span class="line">lrwxr-xr-x  <span class="number">1</span> gongyulei  staff     <span class="number">6B</span>  <span class="number">2</span> <span class="number">26</span> <span class="number">22</span>:<span class="number">59</span> testdir -&gt; ../foo</span></pre></td></tr></table></figure>
+
+<h2 id="文件的时间"><a href="#文件的时间" class="headerlink" title="文件的时间"></a>文件的时间</h2><ul>
+<li><strong>stat</strong> 结构体中维护了3个时间相关的字段<ul>
+<li><strong>st_atim</strong> 文件数据的最后访问时间 eg:ll -u</li>
+<li><strong>st_mtim</strong> 文件数据的最后修改时间 </li>
+<li><strong>st_ctim</strong> i节点的最后更改时间 主要指chown chmod eg:ll -c</li>
+</ul>
+</li>
+</ul>
+<h2 id="创建目录"><a href="#创建目录" class="headerlink" title="创建目录"></a>创建目录</h2><ul>
+<li>在调用<strong>mkdir</strong> 函数创建目录时, . 和 .. 目录是自动创建的,所指定的文件访问权限mode由进程文件的<strong>文件模式创建屏蔽字</strong>修改</li>
+<li>删除目录<strong>rmdir</strong><ul>
+<li>如果目录链接计数为0,并且没有其他进程打开,则释放此目录占用的空间</li>
+<li>如果目录链接计数为0,并且有进程打开,则在进程结束后删除并释放空间,并且在进程结束前是不能创建文件的</li>
+</ul>
+</li>
+</ul>
+<h2 id="读目录"><a href="#读目录" class="headerlink" title="读目录"></a>读目录</h2><ul>
+<li>对某个目录具有访问权限的任一用户都可以读该目录,但只有内核才能写目录</li>
+<li>一个目录的<strong>写权限位</strong> 和 <strong>执行权限位</strong> 决定了在该目录中能否创建文件和删除文件,并不能写目录本身</li>
+</ul>
+<h2 id="更改当前目录"><a href="#更改当前目录" class="headerlink" title="更改当前目录"></a>更改当前目录</h2><ul>
+<li>每一个<strong>进程</strong> 都有一个当前工作目录,此目录是搜索所有<strong>相对路径名</strong>的起点。用户登陆后,会在<code>/etc/passwd</code>中找到当前<strong>shell进程</strong>的工作目录,当前工作目录是进程的一个<strong>属性</strong>。</li>
+</ul>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span></pre></td><td class="code"><pre><span class="line"><span class="comment">//因为调用的进程不是shell进程,所以程序执行结束后,当前目录并没有改变,cd命令内建在shell中</span></span></pre></td></tr><tr><td class="gutter"><pre><span class="line">2</span></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">"apue.h"</span></span></span></pre></td></tr><tr><td class="gutter"><pre><span class="line">3</span></pre></td><td class="code"><pre><span class="line"><span class="keyword">int</span></span></pre></td></tr><tr><td class="gutter"><pre><span class="line">4</span></pre></td><td class="code"><pre><span class="line">main(<span class="keyword">void</span>)</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">5</span></pre></td><td class="code"><pre><span class="line">&#123;</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">6</span></pre></td><td class="code"><pre><span class="line">    <span class="keyword">if</span> (chdir(<span class="string">"/tmp"</span>) &lt; <span class="number">0</span>)</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">7</span></pre></td><td class="code"><pre><span class="line">        err_sys(<span class="string">"child failed"</span>);</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">8</span></pre></td><td class="code"><pre><span class="line">    <span class="built_in">printf</span>(<span class="string">"child to /tmp succeeded\n"</span>);</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">9</span></pre></td><td class="code"><pre><span class="line">    <span class="built_in">exit</span>(<span class="number">0</span>);</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">10</span></pre></td><td class="code"><pre><span class="line">&#125;</span></pre></td></tr></table></figure>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">"apue.h"</span></span></span></pre></td></tr><tr><td class="gutter"><pre><span class="line">2</span></pre></td><td class="code"><pre><span class="line"><span class="keyword">int</span></span></pre></td></tr><tr><td class="gutter"><pre><span class="line">3</span></pre></td><td class="code"><pre><span class="line">main(<span class="keyword">void</span>)</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">4</span></pre></td><td class="code"><pre><span class="line">&#123;</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">5</span></pre></td><td class="code"><pre><span class="line">    <span class="keyword">char</span> *ptr;</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">6</span></pre></td><td class="code"><pre><span class="line">    <span class="keyword">size_t</span> <span class="built_in">size</span>;</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">7</span></pre></td><td class="code"><pre><span class="line">    <span class="keyword">if</span> (chdir(<span class="string">"/tmp"</span>) &lt; <span class="number">0</span>)</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">8</span></pre></td><td class="code"><pre><span class="line">        err_sys(<span class="string">"chdir failed"</span>);</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">9</span></pre></td><td class="code"><pre><span class="line">    ptr = path_alloc(&amp;<span class="built_in">size</span>);</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">10</span></pre></td><td class="code"><pre><span class="line">    <span class="keyword">if</span> (getcwd(ptr, <span class="built_in">size</span>) == <span class="literal">NULL</span>)</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">11</span></pre></td><td class="code"><pre><span class="line">        err_sys(<span class="string">"getcwd failed"</span>);</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">12</span></pre></td><td class="code"><pre><span class="line">    <span class="built_in">printf</span>(<span class="string">"cwd=%s\n"</span>, ptr);</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">13</span></pre></td><td class="code"><pre><span class="line">    <span class="built_in">exit</span>(<span class="number">0</span>);</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">14</span></pre></td><td class="code"><pre><span class="line">&#125;</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">15</span></pre></td><td class="code"><pre><span class="line">out:</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">16</span></pre></td><td class="code"><pre><span class="line">➜  lesson_4 ./a.out</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">17</span></pre></td><td class="code"><pre><span class="line">cwd=/<span class="keyword">private</span>/tmp</span></pre></td></tr></table></figure>
+
+
+
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2018/12/19/apue/3-%E6%96%87%E4%BB%B6IO/" rel="next" title="3-文件IO">
+                <i class="fa fa-chevron-left"></i> 3-文件IO
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2019/02/01/apue/5_%E6%A0%87%E5%87%86IO%E5%BA%93/" rel="prev" title="5-标准IO库">
+                5-标准IO库 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+            
+              <img class="site-author-image" itemprop="image"
+                src="/images/logo.jpg"
+                alt="Flex" />
+            
+              <p class="site-author-name" itemprop="name">Flex</p>
+              <p class="site-description motion-element" itemprop="description"></p>
+          </div>
+
+          <nav class="site-state motion-element">
+
+            
+              <div class="site-state-item site-state-posts">
+              
+                <a href="/archives">
+              
+                  <span class="site-state-item-count">13</span>
+                  <span class="site-state-item-name">日志</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-categories">
+                <a href="/categories/index.html">
+                  <span class="site-state-item-count">1</span>
+                  <span class="site-state-item-name">分类</span>
+                </a>
+              </div>
+            
+
+            
+
+          </nav>
+
+          
+
+          
+
+          
+          
+
+          
+          
+
+          
+
+        </div>
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#文件和目录"><span class="nav-number">1.</span> <span class="nav-text">文件和目录</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#文件类型"><span class="nav-number">1.1.</span> <span class="nav-text">文件类型</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#设置用户ID和设置组ID"><span class="nav-number">1.2.</span> <span class="nav-text">设置用户ID和设置组ID</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#进程相关的ID"><span class="nav-number">1.2.1.</span> <span class="nav-text">进程相关的ID</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#其他"><span class="nav-number">1.2.2.</span> <span class="nav-text">其他</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#文件访问权限"><span class="nav-number">1.3.</span> <span class="nav-text">文件访问权限</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#访问权限的使用规则"><span class="nav-number">1.3.1.</span> <span class="nav-text">访问权限的使用规则</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#进程打开文件测试"><span class="nav-number">1.3.2.</span> <span class="nav-text">进程打开文件测试</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#文件模式创建屏蔽字"><span class="nav-number">1.4.</span> <span class="nav-text">文件模式创建屏蔽字</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#文件权限的改变"><span class="nav-number">1.5.</span> <span class="nav-text">文件权限的改变</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#粘着位"><span class="nav-number">1.6.</span> <span class="nav-text">粘着位</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#文件长度"><span class="nav-number">1.7.</span> <span class="nav-text">文件长度</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#文件链接-硬链接"><span class="nav-number">1.8.</span> <span class="nav-text">文件链接(硬链接)</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#符号链接-软链接"><span class="nav-number">1.9.</span> <span class="nav-text">符号链接(软链接)</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#文件的时间"><span class="nav-number">1.10.</span> <span class="nav-text">文件的时间</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#创建目录"><span class="nav-number">1.11.</span> <span class="nav-text">创建目录</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#读目录"><span class="nav-number">1.12.</span> <span class="nav-text">读目录</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#更改当前目录"><span class="nav-number">1.13.</span> <span class="nav-text">更改当前目录</span></a></li></ol></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; <span itemprop="copyrightYear">2019</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Flex</span>
+
+  
+</div>
+
+
+  <div class="powered-by">由 <a class="theme-link" target="_blank" href="https://hexo.io">Hexo</a> 强力驱动</div>
+
+
+
+  <span class="post-meta-divider">|</span>
+
+
+
+  <div class="theme-info">主题 &mdash; <a class="theme-link" target="_blank" href="https://github.com/iissnan/hexo-theme-next">NexT.Pisces</a> v5.1.4</div>
+
+
+
+
+        
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+          <span id="scrollpercent"><span>0</span>%</span>
+        
+      </div>
+    
+
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+  
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.4"></script>
+
+
+
+  
+  
+
+
+  <script type="text/javascript" src="/js/src/affix.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/js/src/schemes/pisces.js?v=5.1.4"></script>
+
+
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.4"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+  
+
+  
+
+  
+
+  
+
+</body>
+</html>
