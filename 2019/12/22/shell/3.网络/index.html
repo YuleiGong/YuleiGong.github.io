@@ -1,0 +1,845 @@
+<!DOCTYPE html>
+
+
+
+  
+
+
+<html class="theme-next pisces use-motion" lang="zh-Hans">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+
+
+
+  
+
+<link href="//cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.1.4" rel="stylesheet" type="text/css" />
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png?v=5.1.4">
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=5.1.4" color="#222">
+
+
+
+
+
+  <meta name="keywords" content="Hexo, NexT" />
+
+
+
+
+
+
+
+
+
+
+<meta name="description" content="网络wget 下载文件1#下载文件2wget URL3#指定重试次数4wget -t 5 URL5#不停的重试6wget -t 0 URL7#断点断续8wget -C URL  以纯文本的形式下载网页 用lynx命令的-dump选项将网页内容以ASCII编码的形式存储到文本文件中,省去了正则表达式解析  1lynx URL -dump &amp;gt; file.txt cURL cURL 通常将下载文件">
+<meta property="og:type" content="article">
+<meta property="og:title" content="3-网络">
+<meta property="og:url" content="http:&#x2F;&#x2F;yoursite.com&#x2F;2019&#x2F;12&#x2F;22&#x2F;shell&#x2F;3.%E7%BD%91%E7%BB%9C&#x2F;index.html">
+<meta property="og:site_name" content="Flex">
+<meta property="og:description" content="网络wget 下载文件1#下载文件2wget URL3#指定重试次数4wget -t 5 URL5#不停的重试6wget -t 0 URL7#断点断续8wget -C URL  以纯文本的形式下载网页 用lynx命令的-dump选项将网页内容以ASCII编码的形式存储到文本文件中,省去了正则表达式解析  1lynx URL -dump &amp;gt; file.txt cURL cURL 通常将下载文件">
+<meta property="og:locale" content="zh-Hans">
+<meta property="og:updated_time" content="2019-12-22T14:49:30.715Z">
+<meta name="twitter:card" content="summary">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Pisces',
+    version: '5.1.4',
+    sidebar: {"position":"left","display":"post","offset":12,"b2t":false,"scrollpercent":true,"onmobile":false},
+    fancybox: true,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    duoshuo: {
+      userId: '0',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="http://yoursite.com/2019/12/22/shell/3.网络/"/>
+
+
+
+
+
+  <title>3-网络 | Flex</title>
+  
+
+
+
+
+
+
+
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/"  class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">Flex</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle"></p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br />
+            
+            分类
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-about">
+          <a href="/about" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-user"></i> <br />
+            
+            关于
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2019/12/22/shell/3.%E7%BD%91%E7%BB%9C/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Flex">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/logo.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Flex">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">3-网络</h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2019-12-22T19:43:33+08:00">
+                2019-12-22
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/shell/" itemprop="url" rel="index">
+                    <span itemprop="name">shell</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <h1 id="网络"><a href="#网络" class="headerlink" title="网络"></a>网络</h1><h2 id="wget-下载文件"><a href="#wget-下载文件" class="headerlink" title="wget 下载文件"></a>wget 下载文件</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span></pre></td><td class="code"><pre><span class="line">#下载文件</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">2</span></pre></td><td class="code"><pre><span class="line">wget URL</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">3</span></pre></td><td class="code"><pre><span class="line">#指定重试次数</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">4</span></pre></td><td class="code"><pre><span class="line">wget -t 5 URL</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">5</span></pre></td><td class="code"><pre><span class="line">#不停的重试</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">6</span></pre></td><td class="code"><pre><span class="line">wget -t 0 URL</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">7</span></pre></td><td class="code"><pre><span class="line">#断点断续</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">8</span></pre></td><td class="code"><pre><span class="line">wget -C URL</span></pre></td></tr></table></figure>
+
+<h2 id="以纯文本的形式下载网页"><a href="#以纯文本的形式下载网页" class="headerlink" title="以纯文本的形式下载网页"></a>以纯文本的形式下载网页</h2><ul>
+<li>用lynx命令的-dump选项将网页内容以ASCII编码的形式存储到文本文件中,省去了正则表达式解析</li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span></pre></td><td class="code"><pre><span class="line">lynx URL -dump &gt; file.txt</span></pre></td></tr></table></figure>
+<h2 id="cURL"><a href="#cURL" class="headerlink" title="cURL"></a>cURL</h2><ul>
+<li>cURL 通常将下载文件输出到stdout,进度信息输出到stderr,cURL用途广泛，包括了下载，发送http请求等</li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span></pre></td><td class="code"><pre><span class="line">#下载的文件输出到终端</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">2</span></pre></td><td class="code"><pre><span class="line">curl http:&#x2F;&#x2F;www.baidu.com</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">3</span></pre></td><td class="code"><pre><span class="line">#指定写入的文件名</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">4</span></pre></td><td class="code"><pre><span class="line">curl http:&#x2F;&#x2F;www.baidu.com -o index.html</span></pre></td></tr></table></figure>
+<ul>
+<li>指定cookie</li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span></pre></td><td class="code"><pre><span class="line">curl http:&#x2F;&#x2F;example.com --cookie &quot;user&#x3D;slynux;pass&#x3D;hack&quot;</span></pre></td></tr></table></figure>
+
+<ul>
+<li>存储cookie</li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span></pre></td><td class="code"><pre><span class="line">curl http:&#x2F;&#x2F;www.baidu.com --cookie-jar cookie_fil</span></pre></td></tr></table></figure>
+
+<ul>
+<li>设置用户代理字符串</li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span></pre></td><td class="code"><pre><span class="line">curl URL --user-agent &quot;Mozilla&#x2F;5.0&quot;</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">2</span></pre></td><td class="code"><pre><span class="line">curl -H &quot;Host: www.slynux.org&quot; -H &quot;Accept-language: en&quot; URL</span></pre></td></tr></table></figure>
+
+<ul>
+<li>进行认证</li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span></pre></td><td class="code"><pre><span class="line">#-u 指定用户名和密码</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">2</span></pre></td><td class="code"><pre><span class="line">curl -u user:pass http:&#x2F;&#x2F;test_auth.com</span></pre></td></tr></table></figure>
+
+<ul>
+<li>只打印头部信息</li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span></pre></td><td class="code"><pre><span class="line">[dev@localhost 4.0]$ curl -I http:&#x2F;&#x2F;www.baidu.com</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">2</span></pre></td><td class="code"><pre><span class="line">HTTP&#x2F;1.1 200 OK</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">3</span></pre></td><td class="code"><pre><span class="line">Accept-Ranges: bytes</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">4</span></pre></td><td class="code"><pre><span class="line">Cache-Control: private, no-cache, no-store, proxy-revalidate, no-transform</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">5</span></pre></td><td class="code"><pre><span class="line">Connection: Keep-Alive</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">6</span></pre></td><td class="code"><pre><span class="line">Content-Length: 277</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">7</span></pre></td><td class="code"><pre><span class="line">Content-Type: text&#x2F;html</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">8</span></pre></td><td class="code"><pre><span class="line">Date: Fri, 09 Nov 2018 14:56:59 GMT</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">9</span></pre></td><td class="code"><pre><span class="line">Etag: &quot;575e1f8a-115&quot;</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">10</span></pre></td><td class="code"><pre><span class="line">Last-Modified: Mon, 13 Jun 2016 02:50:50 GMT</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">11</span></pre></td><td class="code"><pre><span class="line">Pragma: no-cache</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">12</span></pre></td><td class="code"><pre><span class="line">Server: bfe&#x2F;1.0.8.18</span></pre></td></tr></table></figure>
+
+<ul>
+<li>发送Post请求,-d的字符串参数的形式类似于GET请求。每对var=value之间用&amp;分隔。</li>
+<li>-d后面的参数应该使用双引号，否者&amp;会被shell解析为后台运行</li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span></pre></td><td class="code"><pre><span class="line">curl URL -d &quot;postvar&#x3D;postdata2&amp;postvar2&#x3D;postdata2&quot;</span></pre></td></tr></table></figure>
+
+<h2 id="ifconfig"><a href="#ifconfig" class="headerlink" title="ifconfig"></a>ifconfig</h2><ul>
+<li>网络接口用于将主机连接到网络,如eth0 eth1 usb9 wlan0等 </li>
+<li><strong>HWaddr</strong> 是硬件地址,MAC地址</li>
+<li><strong>inet</strong> 是IP地址</li>
+<li><strong>bcast</strong> 是广播地址</li>
+<li><strong>mask</strong> 子网掩码</li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span></pre></td><td class="code"><pre><span class="line">ifconfig</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">2</span></pre></td><td class="code"><pre><span class="line">eth0      Link encap:Ethernet  HWaddr 00:0C:29:F0:84:07</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">3</span></pre></td><td class="code"><pre><span class="line">          inet addr:192.168.0.110  Bcast:192.168.0.255  Mask:255.255.255.0</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">4</span></pre></td><td class="code"><pre><span class="line">          inet6 addr: fe80::20c:29ff:fef0:8407&#x2F;64 Scope:Link</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">5</span></pre></td><td class="code"><pre><span class="line">          UP BROADCAST RUNNING MULTICAST  MTU:1500  Metric:1</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">6</span></pre></td><td class="code"><pre><span class="line">          RX packets:705964 errors:0 dropped:0 overruns:0 frame:0</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">7</span></pre></td><td class="code"><pre><span class="line">          TX packets:490843 errors:0 dropped:0 overruns:0 carrier:0</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">8</span></pre></td><td class="code"><pre><span class="line">          collisions:0 txqueuelen:1000</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">9</span></pre></td><td class="code"><pre><span class="line">          RX bytes:224629785 (214.2 MiB)  TX bytes:422985956 (403.3 MiB)</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">10</span></pre></td><td class="code"><pre><span class="line"></span></pre></td></tr><tr><td class="gutter"><pre><span class="line">11</span></pre></td><td class="code"><pre><span class="line">eth1      Link encap:Ethernet  HWaddr 00:0C:29:F0:84:11</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">12</span></pre></td><td class="code"><pre><span class="line">          inet addr:172.16.13.133  Bcast:172.16.13.255  Mask:255.255.255.0</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">13</span></pre></td><td class="code"><pre><span class="line">          inet6 addr: fe80::20c:29ff:fef0:8411&#x2F;64 Scope:Link</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">14</span></pre></td><td class="code"><pre><span class="line">          UP BROADCAST RUNNING MULTICAST  MTU:1500  Metric:1</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">15</span></pre></td><td class="code"><pre><span class="line">          RX packets:176739 errors:0 dropped:0 overruns:0 frame:0</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">16</span></pre></td><td class="code"><pre><span class="line">          TX packets:41534 errors:0 dropped:0 overruns:0 carrier:0</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">17</span></pre></td><td class="code"><pre><span class="line">          collisions:0 txqueuelen:1000</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">18</span></pre></td><td class="code"><pre><span class="line">          RX bytes:181846492 (173.4 MiB)  TX bytes:10959131 (10.4 MiB)</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">19</span></pre></td><td class="code"><pre><span class="line"></span></pre></td></tr><tr><td class="gutter"><pre><span class="line">20</span></pre></td><td class="code"><pre><span class="line">eth2      Link encap:Ethernet  HWaddr 00:0C:29:F0:84:1B</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">21</span></pre></td><td class="code"><pre><span class="line">          inet addr:192.168.0.108  Bcast:192.168.0.255  Mask:255.255.255.0</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">22</span></pre></td><td class="code"><pre><span class="line">          inet6 addr: fe80::20c:29ff:fef0:841b&#x2F;64 Scope:Link</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">23</span></pre></td><td class="code"><pre><span class="line">          UP BROADCAST RUNNING MULTICAST  MTU:1500  Metric:1</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">24</span></pre></td><td class="code"><pre><span class="line">          RX packets:144298 errors:0 dropped:0 overruns:0 frame:0</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">25</span></pre></td><td class="code"><pre><span class="line">          TX packets:37341 errors:0 dropped:0 overruns:0 carrier:0</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">26</span></pre></td><td class="code"><pre><span class="line">          collisions:0 txqueuelen:1000</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">27</span></pre></td><td class="code"><pre><span class="line">          RX bytes:27286142 (26.0 MiB)  TX bytes:14309119 (13.6 MiB)</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">28</span></pre></td><td class="code"><pre><span class="line"></span></pre></td></tr><tr><td class="gutter"><pre><span class="line">29</span></pre></td><td class="code"><pre><span class="line">lo        Link encap:Local Loopback</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">30</span></pre></td><td class="code"><pre><span class="line">          inet addr:127.0.0.1  Mask:255.0.0.0</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">31</span></pre></td><td class="code"><pre><span class="line">          inet6 addr: ::1&#x2F;128 Scope:Host</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">32</span></pre></td><td class="code"><pre><span class="line">          UP LOOPBACK RUNNING  MTU:65536  Metric:1</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">33</span></pre></td><td class="code"><pre><span class="line">          RX packets:73038 errors:0 dropped:0 overruns:0 frame:0</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">34</span></pre></td><td class="code"><pre><span class="line">          TX packets:73038 errors:0 dropped:0 overruns:0 carrier:0</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">35</span></pre></td><td class="code"><pre><span class="line">          collisions:0 txqueuelen:0</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">36</span></pre></td><td class="code"><pre><span class="line">          RX bytes:4789357 (4.5 MiB)  TX bytes:4789357 (4.5 MiB)</span></pre></td></tr></table></figure>
+<ul>
+<li>在软件层面修改MAC地址,重启失效</li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span></pre></td><td class="code"><pre><span class="line">ifconfig eth0 hw ether 00:1c:bf:87:25:d5</span></pre></td></tr></table></figure>
+
+<ul>
+<li>DNS域名服务器</li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span></pre></td><td class="code"><pre><span class="line">#本地域名服务器</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">2</span></pre></td><td class="code"><pre><span class="line">[dev@localhost 4.0]$ cat &#x2F;etc&#x2F;resolv.conf</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">3</span></pre></td><td class="code"><pre><span class="line">; generated by &#x2F;sbin&#x2F;dhclient-script</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">4</span></pre></td><td class="code"><pre><span class="line">nameserver 192.168.0.1</span></pre></td></tr></table></figure>
+
+<ul>
+<li>如果不使用DNS服务器,也可以为IP地址添加符号名</li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span></pre></td><td class="code"><pre><span class="line">echo 192.168.0.9 backupserver &gt;&gt; &#x2F;etc&#x2F;hosts</span></pre></td></tr></table></figure>
+
+<h2 id="使用ping"><a href="#使用ping" class="headerlink" title="使用ping"></a>使用ping</h2><ul>
+<li>ping 命令可以检查两台主机之间的连通性,如果向某台主机发送echo 分组，如果分组能够到达，且主机处于活动状态，会返回响应。</li>
+</ul>
+<ul>
+<li>可以使用-c选项来限制发送包的数量</li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span></pre></td><td class="code"><pre><span class="line">[dev@localhost 4.0]$ ping 127.0.0.1 -c 2</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">2</span></pre></td><td class="code"><pre><span class="line">PING 127.0.0.1 (127.0.0.1) 56(84) bytes of data.</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">3</span></pre></td><td class="code"><pre><span class="line">64 bytes from 127.0.0.1: icmp_seq&#x3D;1 ttl&#x3D;64 time&#x3D;0.018 ms</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">4</span></pre></td><td class="code"><pre><span class="line">64 bytes from 127.0.0.1: icmp_seq&#x3D;2 ttl&#x3D;64 time&#x3D;0.033 ms</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">5</span></pre></td><td class="code"><pre><span class="line"></span></pre></td></tr><tr><td class="gutter"><pre><span class="line">6</span></pre></td><td class="code"><pre><span class="line">--- 127.0.0.1 ping statistics ---</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">7</span></pre></td><td class="code"><pre><span class="line">2 packets transmitted, 2 received, 0% packet loss, time 999ms</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">8</span></pre></td><td class="code"><pre><span class="line">rtt min&#x2F;avg&#x2F;max&#x2F;mdev &#x3D; 0.018&#x2F;0.025&#x2F;0.033&#x2F;0.009 ms</span></pre></td></tr></table></figure>
+
+<h2 id="ssh"><a href="#ssh" class="headerlink" title="ssh"></a>ssh</h2><ul>
+<li>ssh采用交互方式询问用户密码，一旦认证成功，将会为用户返回一个shell。</li>
+<li>ssh服务器默认在端口22上运行。但有些SSH服务器并没有使用这个端口。针对这种情况，可以用 SSH的-p port_num来指定端口。</li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span></pre></td><td class="code"><pre><span class="line">ssh username@remote_host</span></pre></td></tr></table></figure>
+
+<h2 id="ssh-无密码登陆"><a href="#ssh-无密码登陆" class="headerlink" title="ssh 无密码登陆"></a>ssh 无密码登陆</h2><ul>
+<li>ssh采用了<strong>非对称加密技术</strong>，认证密钥包含两部分:一个<strong>公钥</strong>和一个<strong>私钥</strong>。我们可以通过 ssh-keygen命令创建认证密钥。要想实现自动化认证，公钥必须放置在服务器中(将其加入文件 ~/.ssh/authorized_keys)，与公钥对应的私钥应该放入登录客户机的 ~/.ssh目录中。另一些与SSH相关的 配置信息(例如，arthorized_keys文件的路径与名称)可以通过修改文件 /etc/ssh/sshd_config进行配置。</li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span></pre></td><td class="code"><pre><span class="line">ssh-keygen -t rsa</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">2</span></pre></td><td class="code"><pre><span class="line">~&#x2F;.ssh&#x2F;id_rsa.pub 公钥需要放入服务器的~&#x2F;.ssh&#x2F;authorized_keys中</span></pre></td></tr></table></figure>
+
+
+<h2 id="使用ssh进行端口转发"><a href="#使用ssh进行端口转发" class="headerlink" title="使用ssh进行端口转发"></a>使用ssh进行端口转发</h2><ul>
+<li><p>端口转发允许其他计算机利用你的主机来连接到远程服务器上的特定服务。</p>
+</li>
+<li><p>ssh -L 本地端口转发</p>
+<ul>
+<li><strong>应用场景</strong>:远程主机开启了一个8000端口服务，本地主机需要访问这个服务</li>
+<li><strong>远程主机</strong> 通过<code>python -m SimpleHTTPServer</code> 启动了一个8000的http服务端口,本地访问形式可能如下 <code>curl http://remote:8000</code></li>
+<li><strong>本地主机</strong> 执行命令 <code>ssh -L localhost:2000:localhost:8000 remote_user@remote_host</code></li>
+<li>设置好后，可以在本地通过访问<code>curl http://localhost:2000</code> 来代替直接访问服务器8000端口</li>
+<li>我们在<strong>本地主机</strong>上的应用将数据发送到本机的2000 端口上，而本机的<strong>SSH Client</strong>会将7001端口收到的数据加密并转发到<strong>远程主机</strong>的<strong>SSH Server</strong>上。<br><strong>SSH Server</strong>会解密收到的数据并将之转发到远程主机监听的8000端口上,最后再将从8000端口返回的数据原路返回以完成整个流程。</li>
+</ul>
+</li>
+<li><p>ssh -R 远程端口转发</p>
+<ul>
+<li><strong>应用场景</strong>:本地主机运行了一个服务，端口为8000，远程主机需要访问这个服务,通常,本地主机是没有公网ip的,云远程主机是无法访问这个服务的</li>
+<li><strong>本地主机</strong> 通过<code>python -m SimpleHTTPServer</code> 启动了一个8000的http服务端口,远程主机访问形式可能如下 <code>curl http://本地主机ip:8000</code></li>
+<li><strong>本地主机</strong> 执行命令 <code>ssh -R localhost:2000:localhost:8000 remote_user@remote_host</code></li>
+<li>设置好后，可以在远程主机通过访问<code>curl http://localhost:2000</code> 来代替直接访问本地服务器8000端口</li>
+</ul>
+</li>
+</ul>
+<h2 id="端口分析"><a href="#端口分析" class="headerlink" title="端口分析"></a>端口分析</h2><h3 id="lsof"><a href="#lsof" class="headerlink" title="lsof"></a>lsof</h3><ul>
+<li>列出系统中开放的端口和运行在端口之上的服务</li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span></pre></td><td class="code"><pre><span class="line">[dev@localhost ~]$ sudo lsof -i</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">2</span></pre></td><td class="code"><pre><span class="line">[sudo] password for dev:</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">3</span></pre></td><td class="code"><pre><span class="line">COMMAND     PID   USER   FD   TYPE DEVICE SIZE&#x2F;OFF NODE NAME</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">4</span></pre></td><td class="code"><pre><span class="line">portreser  1367   root    5u  IPv4  12482      0t0  UDP *:dhcp-failover</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">5</span></pre></td><td class="code"><pre><span class="line">portreser  1367   root    7u  IPv4  12484      0t0  UDP *:dhcp-failover2</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">6</span></pre></td><td class="code"><pre><span class="line">sshd       1553   root    3u  IPv4  12798      0t0  TCP *:ssh (LISTEN)</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">7</span></pre></td><td class="code"><pre><span class="line">sshd       1553   root    4u  IPv6  12807      0t0  TCP *:ssh (LISTEN)</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">8</span></pre></td><td class="code"><pre><span class="line">xinetd     1564   root    5u  IPv4  12852      0t0  UDP *:tftp</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">9</span></pre></td><td class="code"><pre><span class="line">mysqld     1648  mysql   16u  IPv6  12935      0t0  TCP *:mysql (LISTEN)</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">10</span></pre></td><td class="code"><pre><span class="line">master     1754   root   12u  IPv4  13137      0t0  TCP localhost:smtp (LISTEN)</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">11</span></pre></td><td class="code"><pre><span class="line">master     1754   root   13u  IPv6  13138      0t0  TCP localhost:smtp (LISTEN)</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">12</span></pre></td><td class="code"><pre><span class="line">dhclient   5658   root    6u  IPv4  21261      0t0  UDP *:bootpc</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">13</span></pre></td><td class="code"><pre><span class="line">java       8359  draco  123u  IPv6  36748      0t0  TCP *:postgres (LISTEN)</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">14</span></pre></td><td class="code"><pre><span class="line">java       8359  draco  137u  IPv6  36768      0t0  TCP *:4200 (LISTEN)</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">15</span></pre></td><td class="code"><pre><span class="line">java       8359  draco  162u  IPv6  36783      0t0  TCP *:corelccam (LISTEN)</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">16</span></pre></td><td class="code"><pre><span class="line">oracle    19168 oracle   17u  IPv6 140612      0t0  UDP localhost:56206</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">17</span></pre></td><td class="code"><pre><span class="line">oracle    19188 oracle   29u  IPv6 143570      0t0  UDP *:ansysli</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">18</span></pre></td><td class="code"><pre><span class="line">oracle    19196 oracle   26u  IPv6 141111      0t0  UDP *:26247</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">19</span></pre></td><td class="code"><pre><span class="line">oracle    19200 oracle   16u  IPv6 140784      0t0  UDP localhost:4245</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">20</span></pre></td><td class="code"><pre><span class="line">oracle    19200 oracle   17u  IPv6 140792      0t0  TCP *:14209 (LISTEN)</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">21</span></pre></td><td class="code"><pre><span class="line">oracle    19202 oracle   16u  IPv6 140804      0t0  UDP localhost:rkb-oscs</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">22</span></pre></td><td class="code"><pre><span class="line">tnslsnr   19323 daemon   11u  IPv4 141537      0t0  TCP *:ncube-lm (LISTEN)</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">23</span></pre></td><td class="code"><pre><span class="line">sshd      27692   root    3r  IPv4 227549      0t0  TCP 172.16.13.133:ssh-&gt;172.16.13.1:51950 (ESTABLISHED)</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">24</span></pre></td><td class="code"><pre><span class="line">sshd      27695    dev    3u  IPv4 227549      0t0  TCP 172.16.13.133:ssh-&gt;172.16.13.1:51950 (ESTABLISHED)</span></pre></td></tr></table></figure>
+
+<h3 id="netstat-查看开放端口与服务"><a href="#netstat-查看开放端口与服务" class="headerlink" title="netstat 查看开放端口与服务"></a>netstat 查看开放端口与服务</h3><ul>
+<li>netstat -tnp列出开放端口与服务</li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span></pre></td><td class="code"><pre><span class="line">[dev@localhost ~]$ sudo netstat -tnp</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">2</span></pre></td><td class="code"><pre><span class="line">[sudo] password for dev:</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">3</span></pre></td><td class="code"><pre><span class="line">Active Internet connections (w&#x2F;o servers)</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">4</span></pre></td><td class="code"><pre><span class="line">Proto Recv-Q Send-Q Local Address               Foreign Address             State       PID&#x2F;Program name</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">5</span></pre></td><td class="code"><pre><span class="line">tcp        0      0 172.16.13.133:22            172.16.13.1:51950           ESTABLISHED 27692&#x2F;sshd</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">6</span></pre></td><td class="code"><pre><span class="line">tcp        0      0 172.16.13.133:22            172.16.13.1:56119           ESTABLISHED 28147&#x2F;sshd</span></pre></td></tr></table></figure>
+
+<h2 id="创建套接字"><a href="#创建套接字" class="headerlink" title="创建套接字"></a>创建套接字</h2><ul>
+<li>使用<strong>nc</strong>命令来创建两个套接字，一个用来<strong>侦听</strong>，一个用来<strong>连接</strong></li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span></pre></td><td class="code"><pre><span class="line"># 侦听</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">2</span></pre></td><td class="code"><pre><span class="line">[dev@localhost ~]$ nc -l 1234</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">3</span></pre></td><td class="code"><pre><span class="line"># 连接该套接字，然后发送信息</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">4</span></pre></td><td class="code"><pre><span class="line">[dev@localhost ~]$ nc localhost 1234</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">5</span></pre></td><td class="code"><pre><span class="line">11111</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">6</span></pre></td><td class="code"><pre><span class="line">#传输文件</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">7</span></pre></td><td class="code"><pre><span class="line">nc -l 1234 &gt; copy</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">8</span></pre></td><td class="code"><pre><span class="line">nc localhost 1234 &lt; supervisor.md</span></pre></td></tr></table></figure>
+
+<h2 id="使用iptables-假设简易防火墙"><a href="#使用iptables-假设简易防火墙" class="headerlink" title="使用iptables 假设简易防火墙"></a>使用iptables 假设简易防火墙</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span></pre></td><td class="code"><pre><span class="line">#阻塞发送到8.8.8.8的流量包</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">2</span></pre></td><td class="code"><pre><span class="line">sudo iptables -A OUTPUT -d 8.8.8.8 -j DROP</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">3</span></pre></td><td class="code"><pre><span class="line">#阻塞发送到特定端口的流量</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">4</span></pre></td><td class="code"><pre><span class="line">iptables -A OUTPUT -p tcp -dport 21 -j DROP</span></pre></td></tr></table></figure>
+
+<ul>
+<li><strong>iptables</strong>是Linux系统中用来架设防火墙的标准命令。iptables中的第一个选项:<ul>
+<li>-A 表明向<strong>链 (chain)</strong>中添加一条新的规则，该规则由后续参数给出。链就是一组规则的集合,我们使用的是OUTPUT链，它可以对所有<strong>出站(outgoing)</strong>的流量进行控制。</li>
+<li>-d指定了所要匹配的分组目的地址</li>
+<li>随后使用-j来使<strong>iptables</strong>丢弃(DROP)</li>
+<li>-p 指定该规则是适用于TCP</li>
+<li>-dport指定了对应的端口</li>
+</ul>
+</li>
+<li>iptables –flush 可以重置改动</li>
+</ul>
+
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2019/12/22/shell/4.%E7%B3%BB%E7%BB%9F%E7%AE%A1%E7%90%86/" rel="next" title="3-网络">
+                <i class="fa fa-chevron-left"></i> 3-网络
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2019/12/22/Redis/3.py_redis/" rel="prev" title="3-pyredis">
+                3-pyredis <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+            
+              <img class="site-author-image" itemprop="image"
+                src="/images/logo.jpg"
+                alt="Flex" />
+            
+              <p class="site-author-name" itemprop="name">Flex</p>
+              <p class="site-description motion-element" itemprop="description"></p>
+          </div>
+
+          <nav class="site-state motion-element">
+
+            
+              <div class="site-state-item site-state-posts">
+              
+                <a href="/archives">
+              
+                  <span class="site-state-item-count">38</span>
+                  <span class="site-state-item-name">日志</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-categories">
+                <a href="/categories/index.html">
+                  <span class="site-state-item-count">10</span>
+                  <span class="site-state-item-name">分类</span>
+                </a>
+              </div>
+            
+
+            
+
+          </nav>
+
+          
+
+          
+
+          
+          
+
+          
+          
+
+          
+
+        </div>
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#网络"><span class="nav-number">1.</span> <span class="nav-text">网络</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#wget-下载文件"><span class="nav-number">1.1.</span> <span class="nav-text">wget 下载文件</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#以纯文本的形式下载网页"><span class="nav-number">1.2.</span> <span class="nav-text">以纯文本的形式下载网页</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#cURL"><span class="nav-number">1.3.</span> <span class="nav-text">cURL</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#ifconfig"><span class="nav-number">1.4.</span> <span class="nav-text">ifconfig</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#使用ping"><span class="nav-number">1.5.</span> <span class="nav-text">使用ping</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#ssh"><span class="nav-number">1.6.</span> <span class="nav-text">ssh</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#ssh-无密码登陆"><span class="nav-number">1.7.</span> <span class="nav-text">ssh 无密码登陆</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#使用ssh进行端口转发"><span class="nav-number">1.8.</span> <span class="nav-text">使用ssh进行端口转发</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#端口分析"><span class="nav-number">1.9.</span> <span class="nav-text">端口分析</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#lsof"><span class="nav-number">1.9.1.</span> <span class="nav-text">lsof</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#netstat-查看开放端口与服务"><span class="nav-number">1.9.2.</span> <span class="nav-text">netstat 查看开放端口与服务</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#创建套接字"><span class="nav-number">1.10.</span> <span class="nav-text">创建套接字</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#使用iptables-假设简易防火墙"><span class="nav-number">1.11.</span> <span class="nav-text">使用iptables 假设简易防火墙</span></a></li></ol></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; <span itemprop="copyrightYear">2019</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Flex</span>
+
+  
+</div>
+
+
+  <div class="powered-by">由 <a class="theme-link" target="_blank" href="https://hexo.io">Hexo</a> 强力驱动</div>
+
+
+
+  <span class="post-meta-divider">|</span>
+
+
+
+  <div class="theme-info">主题 &mdash; <a class="theme-link" target="_blank" href="https://github.com/iissnan/hexo-theme-next">NexT.Pisces</a> v5.1.4</div>
+
+
+
+
+        
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+          <span id="scrollpercent"><span>0</span>%</span>
+        
+      </div>
+    
+
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+  
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.4"></script>
+
+
+
+  
+  
+
+
+  <script type="text/javascript" src="/js/src/affix.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/js/src/schemes/pisces.js?v=5.1.4"></script>
+
+
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.4"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+  
+
+  
+
+  
+
+  
+
+</body>
+</html>

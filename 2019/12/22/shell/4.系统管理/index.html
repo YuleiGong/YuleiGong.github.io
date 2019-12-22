@@ -1,0 +1,790 @@
+<!DOCTYPE html>
+
+
+
+  
+
+
+<html class="theme-next pisces use-motion" lang="zh-Hans">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+
+
+
+  
+
+<link href="//cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.1.4" rel="stylesheet" type="text/css" />
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png?v=5.1.4">
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=5.1.4" color="#222">
+
+
+
+
+
+  <meta name="keywords" content="Hexo, NexT" />
+
+
+
+
+
+
+
+
+
+
+<meta name="description" content="系统管理监视磁盘的使用情况 df和du是Linux中用于统计磁盘使用情况的两个重要命令。df是disk free的缩写，du是disk usage的缩写。  du1#递归统计 文件夹下各文件所占空间2sudo du -lha oracle&amp;#x2F;3#递归统计 文件夹下各文件所占空间 c选项可以对所有大小做统计4sudo du -lhac oracle5#通过--exclude 排除不需要统计的">
+<meta property="og:type" content="article">
+<meta property="og:title" content="3-网络">
+<meta property="og:url" content="http:&#x2F;&#x2F;yoursite.com&#x2F;2019&#x2F;12&#x2F;22&#x2F;shell&#x2F;4.%E7%B3%BB%E7%BB%9F%E7%AE%A1%E7%90%86&#x2F;index.html">
+<meta property="og:site_name" content="Flex">
+<meta property="og:description" content="系统管理监视磁盘的使用情况 df和du是Linux中用于统计磁盘使用情况的两个重要命令。df是disk free的缩写，du是disk usage的缩写。  du1#递归统计 文件夹下各文件所占空间2sudo du -lha oracle&amp;#x2F;3#递归统计 文件夹下各文件所占空间 c选项可以对所有大小做统计4sudo du -lhac oracle5#通过--exclude 排除不需要统计的">
+<meta property="og:locale" content="zh-Hans">
+<meta property="og:updated_time" content="2019-12-22T14:55:31.263Z">
+<meta name="twitter:card" content="summary">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Pisces',
+    version: '5.1.4',
+    sidebar: {"position":"left","display":"post","offset":12,"b2t":false,"scrollpercent":true,"onmobile":false},
+    fancybox: true,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    duoshuo: {
+      userId: '0',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="http://yoursite.com/2019/12/22/shell/4.系统管理/"/>
+
+
+
+
+
+  <title>3-网络 | Flex</title>
+  
+
+
+
+
+
+
+
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/"  class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">Flex</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle"></p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br />
+            
+            分类
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-about">
+          <a href="/about" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-user"></i> <br />
+            
+            关于
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2019/12/22/shell/4.%E7%B3%BB%E7%BB%9F%E7%AE%A1%E7%90%86/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Flex">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/logo.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Flex">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">3-网络</h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2019-12-22T19:43:33+08:00">
+                2019-12-22
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/shell/" itemprop="url" rel="index">
+                    <span itemprop="name">shell</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <h1 id="系统管理"><a href="#系统管理" class="headerlink" title="系统管理"></a>系统管理</h1><h2 id="监视磁盘的使用情况"><a href="#监视磁盘的使用情况" class="headerlink" title="监视磁盘的使用情况"></a>监视磁盘的使用情况</h2><ul>
+<li><strong>df和du</strong>是Linux中用于统计磁盘使用情况的两个重要命令。df是<strong>disk free</strong>的缩写，du是<strong>disk usage</strong>的缩写。</li>
+</ul>
+<h3 id="du"><a href="#du" class="headerlink" title="du"></a>du</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span></pre></td><td class="code"><pre><span class="line">#递归统计 文件夹下各文件所占空间</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">2</span></pre></td><td class="code"><pre><span class="line">sudo du -lha oracle&#x2F;</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">3</span></pre></td><td class="code"><pre><span class="line">#递归统计 文件夹下各文件所占空间 c选项可以对所有大小做统计</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">4</span></pre></td><td class="code"><pre><span class="line">sudo du -lhac oracle</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">5</span></pre></td><td class="code"><pre><span class="line">#通过--exclude 排除不需要统计的文件</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">6</span></pre></td><td class="code"><pre><span class="line">sudo du -lhac oracle&#x2F; --exclude &quot;*.xml&quot;</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">7</span></pre></td><td class="code"><pre><span class="line">#通过max-depth 指定递归查询深度</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">8</span></pre></td><td class="code"><pre><span class="line">sudo du -lhac oracle&#x2F; --exclude &quot;*.xml&quot; --max-depth 2</span></pre></td></tr></table></figure>
+<h3 id="df"><a href="#df" class="headerlink" title="df"></a>df</h3><ul>
+<li>提供了磁盘的使用情况</li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span></pre></td><td class="code"><pre><span class="line">[dev@localhost home]$ df -h</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">2</span></pre></td><td class="code"><pre><span class="line">Filesystem            Size  Used Avail Use% Mounted on</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">3</span></pre></td><td class="code"><pre><span class="line">&#x2F;dev&#x2F;mapper&#x2F;VolGroup-lv_root</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">4</span></pre></td><td class="code"><pre><span class="line">                       45G   20G   23G  46% &#x2F;</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">5</span></pre></td><td class="code"><pre><span class="line">tmpfs                 1.7G  491M  1.2G  30% &#x2F;dev&#x2F;shm</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">6</span></pre></td><td class="code"><pre><span class="line">&#x2F;dev&#x2F;sda1             477M   71M  381M  16% &#x2F;boot</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">7</span></pre></td><td class="code"><pre><span class="line">&#x2F;home&#x2F;dev&#x2F;loobackfile.img</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">8</span></pre></td><td class="code"><pre><span class="line">                      976M  1.3M  924M   1% &#x2F;mnt&#x2F;loopback</span></pre></td></tr></table></figure>
+
+<h2 id="收集系统信息"><a href="#收集系统信息" class="headerlink" title="收集系统信息"></a>收集系统信息</h2><h3 id="who-获取当前用户登陆信息-w-展示详细信息"><a href="#who-获取当前用户登陆信息-w-展示详细信息" class="headerlink" title="who 获取当前用户登陆信息,w 展示详细信息"></a>who 获取当前用户登陆信息,w 展示详细信息</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span></pre></td><td class="code"><pre><span class="line">[dev@localhost home]$ who</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">2</span></pre></td><td class="code"><pre><span class="line">dev      tty1         Jul 29 10:17</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">3</span></pre></td><td class="code"><pre><span class="line">dev      pts&#x2F;0        Aug  2 21:02 (172.16.13.1)</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">4</span></pre></td><td class="code"><pre><span class="line">dev      pts&#x2F;11       Aug  2 23:04 (172.16.13.1)</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">5</span></pre></td><td class="code"><pre><span class="line">dev      pts&#x2F;12       Aug  2 23:08 (172.16.13.1)</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">6</span></pre></td><td class="code"><pre><span class="line">[dev@localhost home]$ w</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">7</span></pre></td><td class="code"><pre><span class="line"> 00:47:31 up 4 days, 14:31,  4 users,  load average: 0.00, 0.00, 0.00</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">8</span></pre></td><td class="code"><pre><span class="line"> USER     TTY      FROM              LOGIN@   IDLE   JCPU   PCPU WHAT</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">9</span></pre></td><td class="code"><pre><span class="line"> dev      tty1     -                Sat10    5:16m  0.26s  0.15s login -- dev</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">10</span></pre></td><td class="code"><pre><span class="line"> dev      pts&#x2F;0    172.16.13.1      21:02    3:24m  0.04s  0.04s -bash</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">11</span></pre></td><td class="code"><pre><span class="line"> dev      pts&#x2F;11   172.16.13.1      23:04    0.00s  0.12s  0.00s w</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">12</span></pre></td><td class="code"><pre><span class="line"> dev      pts&#x2F;12   172.16.13.1      23:08    1:32m  0.02s  0.02s -bash</span></pre></td></tr></table></figure>
+
+<h3 id="watch-命令监视输出"><a href="#watch-命令监视输出" class="headerlink" title="watch 命令监视输出"></a>watch 命令监视输出</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span></pre></td><td class="code"><pre><span class="line">#命令默认每2秒更新一次输出</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">2</span></pre></td><td class="code"><pre><span class="line">watch -d ls</span></pre></td></tr></table></figure>
+<h2 id="收集进程信息"><a href="#收集进程信息" class="headerlink" title="收集进程信息"></a>收集进程信息</h2><h3 id="ps-是收集进程信息的重要工具"><a href="#ps-是收集进程信息的重要工具" class="headerlink" title="ps 是收集进程信息的重要工具"></a>ps 是收集进程信息的重要工具</h3><ul>
+<li>ps -e 获取系统中每个进程的信息</li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span></pre></td><td class="code"><pre><span class="line">[dev@localhost ~]$ ps -e |head</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">2</span></pre></td><td class="code"><pre><span class="line">   PID TTY          TIME CMD</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">3</span></pre></td><td class="code"><pre><span class="line">     1 ?        00:00:02 init</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">4</span></pre></td><td class="code"><pre><span class="line">     2 ?        00:00:00 kthreadd</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">5</span></pre></td><td class="code"><pre><span class="line">     3 ?        00:00:03 migration&#x2F;0</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">6</span></pre></td><td class="code"><pre><span class="line">     4 ?        00:00:01 ksoftirqd&#x2F;0</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">7</span></pre></td><td class="code"><pre><span class="line">     5 ?        00:00:00 stopper&#x2F;0</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">8</span></pre></td><td class="code"><pre><span class="line">     6 ?        00:00:04 watchdog&#x2F;0</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">9</span></pre></td><td class="code"><pre><span class="line">     7 ?        00:00:02 migration&#x2F;1</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">10</span></pre></td><td class="code"><pre><span class="line">     8 ?        00:00:00 stopper&#x2F;1</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">11</span></pre></td><td class="code"><pre><span class="line">     9 ?        00:00:01 ksoftirqd&#x2F;1</span></pre></td></tr></table></figure>
+<ul>
+<li>展示的列中可能有我们不需要的信息，使用-o选项来进行筛选<ul>
+<li>comm :command</li>
+<li>pcpu: cpu占用</li>
+<li>pid: 进程id</li>
+<li>ppid:父进程id</li>
+<li>pmem: 内存占用</li>
+<li>user: 用户</li>
+<li>stat: 进程状态</li>
+<li>time: 累计的CPU时间</li>
+</ul>
+</li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span></pre></td><td class="code"><pre><span class="line">[dev@localhost ~]$ ps -eo comm,pcpu,pid,ppid,pmem,user,stat,time |head</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">2</span></pre></td><td class="code"><pre><span class="line">COMMAND         %CPU    PID   PPID %MEM USER     STAT     TIME</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">3</span></pre></td><td class="code"><pre><span class="line">init             0.0      1      0  0.0 root     Ss   00:00:02</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">4</span></pre></td><td class="code"><pre><span class="line">kthreadd         0.0      2      0  0.0 root     S    00:00:00</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">5</span></pre></td><td class="code"><pre><span class="line">migration&#x2F;0      0.0      3      2  0.0 root     S    00:00:03</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">6</span></pre></td><td class="code"><pre><span class="line">ksoftirqd&#x2F;0      0.0      4      2  0.0 root     S    00:00:01</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">7</span></pre></td><td class="code"><pre><span class="line">stopper&#x2F;0        0.0      5      2  0.0 root     S    00:00:00</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">8</span></pre></td><td class="code"><pre><span class="line">watchdog&#x2F;0       0.0      6      2  0.0 root     S    00:00:04</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">9</span></pre></td><td class="code"><pre><span class="line">migration&#x2F;1      0.0      7      2  0.0 root     S    00:00:02</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">10</span></pre></td><td class="code"><pre><span class="line">stopper&#x2F;1        0.0      8      2  0.0 root     S    00:00:00</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">11</span></pre></td><td class="code"><pre><span class="line">ksoftirqd&#x2F;1      0.0      9      2  0.0 root     S    00:00:01</span></pre></td></tr></table></figure>
+
+<h3 id="线程相关信息"><a href="#线程相关信息" class="headerlink" title="线程相关信息"></a>线程相关信息</h3><ul>
+<li><strong>NLWP</strong> 是进程的线程数量,<strong>LWP</strong>为线程ID</li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span></pre></td><td class="code"><pre><span class="line">[dev@localhost ~]$ ps -eLf --sort nlwp |head</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">2</span></pre></td><td class="code"><pre><span class="line">UID         PID   PPID    LWP  C NLWP STIME TTY          TIME CMD</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">3</span></pre></td><td class="code"><pre><span class="line">root          1      0      1  0    1 Jul29 ?        00:00:02 &#x2F;sbin&#x2F;init</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">4</span></pre></td><td class="code"><pre><span class="line">root       1343      1   1343  0    2 Jul29 ?        00:00:00 auditd</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">5</span></pre></td><td class="code"><pre><span class="line">root       1343      1   1344  0    2 Jul29 ?        00:00:00 auditd</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">6</span></pre></td><td class="code"><pre><span class="line">dbus       1399      1   1399  0    2 Jul29 ?        00:00:00 dbus-daemon --system</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">7</span></pre></td><td class="code"><pre><span class="line">dbus       1399      1   1401  0    2 Jul29 ?        00:00:00 dbus-daemon --system</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">8</span></pre></td><td class="code"><pre><span class="line">daemon    19323      1  19323  0    3 Aug01 ?        00:00:00 &#x2F;export&#x2F;servers&#x2F;oracle&#x2F;11.2.0&#x2F;bin&#x2F;tnslsnr LISTENER -inherit</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">9</span></pre></td><td class="code"><pre><span class="line">daemon    19323      1  19324  0    3 Aug01 ?        00:00:17 &#x2F;export&#x2F;servers&#x2F;oracle&#x2F;11.2.0&#x2F;bin&#x2F;tnslsnr LISTENER -inherit</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">10</span></pre></td><td class="code"><pre><span class="line">daemon    19323      1  19325  0    3 Aug01 ?        00:00:00 &#x2F;export&#x2F;servers&#x2F;oracle&#x2F;11.2.0&#x2F;bin&#x2F;tnslsnr LISTENER -inherit</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">11</span></pre></td><td class="code"><pre><span class="line">root       1377      1   1377  0    4 Jul29 ?        00:00:00 &#x2F;sbin&#x2F;rsyslogd -i &#x2F;var&#x2F;run&#x2F;syslogd.pid -c 5</span></pre></td></tr></table></figure>
+<h2 id="which-whereis-file-与平均负载"><a href="#which-whereis-file-与平均负载" class="headerlink" title="which whereis file 与平均负载"></a>which whereis file 与平均负载</h2><ul>
+<li><strong>which</strong> 命令用来找出某个命令的位置,该命令会在PATH中寻找命令的执行文件位置</li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span></pre></td><td class="code"><pre><span class="line">[dev@localhost ~]$ which ls</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">2</span></pre></td><td class="code"><pre><span class="line">alias ls&#x3D;&#39;ls --color&#x3D;auto&#39;</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">3</span></pre></td><td class="code"><pre><span class="line">        &#x2F;bin&#x2F;ls</span></pre></td></tr></table></figure>
+
+<ul>
+<li><strong>whereis</strong> 与which命令类似，但它不仅返回命令的路径，还能够打印出其对应的命令手册 的位置以及命令源代码的路径</li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span></pre></td><td class="code"><pre><span class="line">[dev@localhost ~]$ whereis ls</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">2</span></pre></td><td class="code"><pre><span class="line">ls: &#x2F;bin&#x2F;ls &#x2F;usr&#x2F;share&#x2F;man&#x2F;man1&#x2F;ls.1.gz</span></pre></td></tr></table></figure>
+
+<ul>
+<li><strong>file</strong> 可以用来打印文件信息</li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span></pre></td><td class="code"><pre><span class="line">[dev@localhost ~]$ file supervisor.md</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">2</span></pre></td><td class="code"><pre><span class="line">supervisor.md: UTF-8 Unicode text</span></pre></td></tr></table></figure>
+
+<ul>
+<li><strong>uptime</strong> 平均负载</li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span></pre></td><td class="code"><pre><span class="line">#1分钟 5分钟 15分钟</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">2</span></pre></td><td class="code"><pre><span class="line">[dev@localhost ~]$ uptime</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">3</span></pre></td><td class="code"><pre><span class="line"> 05:54:10 up 4 days, 19:38,  3 users,  load average: 0.00, 0.00, 0.07</span></pre></td></tr></table></figure>
+
+<h2 id="杀死进程以及发送或响应信号"><a href="#杀死进程以及发送或响应信号" class="headerlink" title="杀死进程以及发送或响应信号"></a>杀死进程以及发送或响应信号</h2><ul>
+<li><strong>信号</strong>是一种进程间通信机制，它用来中断运行中的进程以执行某些操作.</li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span></pre></td><td class="code"><pre><span class="line">#列出所有可用信号</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">2</span></pre></td><td class="code"><pre><span class="line">[dev@localhost ~]$ kill -l</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">3</span></pre></td><td class="code"><pre><span class="line"> 1) SIGHUP       2) SIGINT       3) SIGQUIT      4) SIGILL       5) SIGTRAP</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">4</span></pre></td><td class="code"><pre><span class="line"> 6) SIGABRT      7) SIGBUS       8) SIGFPE       9) SIGKILL     10) SIGUSR1</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">5</span></pre></td><td class="code"><pre><span class="line">11) SIGSEGV     12) SIGUSR2     13) SIGPIPE     14) SIGALRM     15) SIGTERM</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">6</span></pre></td><td class="code"><pre><span class="line">16) SIGSTKFLT   17) SIGCHLD     18) SIGCONT     19) SIGSTOP     20) SIGTSTP</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">7</span></pre></td><td class="code"><pre><span class="line">21) SIGTTIN     22) SIGTTOU     23) SIGURG      24) SIGXCPU     25) SIGXFSZ</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">8</span></pre></td><td class="code"><pre><span class="line">26) SIGVTALRM   27) SIGPROF     28) SIGWINCH    29) SIGIO       30) SIGPWR</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">9</span></pre></td><td class="code"><pre><span class="line">31) SIGSYS      34) SIGRTMIN    35) SIGRTMIN+1  36) SIGRTMIN+2  37) SIGRTMIN+3</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">10</span></pre></td><td class="code"><pre><span class="line">38) SIGRTMIN+4  39) SIGRTMIN+5  40) SIGRTMIN+6  41) SIGRTMIN+7  42) SIGRTMIN+8</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">11</span></pre></td><td class="code"><pre><span class="line">43) SIGRTMIN+9  44) SIGRTMIN+10 45) SIGRTMIN+11 46) SIGRTMIN+12 47) SIGRTMIN+13</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">12</span></pre></td><td class="code"><pre><span class="line">48) SIGRTMIN+14 49) SIGRTMIN+15 50) SIGRTMAX-14 51) SIGRTMAX-13 52) SIGRTMAX-12</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">13</span></pre></td><td class="code"><pre><span class="line">53) SIGRTMAX-11 54) SIGRTMAX-10 55) SIGRTMAX-9  56) SIGRTMAX-8  57) SIGRTMAX-7</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">14</span></pre></td><td class="code"><pre><span class="line">58) SIGRTMAX-6  59) SIGRTMAX-5  60) SIGRTMAX-4  61) SIGRTMAX-3  62) SIGRTMAX-2</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">15</span></pre></td><td class="code"><pre><span class="line">63) SIGRTMAX-1  64) SIGRTMAX</span></pre></td></tr></table></figure>
+
+<ul>
+<li><strong>kill -9 pid</strong> 最常用的强行杀死进程</li>
+<li><strong>killall</strong> 通过命令终止进程 killall -9 process_name</li>
+</ul>
+<h2 id="用cron进行调度-使用crontab-e-进行编辑"><a href="#用cron进行调度-使用crontab-e-进行编辑" class="headerlink" title="用cron进行调度,使用crontab -e 进行编辑"></a>用cron进行调度,使用crontab -e 进行编辑</h2><ul>
+<li>cron表中的每一个条目都由6部分组成，并按照下列顺序排列:<ul>
+<li>分钟(0~59)</li>
+<li>小时(0~23)</li>
+<li>天(1~31)</li>
+<li>月份(1~12)</li>
+<li>工作日(0~6)</li>
+</ul>
+</li>
+<li><strong>*</strong> 指定命令应该在每个时间段执行。也就是说，如果<em>是写在cron作业中的小时字段中，那么命令就会每小时执行一次。与此类似，如果你希望在某个特定时段执行命令，那么就在对应的时间字段中指定时段，并用逗号分隔(例如要在5分钟和10分钟时运行命令，那就在分钟字段中输入”5,10”)。还有另一个不错的选项可以让我们以特定的时间间隔运行命令。在分钟字段使用</em>/5，可以每5分钟运行一次命令。</li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span></pre></td><td class="code"><pre><span class="line">#**号指定了命令在每个时间段执行</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">2</span></pre></td><td class="code"><pre><span class="line">00 02 * * * &#x2F;sbin&#x2F;shutdown -h</span></pre></td></tr></table></figure>
+
+
+
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2019/12/22/Redis/2.%E8%BF%9B%E9%98%B6/" rel="next" title="2-进阶">
+                <i class="fa fa-chevron-left"></i> 2-进阶
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2019/12/22/shell/3.%E7%BD%91%E7%BB%9C/" rel="prev" title="3-网络">
+                3-网络 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+            
+              <img class="site-author-image" itemprop="image"
+                src="/images/logo.jpg"
+                alt="Flex" />
+            
+              <p class="site-author-name" itemprop="name">Flex</p>
+              <p class="site-description motion-element" itemprop="description"></p>
+          </div>
+
+          <nav class="site-state motion-element">
+
+            
+              <div class="site-state-item site-state-posts">
+              
+                <a href="/archives">
+              
+                  <span class="site-state-item-count">38</span>
+                  <span class="site-state-item-name">日志</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-categories">
+                <a href="/categories/index.html">
+                  <span class="site-state-item-count">10</span>
+                  <span class="site-state-item-name">分类</span>
+                </a>
+              </div>
+            
+
+            
+
+          </nav>
+
+          
+
+          
+
+          
+          
+
+          
+          
+
+          
+
+        </div>
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#系统管理"><span class="nav-number">1.</span> <span class="nav-text">系统管理</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#监视磁盘的使用情况"><span class="nav-number">1.1.</span> <span class="nav-text">监视磁盘的使用情况</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#du"><span class="nav-number">1.1.1.</span> <span class="nav-text">du</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#df"><span class="nav-number">1.1.2.</span> <span class="nav-text">df</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#收集系统信息"><span class="nav-number">1.2.</span> <span class="nav-text">收集系统信息</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#who-获取当前用户登陆信息-w-展示详细信息"><span class="nav-number">1.2.1.</span> <span class="nav-text">who 获取当前用户登陆信息,w 展示详细信息</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#watch-命令监视输出"><span class="nav-number">1.2.2.</span> <span class="nav-text">watch 命令监视输出</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#收集进程信息"><span class="nav-number">1.3.</span> <span class="nav-text">收集进程信息</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#ps-是收集进程信息的重要工具"><span class="nav-number">1.3.1.</span> <span class="nav-text">ps 是收集进程信息的重要工具</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#线程相关信息"><span class="nav-number">1.3.2.</span> <span class="nav-text">线程相关信息</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#which-whereis-file-与平均负载"><span class="nav-number">1.4.</span> <span class="nav-text">which whereis file 与平均负载</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#杀死进程以及发送或响应信号"><span class="nav-number">1.5.</span> <span class="nav-text">杀死进程以及发送或响应信号</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#用cron进行调度-使用crontab-e-进行编辑"><span class="nav-number">1.6.</span> <span class="nav-text">用cron进行调度,使用crontab -e 进行编辑</span></a></li></ol></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; <span itemprop="copyrightYear">2019</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Flex</span>
+
+  
+</div>
+
+
+  <div class="powered-by">由 <a class="theme-link" target="_blank" href="https://hexo.io">Hexo</a> 强力驱动</div>
+
+
+
+  <span class="post-meta-divider">|</span>
+
+
+
+  <div class="theme-info">主题 &mdash; <a class="theme-link" target="_blank" href="https://github.com/iissnan/hexo-theme-next">NexT.Pisces</a> v5.1.4</div>
+
+
+
+
+        
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+          <span id="scrollpercent"><span>0</span>%</span>
+        
+      </div>
+    
+
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+  
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.4"></script>
+
+
+
+  
+  
+
+
+  <script type="text/javascript" src="/js/src/affix.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/js/src/schemes/pisces.js?v=5.1.4"></script>
+
+
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.4"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+  
+
+  
+
+  
+
+  
+
+</body>
+</html>
