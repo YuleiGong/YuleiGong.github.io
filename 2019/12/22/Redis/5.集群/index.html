@@ -1,0 +1,793 @@
+<!DOCTYPE html>
+
+
+
+  
+
+
+<html class="theme-next pisces use-motion" lang="zh-Hans">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+
+
+
+  
+
+<link href="//cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.1.4" rel="stylesheet" type="text/css" />
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png?v=5.1.4">
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=5.1.4" color="#222">
+
+
+
+
+
+  <meta name="keywords" content="Hexo, NexT" />
+
+
+
+
+
+
+
+
+
+
+<meta name="description" content="集群 复制 replicaton 哨兵 sentinel  集群 cluster  复制 Redis 提供了replication功能,自动将数据同步到其他数据库。  配置  主数据库(master),从数据库(slave)主数据库可以进行读写操作，从数据库只能进行读操作。同时接受主数据库同步过来的数据。  只要在从数据库中修改 slaveof   属性就可以使用复制功能  默认情况下从数据库是只">
+<meta property="og:type" content="article">
+<meta property="og:title" content="5-集群">
+<meta property="og:url" content="http:&#x2F;&#x2F;yoursite.com&#x2F;2019&#x2F;12&#x2F;22&#x2F;Redis&#x2F;5.%E9%9B%86%E7%BE%A4&#x2F;index.html">
+<meta property="og:site_name" content="Flex">
+<meta property="og:description" content="集群 复制 replicaton 哨兵 sentinel  集群 cluster  复制 Redis 提供了replication功能,自动将数据同步到其他数据库。  配置  主数据库(master),从数据库(slave)主数据库可以进行读写操作，从数据库只能进行读操作。同时接受主数据库同步过来的数据。  只要在从数据库中修改 slaveof   属性就可以使用复制功能  默认情况下从数据库是只">
+<meta property="og:locale" content="zh-Hans">
+<meta property="og:image" content="https:&#x2F;&#x2F;i.loli.net&#x2F;2019&#x2F;12&#x2F;22&#x2F;Re4jdWcVMLI7Qfx.png">
+<meta property="og:updated_time" content="2019-12-22T14:11:25.431Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https:&#x2F;&#x2F;i.loli.net&#x2F;2019&#x2F;12&#x2F;22&#x2F;Re4jdWcVMLI7Qfx.png">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Pisces',
+    version: '5.1.4',
+    sidebar: {"position":"left","display":"post","offset":12,"b2t":false,"scrollpercent":true,"onmobile":false},
+    fancybox: true,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    duoshuo: {
+      userId: '0',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="http://yoursite.com/2019/12/22/Redis/5.集群/"/>
+
+
+
+
+
+  <title>5-集群 | Flex</title>
+  
+
+
+
+
+
+
+
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/"  class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">Flex</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle"></p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br />
+            
+            分类
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-about">
+          <a href="/about" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-user"></i> <br />
+            
+            关于
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2019/12/22/Redis/5.%E9%9B%86%E7%BE%A4/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Flex">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/logo.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Flex">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">5-集群</h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2019-12-22T19:45:33+08:00">
+                2019-12-22
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/Redis/" itemprop="url" rel="index">
+                    <span itemprop="name">Redis</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <h1 id="集群"><a href="#集群" class="headerlink" title="集群"></a>集群</h1><ul>
+<li>复制 replicaton</li>
+<li>哨兵 sentinel </li>
+<li>集群 cluster</li>
+</ul>
+<h2 id="复制"><a href="#复制" class="headerlink" title="复制"></a>复制</h2><ul>
+<li><p>Redis 提供了replication功能,自动将数据同步到其他数据库。</p>
+</li>
+<li><p>配置</p>
+<ul>
+<li><p>主数据库(master),从数据库(slave)主数据库可以进行读写操作，从数据库只能进行读操作。同时接受主数据库同步过来的数据。</p>
+</li>
+<li><p>只要在从数据库中修改 slaveof <masterip> <masterport> 属性就可以使用复制功能</masterport></masterip></p>
+</li>
+<li><p>默认情况下从数据库是只读的,可以设置 slave-read-only 为no 使从数据库可写。但对从数据库可写不会同步数据到其他数据库,一般不使用。</p>
+</li>
+<li><p>演示</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span></pre></td><td class="code"><pre><span class="line"><span class="comment">#启动从数据库,监听主数据库的6379端口</span></span></pre></td></tr><tr><td class="gutter"><pre><span class="line">2</span></pre></td><td class="code"><pre><span class="line">redis-server --port 6380 --slaveof 127.0.0.1 6379</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">3</span></pre></td><td class="code"><pre><span class="line">➜  ~ redis-cli -h 192.168.139.136 -p 6379 <span class="comment">#master</span></span></pre></td></tr><tr><td class="gutter"><pre><span class="line">4</span></pre></td><td class="code"><pre><span class="line">192.168.139.136:6379&gt; SET foo bar</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">5</span></pre></td><td class="code"><pre><span class="line">OK</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">6</span></pre></td><td class="code"><pre><span class="line">➜  ~ redis-cli -h 192.168.139.136 -p 6380 <span class="comment">#slave</span></span></pre></td></tr><tr><td class="gutter"><pre><span class="line">7</span></pre></td><td class="code"><pre><span class="line">192.168.139.136:6380&gt; INFO reliication</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">8</span></pre></td><td class="code"><pre><span class="line">192.168.139.136:6380&gt; GET foo</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">9</span></pre></td><td class="code"><pre><span class="line"><span class="string">"bar"</span></span></pre></td></tr><tr><td class="gutter"><pre><span class="line">10</span></pre></td><td class="code"><pre><span class="line">192.168.139.136:6380&gt; SET FOO hi<span class="comment">#默认情况slave是只读的,修改会报错</span></span></pre></td></tr><tr><td class="gutter"><pre><span class="line">11</span></pre></td><td class="code"><pre><span class="line">(error) READONLY You can<span class="string">'t write against a read only slave.</span></span></pre></td></tr></table></figure></li>
+</ul>
+</li>
+<li><p>原理:当从数据里启动后,会向主数据库发送SYNC命令,主数据库收到命令后,开始在后台保存快照(RDB),并将接受到的命令缓存起来。当快照完成后,redis会将快照和所有缓存命令发送给从数据库,从而保证主从一致。从数据库会增量复制主数据库的内容</p>
+</li>
+<li><p>通过复制可以实现读写分离，这种一主多从很适合读多写少的场景。</p>
+</li>
+<li><p>主数据库崩溃后，手工通过从数据库恢复主数据库数据步骤:</p>
+<ul>
+<li>在从数据中使用SLAVEOF NO ONE 命令将从数据库提升成主数据库继续服务。</li>
+<li>启动之前奔溃的主数据库,然后使用SLAVEOF 命令将其设置成新的主数据库的从数据库既可将数据同步过来。</li>
+</ul>
+</li>
+</ul>
+<h2 id="哨兵"><a href="#哨兵" class="headerlink" title="哨兵"></a>哨兵</h2><ul>
+<li><p>哨兵的作用就是监控Redis系统的运行状态</p>
+<ul>
+<li>监控主数据库和从数据库是否正常运行</li>
+<li>主数据库出现故障自动将从数据转换为主数据库</li>
+<li>哨兵之间可以相互监控<br><a href="https://sm.ms/image/Re4jdWcVMLI7Qfx" target="_blank"><img src="https://i.loli.net/2019/12/22/Re4jdWcVMLI7Qfx.png" alt="哨兵.png"></a></li>
+</ul>
+</li>
+<li><p>使用</p>
+<ul>
+<li><p>配置文件 sentinel.conf</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span></pre></td><td class="code"><pre><span class="line">   <span class="comment">#sentinel.conf</span></span></pre></td></tr><tr><td class="gutter"><pre><span class="line">2</span></pre></td><td class="code"><pre><span class="line">   sentinel monitor master 127.0.0.1 6379 1 <span class="comment">#master主数据库名字 ip 端口</span></span></pre></td></tr><tr><td class="gutter"><pre><span class="line">3</span></pre></td><td class="code"><pre><span class="line">   <span class="comment">#启动</span></span></pre></td></tr><tr><td class="gutter"><pre><span class="line">4</span></pre></td><td class="code"><pre><span class="line">redis-sentinel sentinel.conf</span></pre></td></tr></table></figure></li>
+<li><p>杀死主数据库,哨兵日志</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span></pre></td><td class="code"><pre><span class="line"><span class="comment">#表示监控到主数据库停止服务</span></span></pre></td></tr><tr><td class="gutter"><pre><span class="line">2</span></pre></td><td class="code"><pre><span class="line">86533:X 07 Aug 08:01:08.742 <span class="comment"># +sdown master master 127.0.0.1 6379</span></span></pre></td></tr><tr><td class="gutter"><pre><span class="line">3</span></pre></td><td class="code"><pre><span class="line">86533:X 07 Aug 08:01:08.743 <span class="comment"># +odown master master 127.0.0.1 6379 #quorum 1/1</span></span></pre></td></tr><tr><td class="gutter"><pre><span class="line">4</span></pre></td><td class="code"><pre><span class="line"></span></pre></td></tr><tr><td class="gutter"><pre><span class="line">5</span></pre></td><td class="code"><pre><span class="line">86533:X 07 Aug 08:01:08.743 <span class="comment"># +new-epoch 1</span></span></pre></td></tr><tr><td class="gutter"><pre><span class="line">6</span></pre></td><td class="code"><pre><span class="line"><span class="comment">#开始故障恢复</span></span></pre></td></tr><tr><td class="gutter"><pre><span class="line">7</span></pre></td><td class="code"><pre><span class="line">86533:X 07 Aug 08:01:08.743 <span class="comment"># +try-failover master master 127.0.0.1 6379</span></span></pre></td></tr><tr><td class="gutter"><pre><span class="line">8</span></pre></td><td class="code"><pre><span class="line">86533:X 07 Aug 08:01:08.754 <span class="comment"># +vote-for-leader 50c166d2b570857cf006a0b3e39fb9796f12e4ad 1</span></span></pre></td></tr><tr><td class="gutter"><pre><span class="line">9</span></pre></td><td class="code"><pre><span class="line">86533:X 07 Aug 08:01:08.754 <span class="comment"># +elected-leader master master 127.0.0.1 6379</span></span></pre></td></tr><tr><td class="gutter"><pre><span class="line">10</span></pre></td><td class="code"><pre><span class="line">86533:X 07 Aug 08:01:08.754 <span class="comment"># +failover-state-select-slave master master 127.0.0.1 6379</span></span></pre></td></tr><tr><td class="gutter"><pre><span class="line">11</span></pre></td><td class="code"><pre><span class="line">86533:X 07 Aug 08:01:08.809 <span class="comment"># +selected-slave slave 127.0.0.1:6380 127.0.0.1 6380 @ master 127.0.0.1 6379</span></span></pre></td></tr><tr><td class="gutter"><pre><span class="line">12</span></pre></td><td class="code"><pre><span class="line">86533:X 07 Aug 08:01:08.809 * +failover-state-send-slaveof-noone slave 127.0.0.1:6380 127.0.0.1 6380 @ master 127.0.0.1 6379</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">13</span></pre></td><td class="code"><pre><span class="line">86533:X 07 Aug 08:01:08.876 * +failover-state-wait-promotion slave 127.0.0.1:6380 127.0.0.1 6380 @ master 127.0.0.1 6379</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">14</span></pre></td><td class="code"><pre><span class="line">86533:X 07 Aug 08:01:09.818 <span class="comment"># +promoted-slave slave 127.0.0.1:6380 127.0.0.1 6380 @ master 127.0.0.1 6379</span></span></pre></td></tr><tr><td class="gutter"><pre><span class="line">15</span></pre></td><td class="code"><pre><span class="line">86533:X 07 Aug 08:01:09.818 <span class="comment"># +failover-state-reconf-slaves master master 127.0.0.1 6379</span></span></pre></td></tr><tr><td class="gutter"><pre><span class="line">16</span></pre></td><td class="code"><pre><span class="line">86533:X 07 Aug 08:01:09.897 * +slave-reconf-sent slave 127.0.0.1:6381 127.0.0.1 6381 @ master 127.0.0.1 6379</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">17</span></pre></td><td class="code"><pre><span class="line">86533:X 07 Aug 08:01:10.451 * +slave-reconf-inprog slave 127.0.0.1:6381 127.0.0.1 6381 @ master 127.0.0.1 6379</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">18</span></pre></td><td class="code"><pre><span class="line">86533:X 07 Aug 08:01:10.451 * +slave-reconf-done slave 127.0.0.1:6381 127.0.0.1 6381 @ master 127.0.0.1 6379</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">19</span></pre></td><td class="code"><pre><span class="line"><span class="comment">#故障恢复完毕</span></span></pre></td></tr><tr><td class="gutter"><pre><span class="line">20</span></pre></td><td class="code"><pre><span class="line">86533:X 07 Aug 08:01:10.551 <span class="comment"># +failover-end master master 127.0.0.1 6379</span></span></pre></td></tr><tr><td class="gutter"><pre><span class="line">21</span></pre></td><td class="code"><pre><span class="line"><span class="comment">#表示主数据库从6379迁移到6380</span></span></pre></td></tr><tr><td class="gutter"><pre><span class="line">22</span></pre></td><td class="code"><pre><span class="line">86533:X 07 Aug 08:01:10.551 <span class="comment"># +switch-master master 127.0.0.1 6379 127.0.0.1 6380</span></span></pre></td></tr><tr><td class="gutter"><pre><span class="line">23</span></pre></td><td class="code"><pre><span class="line"><span class="comment">#列出新的从数据库6379 6381</span></span></pre></td></tr><tr><td class="gutter"><pre><span class="line">24</span></pre></td><td class="code"><pre><span class="line">86533:X 07 Aug 08:01:10.551 * +slave slave 127.0.0.1:6381 127.0.0.1 6381 @ master 127.0.0.1 6380</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">25</span></pre></td><td class="code"><pre><span class="line">86533:X 07 Aug 08:01:40.598 <span class="comment"># +sdown slave 127.0.0.1:6379 127.0.0.1 6379 @ master 127.0.0.1 6380</span></span></pre></td></tr></table></figure>
+
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span></pre></td><td class="code"><pre><span class="line"><span class="comment">#主数据库</span></span></pre></td></tr><tr><td class="gutter"><pre><span class="line">2</span></pre></td><td class="code"><pre><span class="line">192.168.139.136:6380&gt; INFO replication</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">3</span></pre></td><td class="code"><pre><span class="line"><span class="comment"># Replication</span></span></pre></td></tr><tr><td class="gutter"><pre><span class="line">4</span></pre></td><td class="code"><pre><span class="line">role:master</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">5</span></pre></td><td class="code"><pre><span class="line">connected_slaves:1</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">6</span></pre></td><td class="code"><pre><span class="line">slave0:ip=127.0.0.1,port=6381,state=online,offset=41595,lag=0</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">7</span></pre></td><td class="code"><pre><span class="line">master_repl_offset:41726</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">8</span></pre></td><td class="code"><pre><span class="line">repl_backlog_active:1</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">9</span></pre></td><td class="code"><pre><span class="line">repl_backlog_size:1048576</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">10</span></pre></td><td class="code"><pre><span class="line">repl_backlog_first_byte_offset:2</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">11</span></pre></td><td class="code"><pre><span class="line">repl_backlog_histlen:41725</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">12</span></pre></td><td class="code"><pre><span class="line"><span class="comment">#从数据库</span></span></pre></td></tr><tr><td class="gutter"><pre><span class="line">13</span></pre></td><td class="code"><pre><span class="line">192.168.139.136:6381&gt; INFO replication</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">14</span></pre></td><td class="code"><pre><span class="line"><span class="comment"># Replication</span></span></pre></td></tr><tr><td class="gutter"><pre><span class="line">15</span></pre></td><td class="code"><pre><span class="line">role:slave</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">16</span></pre></td><td class="code"><pre><span class="line">master_host:127.0.0.1</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">17</span></pre></td><td class="code"><pre><span class="line">master_port:6380</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">18</span></pre></td><td class="code"><pre><span class="line">master_link_status:up</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">19</span></pre></td><td class="code"><pre><span class="line">master_last_io_seconds_ago:2</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">20</span></pre></td><td class="code"><pre><span class="line">master_sync_in_progress:0</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">21</span></pre></td><td class="code"><pre><span class="line">slave_repl_offset:53375</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">22</span></pre></td><td class="code"><pre><span class="line">slave_priority:100</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">23</span></pre></td><td class="code"><pre><span class="line">slave_read_only:1</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">24</span></pre></td><td class="code"><pre><span class="line">connected_slaves:0</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">25</span></pre></td><td class="code"><pre><span class="line">master_repl_offset:0</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">26</span></pre></td><td class="code"><pre><span class="line">repl_backlog_active:0</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">27</span></pre></td><td class="code"><pre><span class="line">repl_backlog_size:1048576</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">28</span></pre></td><td class="code"><pre><span class="line">repl_backlog_first_byte_offset:0</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">29</span></pre></td><td class="code"><pre><span class="line">repl_backlog_histlen:0</span></pre></td></tr></table></figure></li>
+<li><p>主数据库恢复,哨兵监控到,添加一个从数据库(6379)</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span></pre></td><td class="code"><pre><span class="line">86533:X 07 Aug 08:19:26.650 <span class="comment"># -sdown slave 127.0.0.1:6379 127.0.0.1 6379 @ master 127.0.0.1 6380</span></span></pre></td></tr><tr><td class="gutter"><pre><span class="line">2</span></pre></td><td class="code"><pre><span class="line">86533:X 07 Aug 08:19:36.596 * +convert-to-slave slave 127.0.0.1:6379 127.0.0.1 6379 @ master 127.0.0.1 6380</span></pre></td></tr></table></figure>
+<h2 id="集群-1"><a href="#集群-1" class="headerlink" title="集群"></a>集群</h2></li>
+</ul>
+</li>
+<li><p>即使使用哨兵,集群中的每个数据库依然存有集群中的所有数据,从而导致集群存储总数受限于最小可用存储内存,形成木桶效应。</p>
+</li>
+<li><p>配置集群,只需将每个节点的cluster-enabled配置选项打开,每个集群至少需要3个主数据库才能正常运行</p>
+</li>
+<li><p>3主3从的集群系统例子:</p>
+<ul>
+<li><p>1.redis.conf 配置文件,1.需要设置port 2.cluster-enabled yes(集群开启) cluster-config-fule nodes.conf(集群状态,每个节点的文件名需不同)</p>
+</li>
+<li><p>2.使用redis-cli 的INFO cluster 判断个节点状</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span></pre></td><td class="code"><pre><span class="line">(py36) ➜  code redis-cli -p 6381</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">2</span></pre></td><td class="code"><pre><span class="line">127.0.0.1:6381&gt; INfo cluster</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">3</span></pre></td><td class="code"><pre><span class="line"><span class="comment"># Cluster</span></span></pre></td></tr><tr><td class="gutter"><pre><span class="line">4</span></pre></td><td class="code"><pre><span class="line">cluster_enabled:1</span></pre></td></tr></table></figure></li>
+<li><p>3.使用redis-cli启动集群,create 表示初始化集群 –cluster-replicas 表示每个主数据库拥有的从数据库个数,整个集群共有3个主数据库,3个从数据库</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span></pre></td><td class="code"><pre><span class="line">➜  src redis-cli --cluster create 127.0.0.1:6380 127.0.0.1:6381 127.0.0.1:6382 127.0.0.1:6383 127.0.</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">2</span></pre></td><td class="code"><pre><span class="line">0.1:6384 127.0.0.1:6385 --cluster-replicas 1</span></pre></td></tr></table></figure></li>
+<li><p>4.启动完成后,使用redis-cli 连接任一节点,CLUSTER NODES 查看集群信息,可以看到3主3从的配置</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span></pre></td><td class="code"><pre><span class="line">(py36) ➜  ~ redis-cli -p 6380</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">2</span></pre></td><td class="code"><pre><span class="line">127.0.0.1:6380&gt; CLUSTER NODES</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">3</span></pre></td><td class="code"><pre><span class="line">f10aa02917f157d8a925bda72db963043f45f108 127.0.0.1:6380@16380 myself,master - 0 1565275572000 1 connected 0-5460</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">4</span></pre></td><td class="code"><pre><span class="line">addc7d24a68af034d40006d20832ab99a148201e 127.0.0.1:6384@16384 slave f10aa02917f157d8a925bda72db96304</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">5</span></pre></td><td class="code"><pre><span class="line">3f45f108 0 1565275573604 5 connected</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">6</span></pre></td><td class="code"><pre><span class="line">daf5a0e3249fde4296f120faee4b017213edef4c 127.0.0.1:6382@16382 master - 0 1565275574643 3 connected 10923-16383</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">7</span></pre></td><td class="code"><pre><span class="line">938b8cfe54aa52b9b22fc43b00887be7954e9860 127.0.0.1:6383@16383 slave daf5a0e3249fde4296f120faee4b0172</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">8</span></pre></td><td class="code"><pre><span class="line">13edef4c 0 1565275573000 4 connected</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">9</span></pre></td><td class="code"><pre><span class="line">5456ee3a7013360636def2bac3ca28dcb44cb105 127.0.0.1:6385@16385 slave a3936dd7769f42c7e94f5514cc8e7437</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">10</span></pre></td><td class="code"><pre><span class="line">e05a216e 0 1565275574000 6 connected</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">11</span></pre></td><td class="code"><pre><span class="line">a3936dd7769f42c7e94f5514cc8e7437e05a216e 127.0.0.1:6381@16381 master - 0 1565275573000 2 connected 5</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">12</span></pre></td><td class="code"><pre><span class="line">461-10922</span></pre></td></tr></table></figure></li>
+</ul>
+</li>
+<li><p>节点的增加:增加节点只需要使用命令 CLUSTER MEET ip port ip和port是集群中任一节点的地址和端口号。</p>
+</li>
+<li><p>插槽的分配:新加入的节点,要么使用cluster replcate 命令复制每个主数据库来以从数据库的形式运行。要么向集群中申请分配插槽(slot)来以主数据库的形式来运行</p>
+<ul>
+<li><p>插槽之前没有被分配过,现在想分配给指定的节点,使用 <code>CLUSTER ADDSLOTS slot1 slot2</code>, 查看现有插槽分配情况</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span></pre></td><td class="code"><pre><span class="line">127.0.0.1:6380&gt; CLUSTER SLOTS</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">2</span></pre></td><td class="code"><pre><span class="line">1) 1) (<span class="built_in">integer</span>) 0 <span class="comment">#插槽的开始节点和结束节点</span></span></pre></td></tr><tr><td class="gutter"><pre><span class="line">3</span></pre></td><td class="code"><pre><span class="line">   2) (<span class="built_in">integer</span>) 5460</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">4</span></pre></td><td class="code"><pre><span class="line">	<span class="comment">#负责该插槽的节点</span></span></pre></td></tr><tr><td class="gutter"><pre><span class="line">5</span></pre></td><td class="code"><pre><span class="line">   3) 1) <span class="string">"127.0.0.1"</span></span></pre></td></tr><tr><td class="gutter"><pre><span class="line">6</span></pre></td><td class="code"><pre><span class="line">	  2) (<span class="built_in">integer</span>) 6380</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">7</span></pre></td><td class="code"><pre><span class="line">	  3) <span class="string">"f10aa02917f157d8a925bda72db963043f45f108"</span></span></pre></td></tr><tr><td class="gutter"><pre><span class="line">8</span></pre></td><td class="code"><pre><span class="line">   4) 1) <span class="string">"127.0.0.1"</span></span></pre></td></tr><tr><td class="gutter"><pre><span class="line">9</span></pre></td><td class="code"><pre><span class="line">	  2) (<span class="built_in">integer</span>) 6384</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">10</span></pre></td><td class="code"><pre><span class="line">	  3) <span class="string">"addc7d24a68af034d40006d20832ab99a148201e"</span></span></pre></td></tr><tr><td class="gutter"><pre><span class="line">11</span></pre></td><td class="code"><pre><span class="line">2) 1) (<span class="built_in">integer</span>) 10923</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">12</span></pre></td><td class="code"><pre><span class="line">   2) (<span class="built_in">integer</span>) 16383</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">13</span></pre></td><td class="code"><pre><span class="line">   3) 1) <span class="string">"127.0.0.1"</span></span></pre></td></tr><tr><td class="gutter"><pre><span class="line">14</span></pre></td><td class="code"><pre><span class="line">	  2) (<span class="built_in">integer</span>) 6382</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">15</span></pre></td><td class="code"><pre><span class="line">	  3) <span class="string">"daf5a0e3249fde4296f120faee4b017213edef4c"</span></span></pre></td></tr><tr><td class="gutter"><pre><span class="line">16</span></pre></td><td class="code"><pre><span class="line">   4) 1) <span class="string">"127.0.0.1"</span></span></pre></td></tr><tr><td class="gutter"><pre><span class="line">17</span></pre></td><td class="code"><pre><span class="line">	  2) (<span class="built_in">integer</span>) 6383</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">18</span></pre></td><td class="code"><pre><span class="line">	  3) <span class="string">"938b8cfe54aa52b9b22fc43b00887be7954e9860"</span></span></pre></td></tr><tr><td class="gutter"><pre><span class="line">19</span></pre></td><td class="code"><pre><span class="line">3) 1) (<span class="built_in">integer</span>) 5461</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">20</span></pre></td><td class="code"><pre><span class="line">   2) (<span class="built_in">integer</span>) 10922</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">21</span></pre></td><td class="code"><pre><span class="line">   3) 1) <span class="string">"127.0.0.1"</span></span></pre></td></tr><tr><td class="gutter"><pre><span class="line">22</span></pre></td><td class="code"><pre><span class="line">	  2) (<span class="built_in">integer</span>) 6381</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">23</span></pre></td><td class="code"><pre><span class="line">	  3) <span class="string">"a3936dd7769f42c7e94f5514cc8e7437e05a216e"</span></span></pre></td></tr><tr><td class="gutter"><pre><span class="line">24</span></pre></td><td class="code"><pre><span class="line">   4) 1) <span class="string">"127.0.0.1"</span></span></pre></td></tr><tr><td class="gutter"><pre><span class="line">25</span></pre></td><td class="code"><pre><span class="line">	  2) (<span class="built_in">integer</span>) 6385</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">26</span></pre></td><td class="code"><pre><span class="line">	  3) <span class="string">"5456ee3a7013360636def2bac3ca28dcb44cb105"</span></span></pre></td></tr></table></figure></li>
+<li><p>插槽之前被分配过,现在想移动到指定节点 TODO</p>
+</li>
+</ul>
+</li>
+</ul>
+
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2019/12/22/Redis/6.%E7%AE%A1%E7%90%86/" rel="next" title="6-管理">
+                <i class="fa fa-chevron-left"></i> 6-管理
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2019/12/22/Redis/README/" rel="prev" title="Redis/README">
+                Redis/README <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+            
+              <img class="site-author-image" itemprop="image"
+                src="/images/logo.jpg"
+                alt="Flex" />
+            
+              <p class="site-author-name" itemprop="name">Flex</p>
+              <p class="site-description motion-element" itemprop="description"></p>
+          </div>
+
+          <nav class="site-state motion-element">
+
+            
+              <div class="site-state-item site-state-posts">
+              
+                <a href="/archives">
+              
+                  <span class="site-state-item-count">33</span>
+                  <span class="site-state-item-name">日志</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-categories">
+                <a href="/categories/index.html">
+                  <span class="site-state-item-count">8</span>
+                  <span class="site-state-item-name">分类</span>
+                </a>
+              </div>
+            
+
+            
+
+          </nav>
+
+          
+
+          
+
+          
+          
+
+          
+          
+
+          
+
+        </div>
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#集群"><span class="nav-number">1.</span> <span class="nav-text">集群</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#复制"><span class="nav-number">1.1.</span> <span class="nav-text">复制</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#哨兵"><span class="nav-number">1.2.</span> <span class="nav-text">哨兵</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#集群-1"><span class="nav-number">1.3.</span> <span class="nav-text">集群</span></a></li></ol></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; <span itemprop="copyrightYear">2019</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Flex</span>
+
+  
+</div>
+
+
+  <div class="powered-by">由 <a class="theme-link" target="_blank" href="https://hexo.io">Hexo</a> 强力驱动</div>
+
+
+
+  <span class="post-meta-divider">|</span>
+
+
+
+  <div class="theme-info">主题 &mdash; <a class="theme-link" target="_blank" href="https://github.com/iissnan/hexo-theme-next">NexT.Pisces</a> v5.1.4</div>
+
+
+
+
+        
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+          <span id="scrollpercent"><span>0</span>%</span>
+        
+      </div>
+    
+
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+  
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.4"></script>
+
+
+
+  
+  
+
+
+  <script type="text/javascript" src="/js/src/affix.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/js/src/schemes/pisces.js?v=5.1.4"></script>
+
+
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.4"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+  
+
+  
+
+  
+
+  
+
+</body>
+</html>
