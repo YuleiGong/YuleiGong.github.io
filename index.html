@@ -709,7 +709,7 @@ FIFO
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2019/12/22/Redis/%E5%90%8D%E8%AF%8D%E9%87%8A%E4%B9%89/">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2019/12/22/Redis/5.%E9%9B%86%E7%BE%A4/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="Flex">
@@ -728,7 +728,7 @@ FIFO
         
           <h1 class="post-title" itemprop="name headline">
                 
-                <a class="post-title-link" href="/2019/12/22/Redis/%E5%90%8D%E8%AF%8D%E9%87%8A%E4%B9%89/" itemprop="url">6-名词释义</a></h1>
+                <a class="post-title-link" href="/2019/12/22/Redis/5.%E9%9B%86%E7%BE%A4/" itemprop="url">5-集群</a></h1>
         
 
         <div class="post-meta">
@@ -802,16 +802,21 @@ FIFO
       
         
           
-          名称解释
-TTL:Time to Live(生存时间)
-竞态条件:一个系统或者进程的输出,依赖不受控制的事件的出现顺序或出现时机
-原子操作:原子操作是最小执行单位,不会在执行过程中被其他命令插入打断
-transaction:事务。事物是一组命令的集合,一个事物中的命令要么都执行，要么都不执行。
-RO
+          集群
+复制 replicaton
+哨兵 sentinel 
+集群 cluster
+
+复制
+Redis 提供了replication功能,自动将数据同步到其他数据库。
+
+配置
+
+主数据库(master),从数据库(slave)主数据库可以进行读写操作，从数据库只能进行读操作。同时接受主数据库同步过来的
           ...
           <!--noindex-->
           <div class="post-button text-center">
-            <a class="btn" href="/2019/12/22/Redis/%E5%90%8D%E8%AF%8D%E9%87%8A%E4%B9%89/#more" rel="contents">
+            <a class="btn" href="/2019/12/22/Redis/5.%E9%9B%86%E7%BE%A4/#more" rel="contents">
               阅读全文 &raquo;
             </a>
           </div>
@@ -1014,7 +1019,7 @@ RO
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2019/12/22/Redis/5.%E9%9B%86%E7%BE%A4/">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2019/12/22/Redis/%E5%90%8D%E8%AF%8D%E9%87%8A%E4%B9%89/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="Flex">
@@ -1033,7 +1038,7 @@ RO
         
           <h1 class="post-title" itemprop="name headline">
                 
-                <a class="post-title-link" href="/2019/12/22/Redis/5.%E9%9B%86%E7%BE%A4/" itemprop="url">5-集群</a></h1>
+                <a class="post-title-link" href="/2019/12/22/Redis/%E5%90%8D%E8%AF%8D%E9%87%8A%E4%B9%89/" itemprop="url">6-名词释义</a></h1>
         
 
         <div class="post-meta">
@@ -1107,21 +1112,16 @@ RO
       
         
           
-          集群
-复制 replicaton
-哨兵 sentinel 
-集群 cluster
-
-复制
-Redis 提供了replication功能,自动将数据同步到其他数据库。
-
-配置
-
-主数据库(master),从数据库(slave)主数据库可以进行读写操作，从数据库只能进行读操作。同时接受主数据库同步过来的
+          名称解释
+TTL:Time to Live(生存时间)
+竞态条件:一个系统或者进程的输出,依赖不受控制的事件的出现顺序或出现时机
+原子操作:原子操作是最小执行单位,不会在执行过程中被其他命令插入打断
+transaction:事务。事物是一组命令的集合,一个事物中的命令要么都执行，要么都不执行。
+RO
           ...
           <!--noindex-->
           <div class="post-button text-center">
-            <a class="btn" href="/2019/12/22/Redis/5.%E9%9B%86%E7%BE%A4/#more" rel="contents">
+            <a class="btn" href="/2019/12/22/Redis/%E5%90%8D%E8%AF%8D%E9%87%8A%E4%B9%89/#more" rel="contents">
               阅读全文 &raquo;
             </a>
           </div>
