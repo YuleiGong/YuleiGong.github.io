@@ -81,14 +81,14 @@
 
 
 
-<meta name="description" content="py_redis1pip install redis  1import redis2&amp;gt;&amp;gt;&amp;gt; r &#x3D; redis.StrictRedis(host&#x3D;&quot;192.168.139.136&quot;,port&#x3D;6379,db&#x3D;0)3&amp;gt;&amp;gt;&amp;gt; r.set(&amp;apos;foo&amp;apos;, &amp;apos;bar&amp;apos;)4True5&amp;gt;&amp;gt;&amp;gt; r.get(&amp;apos;foo&amp;apos;)6b&amp;apos;bar&amp;apos;7&amp;gt;&amp;gt;&amp;gt;">
+<meta name="description" content="标签管理 使用场景:发布一个版本时,我们通常先在版本库中打一个标签（tag），这样，就唯一确定了打标签时刻的版本。将来无论什么时候，取某个标签的版本，就是把那个打标签的时刻的历史版本取出来。所以，标签也是版本库的一个快照。 Git的标签虽然是版本库的快照，但其实它就是指向某个commit的指针（跟分支很像对不对？但是分支可以移动，标签不能移动），所以，创建和删除标签都是瞬间完成的。  创建标签 切">
 <meta property="og:type" content="article">
-<meta property="og:title" content="3-pyredis">
-<meta property="og:url" content="http:&#x2F;&#x2F;yoursite.com&#x2F;2019&#x2F;12&#x2F;22&#x2F;Redis&#x2F;3.py_redis&#x2F;index.html">
+<meta property="og:title" content="5-标签管理">
+<meta property="og:url" content="http:&#x2F;&#x2F;yoursite.com&#x2F;2020&#x2F;01&#x2F;25&#x2F;Git&#x2F;5.git-%E6%A0%87%E7%AD%BE%E7%AE%A1%E7%90%86&#x2F;index.html">
 <meta property="og:site_name" content="Flex">
-<meta property="og:description" content="py_redis1pip install redis  1import redis2&amp;gt;&amp;gt;&amp;gt; r &#x3D; redis.StrictRedis(host&#x3D;&quot;192.168.139.136&quot;,port&#x3D;6379,db&#x3D;0)3&amp;gt;&amp;gt;&amp;gt; r.set(&amp;apos;foo&amp;apos;, &amp;apos;bar&amp;apos;)4True5&amp;gt;&amp;gt;&amp;gt; r.get(&amp;apos;foo&amp;apos;)6b&amp;apos;bar&amp;apos;7&amp;gt;&amp;gt;&amp;gt;">
+<meta property="og:description" content="标签管理 使用场景:发布一个版本时,我们通常先在版本库中打一个标签（tag），这样，就唯一确定了打标签时刻的版本。将来无论什么时候，取某个标签的版本，就是把那个打标签的时刻的历史版本取出来。所以，标签也是版本库的一个快照。 Git的标签虽然是版本库的快照，但其实它就是指向某个commit的指针（跟分支很像对不对？但是分支可以移动，标签不能移动），所以，创建和删除标签都是瞬间完成的。  创建标签 切">
 <meta property="og:locale" content="zh-Hans">
-<meta property="og:updated_time" content="2019-12-22T14:03:07.671Z">
+<meta property="og:updated_time" content="2020-01-25T14:47:51.561Z">
 <meta name="twitter:card" content="summary">
 
 
@@ -119,13 +119,13 @@
 
 
 
-  <link rel="canonical" href="http://yoursite.com/2019/12/22/Redis/3.py_redis/"/>
+  <link rel="canonical" href="http://yoursite.com/2020/01/25/Git/5.git-标签管理/"/>
 
 
 
 
 
-  <title>3-pyredis | Flex</title>
+  <title>5-标签管理 | Flex</title>
   
 
 
@@ -242,7 +242,7 @@
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2019/12/22/Redis/3.py_redis/">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2020/01/25/Git/5.git-%E6%A0%87%E7%AD%BE%E7%AE%A1%E7%90%86/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="Flex">
@@ -259,7 +259,7 @@
 
         
         
-          <h1 class="post-title" itemprop="name headline">3-pyredis</h1>
+          <h1 class="post-title" itemprop="name headline">5-标签管理</h1>
         
 
         <div class="post-meta">
@@ -271,8 +271,8 @@
               
                 <span class="post-meta-item-text">发表于</span>
               
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2019-12-22T19:43:33+08:00">
-                2019-12-22
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2020-01-25T22:47:33+08:00">
+                2020-01-25
               </time>
             
 
@@ -294,8 +294,8 @@
               
               
                 <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/Redis/" itemprop="url" rel="index">
-                    <span itemprop="name">Redis</span>
+                  <a href="/categories/Git/" itemprop="url" rel="index">
+                    <span itemprop="name">Git</span>
                   </a>
                 </span>
 
@@ -331,19 +331,37 @@
       
 
       
-        <h1 id="py-redis"><a href="#py-redis" class="headerlink" title="py_redis"></a>py_redis</h1><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span></pre></td><td class="code"><pre><span class="line">pip install redis</span></pre></td></tr></table></figure>
-
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span></pre></td><td class="code"><pre><span class="line">import redis</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">2</span></pre></td><td class="code"><pre><span class="line">&gt;&gt;&gt; r = redis.StrictRedis(host=<span class="string">"192.168.139.136"</span>,port=6379,db=0)</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">3</span></pre></td><td class="code"><pre><span class="line">&gt;&gt;&gt; r.set(<span class="string">'foo'</span>, <span class="string">'bar'</span>)</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">4</span></pre></td><td class="code"><pre><span class="line">True</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">5</span></pre></td><td class="code"><pre><span class="line">&gt;&gt;&gt; r.get(<span class="string">'foo'</span>)</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">6</span></pre></td><td class="code"><pre><span class="line">b<span class="string">'bar'</span></span></pre></td></tr><tr><td class="gutter"><pre><span class="line">7</span></pre></td><td class="code"><pre><span class="line">&gt;&gt;&gt; r.get(<span class="string">'foo'</span>)</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">8</span></pre></td><td class="code"><pre><span class="line">b<span class="string">'bar'</span></span></pre></td></tr><tr><td class="gutter"><pre><span class="line">9</span></pre></td><td class="code"><pre><span class="line">&gt;&gt;&gt; r.get(<span class="string">'foo'</span>).decode(<span class="string">'utf8'</span>)</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">10</span></pre></td><td class="code"><pre><span class="line"><span class="string">'bar'</span></span></pre></td></tr><tr><td class="gutter"><pre><span class="line">11</span></pre></td><td class="code"><pre><span class="line">&gt;&gt;&gt; r.hmset(<span class="string">'dict'</span>, &#123;<span class="string">'name'</span>:<span class="string">'Bob'</span>&#125;)</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">12</span></pre></td><td class="code"><pre><span class="line">True</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">13</span></pre></td><td class="code"><pre><span class="line">&gt;&gt;&gt; <span class="built_in">print</span> (<span class="built_in">type</span>(people))</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">14</span></pre></td><td class="code"><pre><span class="line">&lt;class <span class="string">'dict'</span>&gt;</span></pre></td></tr></table></figure>
-
-<h2 id="事物和管道"><a href="#事物和管道" class="headerlink" title="事物和管道"></a>事物和管道</h2><ul>
-<li>事物</li>
+        <h1 id="标签管理"><a href="#标签管理" class="headerlink" title="标签管理"></a>标签管理</h1><ul>
+<li><strong>使用场景</strong>:发布一个版本时,我们通常先在版本库中打一个标签（tag），这样，就唯一确定了打标签时刻的版本。将来无论什么时候，取某个标签的版本，就是把那个打标签的时刻的历史版本取出来。所以，标签也是版本库的一个快照。</li>
+<li>Git的标签虽然是版本库的快照，但其实它就是指向某个commit的指针（跟分支很像对不对？但是分支可以移动，标签不能移动），所以，创建和删除标签都是瞬间完成的。</li>
 </ul>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span></pre></td><td class="code"><pre><span class="line">&gt;&gt;&gt; pipe = r.pipeline()</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">2</span></pre></td><td class="code"><pre><span class="line">&gt;&gt;&gt; pipe.set(<span class="string">'foo'</span>,<span class="string">'bar'</span>)</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">3</span></pre></td><td class="code"><pre><span class="line">Pipeline&lt;ConnectionPool&lt;Connection&lt;host=192.168.139.136,port=6379,db=0&gt;&gt;&gt;</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">4</span></pre></td><td class="code"><pre><span class="line">&gt;&gt;&gt; pipe.get(<span class="string">'foo'</span>)</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">5</span></pre></td><td class="code"><pre><span class="line">Pipeline&lt;ConnectionPool&lt;Connection&lt;host=192.168.139.136,port=6379,db=0&gt;&gt;&gt;</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">6</span></pre></td><td class="code"><pre><span class="line">&gt;&gt;&gt; result = pipe.execute()</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">7</span></pre></td><td class="code"><pre><span class="line">&gt;&gt;&gt; <span class="built_in">print</span> (result)</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">8</span></pre></td><td class="code"><pre><span class="line">[True, b<span class="string">'bar'</span>]</span></pre></td></tr></table></figure>
+<h2 id="创建标签"><a href="#创建标签" class="headerlink" title="创建标签"></a>创建标签</h2><ul>
+<li>切换到需要打标签的分支上,默认的标签是打在最新的提交上</li>
+</ul>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span></pre></td><td class="code"><pre><span class="line">➜  learngit git:(master) git tag v1.0</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">2</span></pre></td><td class="code"><pre><span class="line">➜  learngit git:(master) git tag</span></pre></td></tr></table></figure>
+<ul>
+<li>根据历史commit id打标签</li>
+</ul>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span></pre></td><td class="code"><pre><span class="line">git tag v0.9 9d82fd0</span></pre></td></tr></table></figure>
 
 <ul>
-<li>管道</li>
+<li>查看标签的具体信息</li>
 </ul>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span></pre></td><td class="code"><pre><span class="line">&gt;&gt;&gt; pipe = r.pipeline(transaction=False)</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">2</span></pre></td><td class="code"><pre><span class="line">&gt;&gt;&gt; pipe.set(<span class="string">'foo'</span>,<span class="string">'bar'</span>).get(<span class="string">'foo'</span>).execute() <span class="comment">#还支持链式调用</span></span></pre></td></tr><tr><td class="gutter"><pre><span class="line">3</span></pre></td><td class="code"><pre><span class="line">[True, b<span class="string">'bar'</span>]</span></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span></pre></td><td class="code"><pre><span class="line">➜  learngit git:(master) git show v0.9</span></pre></td></tr></table></figure>
+
+<h2 id="操作标签"><a href="#操作标签" class="headerlink" title="操作标签"></a>操作标签</h2><ul>
+<li>删除标签</li>
+</ul>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span></pre></td><td class="code"><pre><span class="line">➜  learngit git:(master) git tag -d v1.0</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">2</span></pre></td><td class="code"><pre><span class="line">已删除标签 <span class="string">'v1.0'</span>（曾为 9d82fd0）</span></pre></td></tr></table></figure>
+<ul>
+<li>推送标签到远程</li>
+</ul>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span></pre></td><td class="code"><pre><span class="line">➜  learngit git:(master) git push origin v0.9</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">2</span></pre></td><td class="code"><pre><span class="line">总共 0 （差异 0），复用 0 （差异 0）</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">3</span></pre></td><td class="code"><pre><span class="line">To https://github.com/YuleiGong/learngit.git</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">4</span></pre></td><td class="code"><pre><span class="line"> * [new tag]         v0.9 -&gt; v0.9</span></pre></td></tr></table></figure>
+
+<ul>
+<li>删除远程标签</li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span></pre></td><td class="code"><pre><span class="line">➜  learngit git:(master) git tag -d v0.9</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">2</span></pre></td><td class="code"><pre><span class="line">已删除标签 &#39;v0.9&#39;（曾为 9d82fd0）</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">3</span></pre></td><td class="code"><pre><span class="line">➜  learngit git:(master) git push origin :refs&#x2F;tags&#x2F;v0.9</span></pre></td></tr></table></figure>
 
       
     </div>
@@ -368,8 +386,8 @@
         <div class="post-nav">
           <div class="post-nav-next post-nav-item">
             
-              <a href="/2019/12/22/shell/3.%E7%BD%91%E7%BB%9C/" rel="next" title="3-网络">
-                <i class="fa fa-chevron-left"></i> 3-网络
+              <a href="/2020/01/25/Git/4.git-%E5%A4%9A%E4%BA%BA%E5%8D%8F%E4%BD%9C/" rel="next" title="4-多人协作">
+                <i class="fa fa-chevron-left"></i> 4-多人协作
               </a>
             
           </div>
@@ -377,10 +395,6 @@
           <span class="post-nav-divider"></span>
 
           <div class="post-nav-prev post-nav-item">
-            
-              <a href="/2019/12/22/Redis/4.%E6%8C%81%E4%B9%85%E5%8C%96/" rel="prev" title="4-持久化">
-                4-持久化 <i class="fa fa-chevron-right"></i>
-              </a>
             
           </div>
         </div>
@@ -507,7 +521,7 @@
             
 
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#py-redis"><span class="nav-number">1.</span> <span class="nav-text">py_redis</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#事物和管道"><span class="nav-number">1.1.</span> <span class="nav-text">事物和管道</span></a></li></ol></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#标签管理"><span class="nav-number">1.</span> <span class="nav-text">标签管理</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#创建标签"><span class="nav-number">1.1.</span> <span class="nav-text">创建标签</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#操作标签"><span class="nav-number">1.2.</span> <span class="nav-text">操作标签</span></a></li></ol></li></ol></div>
             
 
           </div>
