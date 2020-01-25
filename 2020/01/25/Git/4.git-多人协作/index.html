@@ -81,20 +81,15 @@
 
 
 
-<meta name="description" content="rabbitmq base应用场景架构  rabbitmq server: 维护了一条从 produce 到 consumer 的路线，保证数据的传输 client A B: (produce) 数据的发送方，包含了(payload:发送的数据内容)(label:要发送的交换器tag，决定了消息发送给哪一个consumer) client 1 2 3 :(consumer):数据的接收方，接收发送">
+<meta name="description" content="多人协作 当你从远程仓库克隆时,实际上Git自动把本地的master分支和远程的master分支对应起来了，并且,远程仓库的默认名称是origin。  git remote -v 显示了抓取和推送的路径   1➜  learngit git:(master) git remote -v2origin  https:&#x2F;&#x2F;github.com&#x2F;YuleiGong&#x2F;learngit.git (fetch">
 <meta property="og:type" content="article">
-<meta property="og:title" content="1-rabbitmq基础">
-<meta property="og:url" content="http:&#x2F;&#x2F;yoursite.com&#x2F;2019&#x2F;12&#x2F;21&#x2F;rabbitmq&#x2F;1.base&#x2F;index.html">
+<meta property="og:title" content="4-多人协作">
+<meta property="og:url" content="http:&#x2F;&#x2F;yoursite.com&#x2F;2020&#x2F;01&#x2F;25&#x2F;Git&#x2F;4.git-%E5%A4%9A%E4%BA%BA%E5%8D%8F%E4%BD%9C&#x2F;index.html">
 <meta property="og:site_name" content="Flex">
-<meta property="og:description" content="rabbitmq base应用场景架构  rabbitmq server: 维护了一条从 produce 到 consumer 的路线，保证数据的传输 client A B: (produce) 数据的发送方，包含了(payload:发送的数据内容)(label:要发送的交换器tag，决定了消息发送给哪一个consumer) client 1 2 3 :(consumer):数据的接收方，接收发送">
+<meta property="og:description" content="多人协作 当你从远程仓库克隆时,实际上Git自动把本地的master分支和远程的master分支对应起来了，并且,远程仓库的默认名称是origin。  git remote -v 显示了抓取和推送的路径   1➜  learngit git:(master) git remote -v2origin  https:&#x2F;&#x2F;github.com&#x2F;YuleiGong&#x2F;learngit.git (fetch">
 <meta property="og:locale" content="zh-Hans">
-<meta property="og:image" content="https:&#x2F;&#x2F;i.loli.net&#x2F;2019&#x2F;12&#x2F;21&#x2F;KWOb84QInJPL12u.jpg">
-<meta property="og:image" content="https:&#x2F;&#x2F;i.loli.net&#x2F;2019&#x2F;12&#x2F;21&#x2F;qsbAkB7hV64vDj9.png">
-<meta property="og:image" content="https:&#x2F;&#x2F;i.loli.net&#x2F;2019&#x2F;12&#x2F;21&#x2F;tSCsg42InoKNJVy.png">
-<meta property="og:image" content="https:&#x2F;&#x2F;i.loli.net&#x2F;2019&#x2F;12&#x2F;21&#x2F;lCIZF2LJWSmnHO6.png">
-<meta property="og:updated_time" content="2019-12-21T09:11:50.730Z">
+<meta property="og:updated_time" content="2020-01-25T14:05:08.678Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:image" content="https:&#x2F;&#x2F;i.loli.net&#x2F;2019&#x2F;12&#x2F;21&#x2F;KWOb84QInJPL12u.jpg">
 
 
 
@@ -124,13 +119,13 @@
 
 
 
-  <link rel="canonical" href="http://yoursite.com/2019/12/21/rabbitmq/1.base/"/>
+  <link rel="canonical" href="http://yoursite.com/2020/01/25/Git/4.git-多人协作/"/>
 
 
 
 
 
-  <title>1-rabbitmq基础 | Flex</title>
+  <title>4-多人协作 | Flex</title>
   
 
 
@@ -247,7 +242,7 @@
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2019/12/21/rabbitmq/1.base/">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2020/01/25/Git/4.git-%E5%A4%9A%E4%BA%BA%E5%8D%8F%E4%BD%9C/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="Flex">
@@ -264,7 +259,7 @@
 
         
         
-          <h1 class="post-title" itemprop="name headline">1-rabbitmq基础</h1>
+          <h1 class="post-title" itemprop="name headline">4-多人协作</h1>
         
 
         <div class="post-meta">
@@ -276,8 +271,8 @@
               
                 <span class="post-meta-item-text">发表于</span>
               
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2019-12-21T16:35:35+08:00">
-                2019-12-21
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2020-01-25T22:04:33+08:00">
+                2020-01-25
               </time>
             
 
@@ -299,8 +294,8 @@
               
               
                 <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/Rabbitmq/" itemprop="url" rel="index">
-                    <span itemprop="name">Rabbitmq</span>
+                  <a href="/categories/Git/" itemprop="url" rel="index">
+                    <span itemprop="name">Git</span>
                   </a>
                 </span>
 
@@ -336,91 +331,45 @@
       
 
       
-        <h1 id="rabbitmq-base"><a href="#rabbitmq-base" class="headerlink" title="rabbitmq base"></a>rabbitmq base</h1><h2 id="应用场景架构"><a href="#应用场景架构" class="headerlink" title="应用场景架构"></a>应用场景架构</h2><p><a href="https://sm.ms/image/KWOb84QInJPL12u" target="_blank"><img src="https://i.loli.net/2019/12/21/KWOb84QInJPL12u.jpg" alt="系统架构图.jpg"></a></p>
+        <h1 id="多人协作"><a href="#多人协作" class="headerlink" title="多人协作"></a>多人协作</h1><ul>
+<li><p>当你从远程仓库克隆时,实际上Git自动把本地的master分支和远程的master分支对应起来了，并且,远程仓库的默认名称是origin。</p>
+</li>
+<li><p><code>git remote -v</code> 显示了<strong>抓取</strong>和<strong>推送</strong>的路径</p>
+</li>
+</ul>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span></pre></td><td class="code"><pre><span class="line">➜  learngit git:(master) git remote -v</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">2</span></pre></td><td class="code"><pre><span class="line">origin  https://github.com/YuleiGong/learngit.git (fetch)</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">3</span></pre></td><td class="code"><pre><span class="line">origin  https://github.com/YuleiGong/learngit.git (push)</span></pre></td></tr></table></figure>
+
+<h2 id="推送分支"><a href="#推送分支" class="headerlink" title="推送分支"></a>推送分支</h2><ul>
+<li>push推送时,指定远程分支和本地分支,Git就会把该分支推送到远程库对应的分支上</li>
+</ul>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span></pre></td><td class="code"><pre><span class="line">git push origin master</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">2</span></pre></td><td class="code"><pre><span class="line">git push origin dev</span></pre></td></tr></table></figure>
 <ul>
-<li><strong>rabbitmq server</strong>: 维护了一条从 <strong>produce</strong> 到 <strong>consumer</strong> 的路线，保证数据的传输</li>
-<li><strong>client A B</strong>: (<strong>produce</strong>) 数据的发送方，包含了(<strong>payload</strong>:发送的数据内容)(<strong>label</strong>:要发送的交换器tag，决定了消息发送给哪一个consumer)</li>
-<li><strong>client 1 2 3</strong> :(<strong>consumer</strong>):数据的接收方，接收发送过来的消息</li>
-<li><strong>exchange</strong>:(<strong>produce</strong>) 发送消息到交换器中，交换器通过 <strong>routing_keys</strong> 发送到指定队列</li>
+<li>一般情况下<ul>
+<li>master分支是主分支，因此要时刻与远程同步;</li>
+<li>dev分支是开发分支，团队所有成员都需要在上面工作，所以也需要与远程同步；</li>
+<li>bug分支只用于在本地修复bug，就没必要推到远程了，除非老板要看看你每周到底修复了几个bug；</li>
+<li>feature分支是否推到远程，取决于你是否和你的小伙伴合作在上面开发。</li>
 </ul>
-<ol>
-<li><strong>direct</strong> :通过 <strong>routing_key</strong> 匹配队列</li>
-<li><strong>fanout</strong>: 广播</li>
-<li><strong>Topic</strong>: 模式匹配</li>
-</ol>
+</li>
+</ul>
+<h2 id="抓取分支"><a href="#抓取分支" class="headerlink" title="抓取分支"></a>抓取分支</h2><ul>
+<li><p>多人协作时,大家都会往<strong>master</strong> 和 <strong>dev</strong>分支上推送各自的修改</p>
+</li>
+<li><p>新建远程(origin)分支的dev分支</p>
+</li>
+</ul>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span></pre></td><td class="code"><pre><span class="line">➜  git git <span class="built_in">clone</span> https://github.com/YuleiGong/learngit.git learngit1</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">2</span></pre></td><td class="code"><pre><span class="line">➜  learngit1 git:(master) git switch -c dev origin/dev</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">3</span></pre></td><td class="code"><pre><span class="line">分支 <span class="string">'dev'</span> 设置为跟踪来自 <span class="string">'origin'</span> 的远程分支 <span class="string">'dev'</span>。</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">4</span></pre></td><td class="code"><pre><span class="line">切换到一个新分支 <span class="string">'dev'</span></span></pre></td></tr></table></figure>
+
 <ul>
-<li><strong>Connecion</strong> :TCP连接，程序的起始部分就是建立tcp连接</li>
-<li><strong>Channels</strong>: 建立在tcp之上，建立完Connection就是建立通道，数据的流通基于通道</li>
+<li>推送到远程(origin)分支的dev分支</li>
 </ul>
-<h2 id="传统的通信方式"><a href="#传统的通信方式" class="headerlink" title="传统的通信方式"></a>传统的通信方式</h2><p><a href="https://sm.ms/image/qsbAkB7hV64vDj9" target="_blank"><img src="https://i.loli.net/2019/12/21/qsbAkB7hV64vDj9.png" alt="传统的通信方式.png"></a></p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span></pre></td><td class="code"><pre><span class="line">➜  learngit1 git:(dev) touch env.txt</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">2</span></pre></td><td class="code"><pre><span class="line">➜  learngit1 git:(dev) ✗ git add env.txt</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">3</span></pre></td><td class="code"><pre><span class="line">➜  learngit1 git:(dev) ✗ git commit -m<span class="string">'env.txt'</span></span></pre></td></tr><tr><td class="gutter"><pre><span class="line">4</span></pre></td><td class="code"><pre><span class="line">[dev 9d82fd0] env.txt</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">5</span></pre></td><td class="code"><pre><span class="line"> 1 file changed, 0 insertions(+), 0 deletions(-)</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">6</span></pre></td><td class="code"><pre><span class="line">create mode 100644 env.txt</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">7</span></pre></td><td class="code"><pre><span class="line">➜  learngit1 git:(dev) git push origin dev</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">8</span></pre></td><td class="code"><pre><span class="line">枚举对象: 4, 完成.</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">9</span></pre></td><td class="code"><pre><span class="line">对象计数中: 100% (4/4), 完成.</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">10</span></pre></td><td class="code"><pre><span class="line">使用 8 个线程进行压缩</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">11</span></pre></td><td class="code"><pre><span class="line">压缩对象中: 100% (2/2), 完成.</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">12</span></pre></td><td class="code"><pre><span class="line">写入对象中: 100% (3/3), 254 字节 | 254.00 KiB/s, 完成.</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">13</span></pre></td><td class="code"><pre><span class="line">总共 3 （差异 1），复用 0 （差异 0）</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">14</span></pre></td><td class="code"><pre><span class="line">remote: Resolving deltas: 100% (1/1), completed with 1 <span class="built_in">local</span> object.</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">15</span></pre></td><td class="code"><pre><span class="line">To https://github.com/YuleiGong/learngit.git</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">16</span></pre></td><td class="code"><pre><span class="line">   4e52950..9d82fd0  dev -&gt; dev</span></pre></td></tr></table></figure>
+
 <ul>
-<li>p为<strong>发送消息者</strong>，c为<strong>接受者</strong>，在这种高度耦合的情况下:<ul>
-<li>1.假设p每秒可发送10次消息，c每秒接收5次消息。在这种情况下，需要c处理完两次数据，p才能发送一次</li>
-<li>2.如果两者中一个发生故障，则两者都无法进行工作</li>
+<li>其他地方 pull指定的分支,更新内容</li>
 </ul>
-</li>
-</ul>
-<h2 id="生产消费者模型"><a href="#生产消费者模型" class="headerlink" title="生产消费者模型"></a>生产消费者模型</h2><p><a href="https://sm.ms/image/tSCsg42InoKNJVy" target="_blank"><img src="https://i.loli.net/2019/12/21/tSCsg42InoKNJVy.png" alt="生产消费者模型.png"></a></p>
-<ul>
-<li><p>在引入了队列的情况下，进行解耦，发布者只需要将消息发送到queue中，使用者只需要从队列中取消息。</p>
-</li>
-<li><p>python 消息队列</p>
-<ul>
-<li><strong>线程queue</strong> (同一进程下线程之间进行交互)</li>
-<li><strong>进程queue</strong> (父子进程交互，同一进程下多个子进程交互)</li>
-</ul>
-</li>
-<li><p>不同的系统之间，就需要使用<strong>AMQP</strong> ,无法使用python queue</p>
-</li>
-</ul>
-<h2 id="基本概念"><a href="#基本概念" class="headerlink" title="基本概念"></a>基本概念</h2><p><a href="https://sm.ms/image/lCIZF2LJWSmnHO6" target="_blank"><img src="https://i.loli.net/2019/12/21/lCIZF2LJWSmnHO6.png" alt="AMQP基本概念图.png"></a></p>
-<ul>
-<li>publisher 为<strong>生产者</strong>,consumer为<strong>接收者</strong>。</li>
-<li><strong>broker</strong> 接收和发送消息</li>
-<li><strong>exchange</strong> 根据规则发送消息到对应queue中</li>
-<li><strong>queue</strong> 存放消息</li>
-</ul>
-<h2 id="详解"><a href="#详解" class="headerlink" title="详解"></a>详解</h2><ul>
-<li>Message:由<strong>消息头和消息体</strong>组成<ul>
-<li>消息头：由一系列的可选属性组成，这些属性包括<strong>routing-key（路由键</strong>、<strong>priority（相对于其他消息的优先权）</strong>、<strong>delivery-mode（指出该消息可能需要持久性存储</strong>。</li>
-</ul>
-</li>
-<li>Broker：表示消息队列服务器实体，接收和分发消息应用</li>
-<li>Exchange: 匹配查询表中的routing_key 分发消息到queue中<ul>
-<li><strong>direct</strong> :通过 <strong>routing_key</strong> 匹配队列</li>
-<li><strong>fanout</strong>: 广播</li>
-<li><strong>Topic</strong>: 模式匹配</li>
-</ul>
-</li>
-<li>binding: exchange和queue中的虚拟连接</li>
-<li>queue :消息最终被送到这里等待consumer取走。</li>
-<li>Connection: publisher consumer和broker之间的TCP连接。<ul>
-<li>断开连接的操作只会在<strong>client</strong>端进行，<strong>Broker</strong>不会断开连接，除非出现网络故障或broker服务出现问题。</li>
-</ul>
-</li>
-<li>Channel：建立在真实的TCP连接（ Connection ）内部的虚拟连接.<ul>
-<li>每一次访问RabbitMQ都建立一个Connection，在消息量大的时候建立TCP Connection的开销将是巨大的，效率也较低。(对于操作系统来说建立和销毁 TCP 都是非常昂贵的开销，所以引入了信道的概念，以复用一条 TCP 连接。)</li>
-</ul>
-</li>
-</ul>
-<h2 id="Exchange-分发规则详解"><a href="#Exchange-分发规则详解" class="headerlink" title="Exchange 分发规则详解"></a>Exchange 分发规则详解</h2><ul>
-<li>direct<ul>
-<li>首先执行binding将<strong>交换器exchange</strong>与<strong>队列queue</strong>进行绑定，并指明binding_key（此key代表此队列只接受routing_key与之相同的消息）.</li>
-<li>producer产生消息并指定routing_key,当消息进入broker,首先接触到exchange，然后查询分发规则为direct后，根据routing_key匹配查询表中的binding_key，然后发送到对应的队列当中。否则丢弃。</li>
-</ul>
-</li>
-<li>fanout<ul>
-<li>首先执行binding将<strong>交换器exchange</strong>与<strong>队列queue</strong>进行绑定（无需指明binding_key）</li>
-<li>producer产生消息,当消息进入broker,首先接触到exchange，然后查询分发规则为fanout后，将此消息发送到与exchange绑定的所有队列中。</li>
-</ul>
-</li>
-<li>topic<ul>
-<li>首先执行binding将<strong>交换器exchange</strong>与<strong>队列queue</strong>进行绑定，指明binding_key（格式如usa.#,代表此队列只接受routing_key为usa开头的消息)</li>
-<li>producer产生消息,并指明routing_key(格式如usa.news)当消息进入broker,首先接触到exchange，然后查询分发规则为topic后，匹配查询表将此消息发送到binding_key为usa.#/#.news/#的队列上。</li>
-<li><strong>Routing_key</strong> 中可以包含两种通配符，类似于正则表达式：<br>“#”通配任何零个或多个word<br>“*”通配任何单个word</li>
-</ul>
-</li>
-</ul>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span></pre></td><td class="code"><pre><span class="line">git pull origin dev</span></pre></td></tr></table></figure>
+
 
       
     </div>
@@ -445,8 +394,8 @@
         <div class="post-nav">
           <div class="post-nav-next post-nav-item">
             
-              <a href="/2019/12/21/py_module/beautifulSoup/" rel="next" title="1-beautifulSoup">
-                <i class="fa fa-chevron-left"></i> 1-beautifulSoup
+              <a href="/2020/01/25/Git/3.git-%E5%88%86%E6%94%AF%E7%AE%A1%E7%90%86/" rel="next" title="3-分支管理">
+                <i class="fa fa-chevron-left"></i> 3-分支管理
               </a>
             
           </div>
@@ -454,10 +403,6 @@
           <span class="post-nav-divider"></span>
 
           <div class="post-nav-prev post-nav-item">
-            
-              <a href="/2019/12/21/other/%E7%BC%96%E7%A0%81%E9%97%AE%E9%A2%98/" rel="prev" title="1-编码问题">
-                1-编码问题 <i class="fa fa-chevron-right"></i>
-              </a>
             
           </div>
         </div>
@@ -584,7 +529,7 @@
             
 
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#rabbitmq-base"><span class="nav-number">1.</span> <span class="nav-text">rabbitmq base</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#应用场景架构"><span class="nav-number">1.1.</span> <span class="nav-text">应用场景架构</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#传统的通信方式"><span class="nav-number">1.2.</span> <span class="nav-text">传统的通信方式</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#生产消费者模型"><span class="nav-number">1.3.</span> <span class="nav-text">生产消费者模型</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#基本概念"><span class="nav-number">1.4.</span> <span class="nav-text">基本概念</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#详解"><span class="nav-number">1.5.</span> <span class="nav-text">详解</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Exchange-分发规则详解"><span class="nav-number">1.6.</span> <span class="nav-text">Exchange 分发规则详解</span></a></li></ol></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#多人协作"><span class="nav-number">1.</span> <span class="nav-text">多人协作</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#推送分支"><span class="nav-number">1.1.</span> <span class="nav-text">推送分支</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#抓取分支"><span class="nav-number">1.2.</span> <span class="nav-text">抓取分支</span></a></li></ol></li></ol></div>
             
 
           </div>
