@@ -88,7 +88,7 @@
 <meta property="og:site_name" content="Flex">
 <meta property="og:description" content="进制运算二进制运算基础 二进制转十进制: 按权展开法  ex: 1N&amp;#x3D;01100101&amp;#x3D;0*2^7+1*2^6+1*2^5+0*2^4+0*2^3+1*2^2+1*2^0&amp;#x3D;101    (小数)二进制转十进制: 按权展开法  ex: 1N&amp;#x3D;0.01011&amp;#x3D;0*2^(-1)+1*2^(−2)+0*2^(-3)+1*2^(−4)+1*2^(−5)&amp;#x">
 <meta property="og:locale" content="zh-Hans">
-<meta property="og:updated_time" content="2020-02-07T13:54:12.001Z">
+<meta property="og:updated_time" content="2020-02-08T09:08:24.249Z">
 <meta name="twitter:card" content="summary">
 
 
@@ -470,8 +470,8 @@
 <li>对于小于0的数:反码等于 (2^(n+1)-1) + x (x:十进制原码),(n:原码的二进制位数:不包括符号位)  <div class="highlight-wrap"autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false" contenteditable="true"data-rel="PLAIN"><figure class="iseeu highlight /plain"><table><tr><td class="gutter"><pre><span class="line">1</span></pre></td><td class="code"><pre><span class="line">-13的二进制原码:11101(第一位1为符号位)</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">2</span></pre></td><td class="code"><pre><span class="line">-13的二进制补码:(2^(4+1)-1) + (-13) &#x3D; 31-13 &#x3D; &#x3D; 10010</span></pre></td></tr></table></figure></div>
 <strong>TIPS:</strong><ul>
 <li>二进制正数原码 补码 反码 全部一致</li>
-<li>二进制负数的补码等于原码除符号位外按位取反</li>
-<li>二进制负数的步码等于反码+1</li>
+<li>二进制负数的补码等于原码除符号位外按位取反+1</li>
+<li>二进制负数的反码等于原码除符号位按位取反</li>
 <li>二进制负数的反码等于补码-1</li>
 </ul>
 </li>
