@@ -1,0 +1,775 @@
+<!DOCTYPE html>
+
+
+
+  
+
+
+<html class="theme-next pisces use-motion" lang="zh-Hans">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+
+
+
+  
+
+<link href="//cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.1.4" rel="stylesheet" type="text/css" />
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png?v=5.1.4">
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=5.1.4" color="#222">
+
+
+
+
+
+  <meta name="keywords" content="Hexo, NexT" />
+
+
+
+
+
+
+
+
+
+
+<meta name="description" content="进程 父进程创建子进程。父进程可以在产生子进程后继续执行，也可以等待子进程运行完成后再继续执行  实现一个新进程 通过 join 可以避免主进程直接退出，导出子进程驻留在操作系统中。  1import multiprocessing23def foo(i):4    print (&quot;called function in process: &amp;#123;&amp;#125;&quot;.format(i))5    r">
+<meta property="og:type" content="article">
+<meta property="og:title" content="2-多进程">
+<meta property="og:url" content="http:&#x2F;&#x2F;yoursite.com&#x2F;2019&#x2F;04&#x2F;04&#x2F;async&#x2F;2.Process&#x2F;index.html">
+<meta property="og:site_name" content="Flex">
+<meta property="og:description" content="进程 父进程创建子进程。父进程可以在产生子进程后继续执行，也可以等待子进程运行完成后再继续执行  实现一个新进程 通过 join 可以避免主进程直接退出，导出子进程驻留在操作系统中。  1import multiprocessing23def foo(i):4    print (&quot;called function in process: &amp;#123;&amp;#125;&quot;.format(i))5    r">
+<meta property="og:locale" content="zh-Hans">
+<meta property="og:updated_time" content="2020-02-22T03:42:04.537Z">
+<meta name="twitter:card" content="summary">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Pisces',
+    version: '5.1.4',
+    sidebar: {"position":"left","display":"post","offset":12,"b2t":false,"scrollpercent":true,"onmobile":false},
+    fancybox: true,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    duoshuo: {
+      userId: '0',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="http://yoursite.com/2019/04/04/async/2.Process/"/>
+
+
+
+
+
+  <title>2-多进程 | Flex</title>
+  
+
+
+
+
+
+
+
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/"  class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">Flex</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle"></p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br />
+            
+            分类
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-about">
+          <a href="/about" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-user"></i> <br />
+            
+            关于
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2019/04/04/async/2.Process/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Flex">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/logo.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Flex">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">2-多进程</h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2019-04-04T19:41:33+08:00">
+                2019-04-04
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/%E5%B9%B6%E8%A1%8C%E7%BC%96%E7%A8%8B/" itemprop="url" rel="index">
+                    <span itemprop="name">并行编程</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <h1 id="进程"><a href="#进程" class="headerlink" title="进程"></a>进程</h1><ul>
+<li>父进程创建子进程。父进程可以在产生子进程后继续执行，也可以等待子进程运行完成后再继续执行</li>
+</ul>
+<h2 id="实现一个新进程"><a href="#实现一个新进程" class="headerlink" title="实现一个新进程"></a>实现一个新进程</h2><ul>
+<li>通过 join 可以避免主进程直接退出，导出子进程驻留在操作系统中。</li>
+</ul>
+<div class="highlight-wrap"autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false" contenteditable="true"data-rel="PYTHON"><figure class="iseeu highlight /python"><table><tr><td class="gutter"><pre><span class="line">1</span></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> multiprocessing</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">2</span></pre></td><td class="code"><pre><span class="line"></span></pre></td></tr><tr><td class="gutter"><pre><span class="line">3</span></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">foo</span><span class="params">(i)</span>:</span></span></pre></td></tr><tr><td class="gutter"><pre><span class="line">4</span></pre></td><td class="code"><pre><span class="line">    <span class="keyword">print</span> (<span class="string">"called function in process: &#123;&#125;"</span>.format(i))</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">5</span></pre></td><td class="code"><pre><span class="line">    <span class="keyword">return</span></span></pre></td></tr><tr><td class="gutter"><pre><span class="line">6</span></pre></td><td class="code"><pre><span class="line"></span></pre></td></tr><tr><td class="gutter"><pre><span class="line">7</span></pre></td><td class="code"><pre><span class="line"><span class="keyword">if</span> __name__ == <span class="string">'__main__'</span>:</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">8</span></pre></td><td class="code"><pre><span class="line">    jobs = []</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">9</span></pre></td><td class="code"><pre><span class="line">    <span class="keyword">for</span> i <span class="keyword">in</span> range(<span class="number">5</span>):</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">10</span></pre></td><td class="code"><pre><span class="line">        p = multiprocessing.Process(target=foo, args=(i,))</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">11</span></pre></td><td class="code"><pre><span class="line">        jobs.append(p)</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">12</span></pre></td><td class="code"><pre><span class="line">        p.start()</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">13</span></pre></td><td class="code"><pre><span class="line">        p.join()</span></pre></td></tr></table></figure></div>
+<ul>
+<li><p>子进程在创建的时候会导入包含目标函数的脚本，为了预防无限递归调用:</p>
+<ul>
+<li><p>需要将进程的调用放在 <strong>main</strong> 函数中</p>
+</li>
+<li><p>target 执行函数也放到其他模块中引入</p>
+<div class="highlight-wrap"autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false" contenteditable="true"data-rel="PYTHON"><figure class="iseeu highlight /python"><table><tr><td class="gutter"><pre><span class="line">1</span></pre></td><td class="code"><pre><span class="line">    <span class="keyword">import</span> multiprocessing</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">2</span></pre></td><td class="code"><pre><span class="line">    <span class="keyword">import</span> target_func</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">3</span></pre></td><td class="code"><pre><span class="line"></span></pre></td></tr><tr><td class="gutter"><pre><span class="line">4</span></pre></td><td class="code"><pre><span class="line">    <span class="keyword">if</span> __name__ == <span class="string">'__main__'</span>:</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">5</span></pre></td><td class="code"><pre><span class="line">        jobs = []</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">6</span></pre></td><td class="code"><pre><span class="line">        <span class="keyword">for</span> i <span class="keyword">in</span> range(<span class="number">5</span>):</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">7</span></pre></td><td class="code"><pre><span class="line">            p = multiprocessing.Process(target=target_func, args=(i,))</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">8</span></pre></td><td class="code"><pre><span class="line">            jobs.append(p)</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">9</span></pre></td><td class="code"><pre><span class="line">            p.start()</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">10</span></pre></td><td class="code"><pre><span class="line">            p.join()</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">11</span></pre></td><td class="code"><pre><span class="line"></span></pre></td></tr><tr><td class="gutter"><pre><span class="line">12</span></pre></td><td class="code"><pre><span class="line">    ```   </span></pre></td></tr><tr><td class="gutter"><pre><span class="line">13</span></pre></td><td class="code"><pre><span class="line">* 杀死子进程(terminate)，检查子进程状态(is_alive)，查看子进程退出码(exitcode)</span></pre></td></tr></table></figure></div>
+<p>def foo():<br>print (“Starting function”)<br>time.sleep(0.1)<br>print (“Finished function”)</p>
+</li>
+</ul>
+</li>
+</ul>
+<p>if <strong>name</strong> == ‘<strong>main</strong>‘:<br>   p = multiprocessing.Process(target=foo)<br>   print (“Process berore excution: {}”.format(p.is_alive()))<br>   p.start()<br>   print (“Process runing: {}”.format(p.is_alive()))<br>   p.terminate()<br>   time.sleep(0.1)<br>   print (“Process terminate: {}”.format(p.is_alive()))<br>   p.join()<br>   print (“Process joined: {}”.format(p.is_alive()))<br>   print (“Process exit code: {}”.format(p.exitcode))</p>
+<div class="highlight-wrap"autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false" contenteditable="true"data-rel="PLAIN"><figure class="iseeu highlight /plain"><table><tr><td class="gutter"><pre><span class="line">1</span></pre></td><td class="code"><pre><span class="line">* 在子类中使用进程, 重写run方法，该方法是子进程的入口</span></pre></td></tr></table></figure></div>
+<p>import multiprocessing</p>
+<p>class MyProcess(multiprocessing.Process):</p>
+<pre><code>def __init__(self):
+    super(MyProcess, self).__init__()
+
+def run(self):
+    print (&quot;called run method in process: {}&quot;.format(self.name))</code></pre><p>if <strong>name</strong> == ‘<strong>main</strong>‘:<br>    jobs = []<br>    for i in range(5):<br>        p = MyProcess()<br>        jobs.append(p)<br>        p.start()<br>    [p.join() for p in jobs]</p>
+<div class="highlight-wrap"autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false" contenteditable="true"data-rel="PLAIN"><figure class="iseeu highlight /plain"><table><tr><td class="gutter"><pre><span class="line">1</span></pre></td><td class="code"><pre><span class="line">## 进程间通信</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">2</span></pre></td><td class="code"><pre><span class="line">### queue</span></pre></td></tr></table></figure></div>
+<p>import multiprocessing<br>import random<br>import time</p>
+<p>class Producer(multiprocessing.Process):<br>    def <strong>init</strong>(self, queue):<br>        super(Producer,self).<strong>init</strong>()<br>        self.queue = queue</p>
+<pre><code>def run(self):
+    for i in range(10):
+        item = random.randint(0, 256)
+        self.queue.put(item)
+        print(&quot;Process Producer : item %d appended to queue %s&quot; % (item, self.name))
+        time.sleep(1)</code></pre><p>class Consumer(multiprocessing.Process):<br>    def <strong>init</strong>(self, queue):<br>        multiprocessing.Process.<strong>init</strong>(self)<br>        self.queue = queue</p>
+<pre><code>def run(self):
+    while True:
+        if self.queue.empty():
+            print(&quot;the queue is empty&quot;)
+            break
+        else:
+            time.sleep(2)
+            item = self.queue.get()
+            print(&apos;Process Consumer : item %d popped from by %s \n&apos; % (item, self.name))
+            time.sleep(1)</code></pre><p>if <strong>name</strong> == ‘<strong>main</strong>‘:<br>    queue = multiprocessing.Queue()<br>    process_producer = Producer(queue)<br>    process_consumer = Consumer(queue)<br>    process_producer.start()<br>    process_consumer.start()<br>    process_producer.join()<br>    process_consumer.join()</p>
+<div class="highlight-wrap"autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false" contenteditable="true"data-rel="PLAIN"><figure class="iseeu highlight /plain"><table><tr><td class="gutter"><pre><span class="line">1</span></pre></td><td class="code"><pre><span class="line">### pipe 双向管道</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">2</span></pre></td><td class="code"><pre><span class="line">* 定义了输入管道 pipe_1 和 输出管道 pipe_2 。输入管道发送数据，输出管道接收消息并处理</span></pre></td></tr></table></figure></div>
+<p>def create_items(pipe):<br>    output_pipe,_ = pipe<br>    for item in range(10):<br>        output_pipe.send(item)<br>    output_pipe.close()</p>
+<p>def multiply_items(pip_1,pip_2):<br>    close, input_pipe = pipe_1<br>    close.close()<br>    output_pipe,_ = pip_2<br>    try:<br>        while True:<br>            item = input_pipe.recv()<br>            output_pipe.send(item*item)<br>    except EOFError as e:<br>        output_pipe.close()</p>
+<p>if <strong>name</strong> == ‘<strong>main</strong>‘:<br>    #send<br>    pipe_1 = multiprocessing.Pipe(True)<br>    process_pipe_1 = multiprocessing.Process(target=create_items, args=(pipe_1,))<br>    process_pipe_1.start()<br>    #recv<br>    pipe_2 = multiprocessing.Pipe(True)<br>    process_pipe_2 = multiprocessing.Process(target=multiply_items, args=(pipe_1,pipe_2))<br>    process_pipe_2.start()<br>    pipe_1[0].close()<br>    pipe_2[0].close()</p>
+<pre><code>try:
+    while True:
+        print (pipe_2[1].recv())
+except EOFError:
+    print (&quot;End&quot;)</code></pre><div class="highlight-wrap"autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false" contenteditable="true"data-rel="PLAIN"><figure class="iseeu highlight /plain"><table><tr><td class="gutter"><pre><span class="line">1</span></pre></td><td class="code"><pre><span class="line">## 进程同步</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">2</span></pre></td><td class="code"><pre><span class="line">* 线程同步原语,都可以用于进程同步 Lock, Event,Rloc,Condition,Semaphore</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">3</span></pre></td><td class="code"><pre><span class="line"></span></pre></td></tr><tr><td class="gutter"><pre><span class="line">4</span></pre></td><td class="code"><pre><span class="line">### 使用 __Barrier__ (屏障) 同步进程</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">5</span></pre></td><td class="code"><pre><span class="line">* __屏障__ : 将程序分成几个阶段，适用于有些进程必须在某些特定进程之后执行。处于屏障（Barrier）之后的代码不能在处于障碍之前的代码并行。</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">6</span></pre></td><td class="code"><pre><span class="line">* 进程1 和进程 2 进程 3 各自运行，当达到屏障的时候，等待所有进程的屏障 wait完成后在继续执行</span></pre></td></tr></table></figure></div>
+<p>#!/usr/bin/env python</p>
+<h1 id="coding-utf-8"><a href="#coding-utf-8" class="headerlink" title="-- coding: utf-8 --"></a>-<em>- coding: utf-8 -</em>-</h1><h1 id="ylgongPw-2020-02-21-13-03-22"><a href="#ylgongPw-2020-02-21-13-03-22" class="headerlink" title="ylgongPw @ 2020-02-21 13:03:22"></a>ylgongPw @ 2020-02-21 13:03:22</h1><p>from <strong>future</strong> import unicode_literals<br>from <strong>future</strong> import absolute_import</p>
+<p>import multiprocessing<br>from multiprocessing import Barrier, Lock, Process<br>from time import time<br>from datetime import datetime</p>
+<p>def test_with_barrier(synchronizer, serializer):<br>    name = multiprocessing.current_process().name<br>    synchronizer.wait()<br>    now = time()</p>
+<pre><code>with serializer:
+    print (&quot;process {} -----&gt; {}&quot;.format(name,datetime.fromtimestamp(now)))</code></pre><p>if <strong>name</strong> == ‘<strong>main</strong>‘:<br>    synchronizer = Barrier(3) #管理的进程数<br>    serializer = Lock()<br>    Process(name=”p1 - test_with_barrier”, target=test_with_barrier,args=(synchronizer,serializer)).start()<br>    Process(name=”p2 - test_with_barrier”, target=test_with_barrier,args=(synchronizer,serializer)).start()<br>    Process(name=”p3 - test_with_barrier”, target=test_with_barrier,args=(synchronizer,serializer)).start()</p>
+<pre><code>
+</code></pre>
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2019/04/01/async/1.Thread/" rel="next" title="1-多线程">
+                <i class="fa fa-chevron-left"></i> 1-多线程
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2019/05/01/apue/8_%E8%BF%9B%E7%A8%8B%E6%8E%A7%E5%88%B6/" rel="prev" title="8-进程控制">
+                8-进程控制 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+            
+              <img class="site-author-image" itemprop="image"
+                src="/images/logo.jpg"
+                alt="Flex" />
+            
+              <p class="site-author-name" itemprop="name">Flex</p>
+              <p class="site-description motion-element" itemprop="description"></p>
+          </div>
+
+          <nav class="site-state motion-element">
+
+            
+              <div class="site-state-item site-state-posts">
+              
+                <a href="/archives">
+              
+                  <span class="site-state-item-count">60</span>
+                  <span class="site-state-item-name">日志</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-categories">
+                <a href="/categories/index.html">
+                  <span class="site-state-item-count">15</span>
+                  <span class="site-state-item-name">分类</span>
+                </a>
+              </div>
+            
+
+            
+
+          </nav>
+
+          
+
+          
+
+          
+          
+
+          
+          
+
+          
+
+        </div>
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#进程"><span class="nav-number">1.</span> <span class="nav-text">进程</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#实现一个新进程"><span class="nav-number">1.1.</span> <span class="nav-text">实现一个新进程</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#coding-utf-8"><span class="nav-number">2.</span> <span class="nav-text">-- coding: utf-8 --</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#ylgongPw-2020-02-21-13-03-22"><span class="nav-number">3.</span> <span class="nav-text">ylgongPw @ 2020-02-21 13:03:22</span></a></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; <span itemprop="copyrightYear">2020</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Flex</span>
+
+  
+</div>
+
+
+  <div class="powered-by">由 <a class="theme-link" target="_blank" href="https://hexo.io">Hexo</a> 强力驱动</div>
+
+
+
+  <span class="post-meta-divider">|</span>
+
+
+
+  <div class="theme-info">主题 &mdash; <a class="theme-link" target="_blank" href="https://github.com/iissnan/hexo-theme-next">NexT.Pisces</a> v5.1.4</div>
+
+
+
+
+        
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+          <span id="scrollpercent"><span>0</span>%</span>
+        
+      </div>
+    
+
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+  
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.4"></script>
+
+
+
+  
+  
+
+
+  <script type="text/javascript" src="/js/src/affix.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/js/src/schemes/pisces.js?v=5.1.4"></script>
+
+
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.4"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+  
+
+  
+
+  
+
+  
+
+</body>
+</html>
